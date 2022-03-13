@@ -1,0 +1,13 @@
+{
+  "name": "Balancer DAO",
+  "description": "Accounts related to the Balancer DAO",
+  "accounts": {
+    "0xba12222222228d8ba445958a75a0704d566bf2c8": "Balancer Vault",
+    "0x10a19e7ee7d7f8a52822f6817de8ea18204f2e4f": "Balancer Safe",
+    "0xb129f73f1afd3a49c701241f374db17ae63b20eb": "Balancer Future fund raise",
+    "0xcdcebf1f28678eb4a1478403ba7f34c94f7ddbc5": "Balancer Team",
+    "0x7d64f03a7a15e6082d1371c82c59770d73b4f8aa": "Balancer Shareholder",
+    "0xc9cd5d64fde8919b6a274ad7f31b5a0c7e4b24b6": "Balancer Shareholder 2",
+    "0x6d19b2bf3a36a61530909ae65445a906d98a2fa8": "Balancer Distribution"
+  }
+}

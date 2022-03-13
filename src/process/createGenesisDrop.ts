@@ -18,12 +18,7 @@ import {
   getFieldTotal,
   mulTruncate,
 } from '../utils'
-import {
-  BAD_ACTORS,
-  BAL_EXCLUSIONS,
-  BALANCER_LABELS,
-  INFRA_EXCLUSIONS,
-} from './lists'
+import { notInAccountLists } from '../account-lists'
 
 const filterDust = (account: AccountRecord) =>
   account.get('allocation').gte(AURA_BAG_NGMI_THRESHOLD)
@@ -50,7 +45,7 @@ const getGenesisAccounts = (
     })
 
   data.snapshot.votes
-    .filter((vote) => !BAD_ACTORS.has(vote.voter))
+    .filter(({ voter }) => notInAccountLists(voter))
     .forEach(({ voter, vp, choice }) => {
       const account = Account({
         address: voter,
@@ -70,10 +65,7 @@ const getGenesisAccounts = (
   )
 
   data.dune.vlCVX
-    .filter(
-      ({ account }) =>
-        !BAD_ACTORS.has(account) && !INFRA_EXCLUSIONS.has(account),
-    )
+    .filter(({ account }) => notInAccountLists(account))
     .forEach((record) => {
       const account = Account({
         address: record.account,
@@ -88,20 +80,16 @@ const getGenesisAccounts = (
 
   let rewardPerVlCVXHeld = divPrecisely(spec.groups.vlCVX, totalVlCVXHeld)
 
-  data.dune.BAL.filter(
-    ({ account }) =>
-      !BAD_ACTORS.has(account) &&
-      !INFRA_EXCLUSIONS.has(account) &&
-      !BAL_EXCLUSIONS.has(account) &&
-      !BALANCER_LABELS.has(account),
-  ).forEach((record) => {
-    const account = Account({
-      address: record.account,
-      BAL: parseUnits(record.amount.toString()),
-    })
+  data.dune.BAL.filter(({ account }) => notInAccountLists(account)).forEach(
+    (record) => {
+      const account = Account({
+        address: record.account,
+        BAL: parseUnits(record.amount.toString()),
+      })
 
-    accounts = accounts.mergeIn([account.address], account)
-  })
+      accounts = accounts.mergeIn([account.address], account)
+    },
+  )
 
   let totalBALHeld = getFieldTotal(accounts, 'BAL')
   if (totalBALHeld.eq(0)) throw new Error('No BAL balances held')

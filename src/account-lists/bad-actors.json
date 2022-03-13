@@ -1,0 +1,7 @@
+{
+  "name": "Bad actors",
+  "description": "Folks that simply should not receive free AURA",
+  "accounts": {
+    "0x5dd596c901987a2b28c38a9c1dfbf86fffc15d77": "Sifu"
+  }
+}

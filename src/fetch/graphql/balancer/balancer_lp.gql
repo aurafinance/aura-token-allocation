@@ -1,0 +1,40 @@
+query PoolIDs {
+  pools(
+    where: {
+      tokensList_contains: ["0xba100000625a3754423978a60c9317c58a424e3d"]
+      liquidity_gt: 100000
+    }
+  ) {
+    id
+  }
+}
+
+query Pool($poolId: ID!, $sharesSkip: Int!, $sharesLimit: Int!) {
+  pools(
+    where: {
+      id: $poolId
+      tokensList_contains: ["0xba100000625a3754423978a60c9317c58a424e3d"]
+      liquidity_gt: 100000
+    }
+  ) {
+    id
+    totalWeight
+    liquidity
+    shares(
+      first: $sharesLimit
+      skip: $sharesSkip
+      orderDirection: desc
+      orderBy: balance
+    ) {
+      userAddress {
+        id
+      }
+      balance
+    }
+    tokens {
+      balance
+      symbol
+      denormWeight
+    }
+  }
+}

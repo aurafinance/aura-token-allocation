@@ -17,6 +17,7 @@ import {
   divPrecisely,
   getFieldTotal,
   mulTruncate,
+  parseBigDecimal,
 } from '../utils'
 import { notInAccountLists } from '../account-lists'
 
@@ -91,12 +92,37 @@ const getGenesisAccounts = (
     },
   )
 
-  let totalBALHeld = getFieldTotal(accounts, 'BAL')
-  if (totalBALHeld.eq(0)) throw new Error('No BAL balances held')
+  // BAL held per account over all LP
+  data.graph.balancer.pools.forEach(({ shares, liquidity, tokens, id }) => {
+    const bal = tokens.find((t) => t.symbol === 'BAL')
+    if (!bal) throw new Error(`BAL not found in pool ${id}`)
 
+    const balInPool = parseBigDecimal(bal.balance)
+    const balPerBPT = divPrecisely(parseBigDecimal(liquidity), balInPool)
+
+    shares
+      .filter((share) => {
+        // TODO this invalidates balPerBPT by excluding users
+        return notInAccountLists(share.userAddress.id.toLowerCase())
+      })
+      .forEach((share) => {
+        const balance = parseBigDecimal(share.balance)
+        const lpBAL = mulTruncate(balPerBPT, balance)
+
+        const address = share.userAddress.id.toLowerCase()
+        const account = accounts
+          .get(address, Account({ address }))
+          .update('lpBAL', (value) => value.add(lpBAL))
+
+        accounts = accounts.mergeIn([address], account)
+      })
+  })
+
+  let totalBALHeld = getFieldTotal(accounts, 'BAL').add(
+    getFieldTotal(accounts, 'lpBAL'),
+  )
+  if (totalBALHeld.eq(0)) throw new Error('No BAL held')
   let rewardPerBALHeld = divPrecisely(spec.groups.BAL, totalBALHeld)
-
-  // TODO BAL LP
 
   accounts = updateAccountAllocations()
 
@@ -117,7 +143,9 @@ const getGenesisAccounts = (
   )
 
   totalVlCVXHeld = getFieldTotal(accounts, 'vlCVX')
-  totalBALHeld = getFieldTotal(accounts, 'BAL')
+  totalBALHeld = getFieldTotal(accounts, 'BAL').add(
+    getFieldTotal(accounts, 'lpBAL'),
+  )
   totalVotingPowerUsed = getFieldTotal(accounts, 'votingPower')
 
   rewardPerVlCVXHeld = divPrecisely(spec.groups.vlCVX, totalVlCVXHeld)

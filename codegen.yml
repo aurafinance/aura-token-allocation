@@ -1,0 +1,8 @@
+generates:
+  ./src/fetch/graphql/balancer/balancer_lp.ts:
+    schema: ./src/fetch/graphql/balancer/schema.gql
+    documents: ./src/fetch/graphql/balancer/balancer_lp.gql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request

@@ -16,7 +16,7 @@ const createAccountsArtifactsItem = async (
     .valueSeq()
     .sort((a, b) => (a.get('allocation').gt(b.get('allocation')) ? -1 : 1))
     .map((account) => {
-      const totalBAL = account.get('BAL').add(account.get('uniswapBAL'))
+      const totalBAL = account.get('BAL').add(account.get('lpBAL'))
       const vote = account.get('vote')
       const voteText =
         vote === SnapshotVote.No ? 'N' : vote === SnapshotVote.Yes ? 'Y' : '-'

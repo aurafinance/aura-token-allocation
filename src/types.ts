@@ -2,7 +2,8 @@ import { BigNumber } from 'ethers'
 import { Map, OrderedMap } from 'immutable'
 import { MerkleTree } from 'merkletreejs'
 
-import { Account, AccountRecord, SnapshotVote } from './Account'
+import { AccountRecord } from './Account'
+import { PoolQuery } from './fetch/graphql/balancer/balancer_lp'
 
 export enum MerkleDropId {
   GENESIS = 'Genesis',
@@ -38,6 +39,7 @@ export interface Data {
     BAL: { account: string; amount: number }[]
   }
   snapshot: { votes: { voter: string; vp: number; choice: 1 | 0 }[] }
+  graph: { balancer: { pools: PoolQuery['pools'][number][] } }
 }
 
 export type Accounts = Map<string, AccountRecord>

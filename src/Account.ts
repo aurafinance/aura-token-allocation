@@ -19,7 +19,7 @@ export interface AccountProps {
   address: string
   vlCVX: BigNumber
   BAL: BigNumber
-  uniswapBAL: BigNumber
+  lpBAL: BigNumber
   allocation: BigNumber
   vote: SnapshotVote
   votingPower: BigNumber
@@ -31,7 +31,7 @@ export const Account = Record<AccountProps>({
   address: constants.AddressZero,
   vlCVX: ZERO,
   BAL: ZERO,
-  uniswapBAL: ZERO,
+  lpBAL: ZERO,
   allocation: ZERO,
   vote: SnapshotVote.DidNotVote,
   votingPower: ZERO,

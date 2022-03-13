@@ -1,0 +1,99 @@
+<head>
+    <title>Treemap</title>
+    <script src="//unpkg.com/treemap-chart"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+</head>
+<body>
+<main>
+    <div id="treemap"></div>
+</main>
+<script>
+    const main = async () => {
+        const accountsResp = await fetch('./Genesis/accounts.json')
+        const accounts = await accountsResp.json()
+
+        const accountCvx = Object.values(accounts).reduce((prev, account) => prev + parseInt(account.vlCVX), 0) / 1e18
+        const accountBal = Object.values(accounts).reduce((prev, account) => prev + parseInt(account.totalBAL), 0) / 1e18
+        const accountVote = Object.values(accounts).reduce((prev, account) => account.vote === 'Y' ? prev + parseInt(account.votingPower) : prev, 0) / 1e18
+
+        const allocCvx = 1000000
+        const allocBal = 1000000
+        const allocVote = 500000
+
+        const allocPerCvx = allocCvx / accountCvx
+        const allocPerBal = allocBal / accountBal
+        const allocPerVote = allocVote / accountVote
+
+        const nodeColours = {
+            'vlCVX': 'yellow',
+            'BAL': 'blue',
+            'Vote': 'green',
+        }
+
+        const data = {
+            name: "root",
+            children: [
+                {
+                    name: 'Vote',
+                    value: allocVote,
+                    color: 'transparent',
+                    children: Object.entries(accounts).filter(([, {vote}]) => vote === 'Y').map(([address, {
+                        votingPower,
+                        allocation
+                    }], index) => ({
+                        name: address,
+                        value: allocPerVote * (parseInt(votingPower) / 1e18),
+                        color: index % 2 === 0 ? '#59a619' : '#91c765',
+                        allocation: `${parseInt(allocation) / 1e18} AURA`,
+                    }))
+                },
+                {
+                    name: 'vlCVX',
+                    value: allocCvx,
+                    color: 'transparent',
+                    children: Object.entries(accounts).filter(([, {vlCVX}]) => vlCVX > 0).map(([address, {
+                        vlCVX,
+                        allocation
+                    }], index) => ({
+                        name: address,
+                        value: allocPerCvx * (parseInt(vlCVX) / 1e18),
+                        color: index % 2 === 0 ? '#ffa200' : '#fdbe49',
+                        allocation: `${parseInt(allocation) / 1e18} AURA`,
+                    })),
+                },
+                {
+                    name: 'BAL',
+                    value: allocBal,
+                    color: 'transparent',
+                    children: Object.entries(accounts).filter(([, {totalBAL}]) => totalBAL > 0).map(([address, {
+                        totalBAL,
+                        allocation
+                    }], index) => ({
+                        name: address,
+                        value: allocPerBal * (parseInt(totalBAL) / 1e18),
+                        color: index % 2 === 0 ? '#053a77' : '#163f64',
+                        allocation: `${parseInt(allocation) / 1e18} AURA`,
+                    }))
+                },
+            ]
+        }
+
+        const chart = Treemap()
+            .data(data)
+            .excludeRoot(true)
+            .tooltipContent((node) => {
+                return node.allocation || ''
+            })
+            .padding(0)
+            .color('color')
+            .onClick((node) => {
+                if (node.name.startsWith('0x')) {
+                    window.open(`https://etherscan.io/address/${node.name}`)
+                }
+            })
+
+        chart(document.getElementById('treemap'))
+    }
+    main()
+</script>
+</body>

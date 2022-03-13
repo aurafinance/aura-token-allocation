@@ -12,33 +12,37 @@ const createAccountsArtifactsItem = async (
   name: string,
   accounts: Accounts,
 ) => {
-  const inputArr = accounts
+  const formattedAccounts = accounts
     .valueSeq()
     .sort((a, b) => (a.get('allocation').gt(b.get('allocation')) ? -1 : 1))
     .map((account) => {
       const totalBAL = account.get('BAL').add(account.get('uniswapBAL'))
       const vote = account.get('vote')
       const voteText =
-        vote === SnapshotVote.No
-          ? 'No'
-          : vote === SnapshotVote.Yes
-          ? 'Yes'
-          : 'Did not vote'
-      return [
-        account.get('address'),
-        account.get('allocation').toString(),
-        totalBAL.toString(),
-        account.get('vlCVX').toString(),
-        account.get('votingPower'),
-        voteText,
-      ]
+        vote === SnapshotVote.No ? 'N' : vote === SnapshotVote.Yes ? 'Y' : '-'
+      return {
+        address: account.get('address'),
+        allocation: account.get('allocation').toString(),
+        totalBAL: totalBAL.toString(),
+        vlCVX: account.get('vlCVX').toString(),
+        votingPower: account.get('votingPower').toString(),
+        vote: voteText,
+      }
     })
-    .toArray()
 
   {
     const writeStream = fs.createWriteStream(path.join(dirPath, `${name}.csv`))
     stringify(
-      inputArr,
+      formattedAccounts
+        .map(({ address, allocation, totalBAL, vlCVX, votingPower, vote }) => [
+          address,
+          allocation,
+          totalBAL,
+          vlCVX,
+          votingPower,
+          vote,
+        ])
+        .toArray(),
       {
         header: true,
         columns: [
@@ -56,9 +60,15 @@ const createAccountsArtifactsItem = async (
     ).on('finish', writeStream.end)
   }
 
+  const formattedAccountsObj = Object.fromEntries(
+    formattedAccounts
+      .map(({ address, ...account }) => [address, account])
+      .valueSeq()
+      .toArray(),
+  )
   await fs.promises.writeFile(
     path.join(dirPath, `${name}.json`),
-    JSON.stringify(inputArr),
+    JSON.stringify(formattedAccountsObj),
   )
 }
 
@@ -94,7 +104,7 @@ const createAllocationsArtifacts = async (
 
   await fs.promises.writeFile(
     path.join(dirPath, 'allocations.json'),
-    JSON.stringify(inputArr),
+    JSON.stringify(Object.fromEntries(inputArr)),
   )
 }
 
@@ -129,6 +139,7 @@ const createMerkleProofArtifacts = async (
 
   bar.stop()
 }
+
 const createReportArtifact = async (
   dirPath: string,
   {

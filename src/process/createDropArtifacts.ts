@@ -16,7 +16,7 @@ const createAccountsArtifactsItem = async (
     .valueSeq()
     .sort((a, b) => (a.get('allocation').gt(b.get('allocation')) ? -1 : 1))
     .map((account) => {
-      const totalBAL = account.get('BAL').add(account.get('lpBAL'))
+      const totalBAL = account.get('BAL')
       const vote = account.get('vote')
       const voteText =
         vote === SnapshotVote.No ? 'N' : vote === SnapshotVote.Yes ? 'Y' : '-'
@@ -175,7 +175,7 @@ export const createDropArtifacts = async (merkleDrop: MerkleDrop) => {
     [
       createAccountsArtifacts,
       createAllocationsArtifacts,
-      createMerkleProofArtifacts,
+      // createMerkleProofArtifacts,
       createReportArtifact,
     ].map((fn) => fn(dirPath, merkleDrop)),
   )

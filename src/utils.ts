@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { Collection, Record } from 'immutable'
 import { MerkleTree } from 'merkletreejs'
-import { parseUnits, soliditySha256 } from 'ethers/lib/utils'
+import { formatUnits, parseUnits, soliditySha256 } from 'ethers/lib/utils'
 
 import { SCALE, ZERO } from './constants'
 import { AllocationMap } from './types'
@@ -14,6 +14,9 @@ export const divPrecisely = (bn: BigNumber, other: BigNumber) =>
 
 export const parseBigDecimal = (bd: unknown) =>
   parseUnits(parseFloat(bd as string).toFixed(18))
+
+export const exactToSimple = (bd: BigNumber): number =>
+  parseFloat(formatUnits(bd))
 
 export const getFieldTotal = <T extends object>(
   iter: Collection.Keyed<string, Record<T>>,

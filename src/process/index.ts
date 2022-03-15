@@ -5,7 +5,7 @@ import {
   MerkleDropId,
   MerkleDropSpec,
 } from '../types'
-import { createGenesisMerkleDrop } from './createGenesisDrop'
+import { createGenesisDrop } from './genesis'
 import { createDropArtifacts } from './createDropArtifacts'
 
 export const createMerkleDrop = async <TSpec extends MerkleDropSpec>(
@@ -15,7 +15,7 @@ export const createMerkleDrop = async <TSpec extends MerkleDropSpec>(
   let merkleDrop: MerkleDrop
 
   if (spec.id === MerkleDropId.GENESIS) {
-    merkleDrop = createGenesisMerkleDrop(data, spec as unknown as GenesisSpec)
+    merkleDrop = createGenesisDrop(data, spec as unknown as GenesisSpec)
   } else {
     throw new Error('Unhandled spec')
   }

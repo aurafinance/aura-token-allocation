@@ -39,7 +39,14 @@ export interface Data {
     BAL: { account: string; amount: number }[]
   }
   snapshot: { votes: { voter: string; vp: number; choice: 1 | 0 }[] }
-  graph: { balancer: { pools: PoolQuery['pools'][number][] } }
+  graph: {
+    balancer: {
+      pools: Record<
+        'mainnet' | 'polygon' | 'arbitrum',
+        PoolQuery['pools'][number][]
+      >
+    }
+  }
 }
 
 export type Accounts = Map<string, AccountRecord>

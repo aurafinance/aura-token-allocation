@@ -1,16 +1,22 @@
 import pRetry from 'p-retry'
 import cliProgress, { SingleBar } from 'cli-progress'
 import { GraphQLClient } from 'graphql-request'
-import { getSdk, PoolQuery, Sdk } from './graphql/balancer/balancer_lp'
 
-const fetchPoolIds = async (sdk: Sdk) => {
+import { getSdk, PoolQuery, Sdk } from './graphql/balancer/balancer_lp'
+import { BAL, GENESIS_CUTOFF_BLOCK_NUMBERS } from '../constants'
+import { Network } from '../types'
+
+const fetchPoolIds = async (sdk: Sdk, network: Network) => {
   const bar = new cliProgress.SingleBar(
-    { format: `Fetching Balancer pool IDs {status}` },
+    { format: `Fetching Balancer pool IDs ({network}): {status}` },
     cliProgress.Presets.shades_grey,
   )
-  bar.start(100, 0, { status: 'Fetching' })
+  bar.start(100, 0, { status: 'Fetching', network })
 
-  const query = await sdk.PoolIDs()
+  const query = await sdk.PoolIDs({
+    blockNumber: GENESIS_CUTOFF_BLOCK_NUMBERS[network],
+    bal: BAL[network],
+  })
   const poolIds = query.pools.map((p) => p.id)
   bar.update({ status: `Done (${poolIds.length} pools)` })
   bar.stop()
@@ -18,7 +24,12 @@ const fetchPoolIds = async (sdk: Sdk) => {
   return poolIds
 }
 
-const exhaustPoolQuery = async (sdk: Sdk, bar: SingleBar, poolId: string) => {
+const exhaustPoolQuery = async (
+  sdk: Sdk,
+  bar: SingleBar,
+  network: Network,
+  poolId: string,
+) => {
   let i = 0
   const limit = 500
 
@@ -26,21 +37,35 @@ const exhaustPoolQuery = async (sdk: Sdk, bar: SingleBar, poolId: string) => {
 
   const runQuery = async () => {
     let skip = i * limit
-    bar.update({ status: `ID: ${poolId} ${skip}-${skip + limit}` })
+    bar.update({ iteration: i })
 
-    const pool = await pRetry(async () => {
-      const query_ = await sdk.Pool({
-        poolId,
-        sharesSkip: skip,
-        sharesLimit: limit,
-      })
-      if (!query_.pools?.[0]?.id) throw new Error('Missing pool in query')
-      return query_.pools[0]
-    })
+    const pool = await pRetry(
+      async () => {
+        const query_ = await sdk.Pool({
+          blockNumber: GENESIS_CUTOFF_BLOCK_NUMBERS[network],
+          bal: BAL[network],
+          poolId,
+          sharesSkip: skip,
+          sharesLimit: limit,
+        })
+        bar.update({ status: 'Fetching' })
+        if (!query_.pools?.[0]?.id) throw new Error('Missing pool in query')
+        return query_.pools[0]
+      },
+      {
+        onFailedAttempt: (error) => {
+          bar.update({
+            status: `${
+              (error as any).response?.errors?.[0]?.message ?? 'Borked!'
+            }: retrying...`,
+          })
+        },
+      },
+    )
 
     poolData.push(pool)
 
-    if (pool.shares.length === limit) {
+    if (pool.shares.length === limit && skip < 4000) {
       i++
       await runQuery()
     }
@@ -48,28 +73,28 @@ const exhaustPoolQuery = async (sdk: Sdk, bar: SingleBar, poolId: string) => {
 
   await runQuery()
 
-  const { id, tokens, totalWeight, liquidity } = poolData[0]
+  const { id, tokens } = poolData[0]
   return {
     id,
     tokens,
-    totalWeight,
-    liquidity,
     shares: poolData.reduce((prev, pool) => prev.concat(pool.shares), []),
   }
 }
 
-const fetchPools = async (sdk: Sdk, poolIds: string[]) => {
+const fetchPools = async (sdk: Sdk, network: Network, poolIds: string[]) => {
   const bar = new cliProgress.SingleBar(
-    { format: `Fetching Balancer LPs {bar} {status}` },
+    {
+      format: `Fetching Balancer LPs ({network}) {bar} {status}: ID {id} {iteration}`,
+    },
     cliProgress.Presets.shades_grey,
   )
-  bar.start(poolIds.length, 0, { status: 'Fetching' })
+  bar.start(poolIds.length, 0, { status: 'Fetching', network, iteration: '' })
 
-  const pools = []
+  const pools: Awaited<ReturnType<typeof exhaustPoolQuery>>[] = []
   for (let i = 0; i < poolIds.length; i++) {
     const poolId = poolIds[i]
-    bar.update(i, { status: `ID: ${poolId}` })
-    const pool = await exhaustPoolQuery(sdk, bar, poolId)
+    bar.update(i, { status: 'Fetching', id: poolId.slice(0, 6) })
+    const pool = await exhaustPoolQuery(sdk, bar, network, poolId)
     pools.push(pool)
   }
 
@@ -78,19 +103,35 @@ const fetchPools = async (sdk: Sdk, poolIds: string[]) => {
   return pools
 }
 
-const fetchBalancerGraphData = async () => {
-  // TODO arbitrum etc
-  const client = new GraphQLClient(
-    'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
-  )
-  const sdk = getSdk(client)
+const fetchBalancerPoolsData = async () => {
+  const endpoints = {
+    mainnet:
+      'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2',
+    polygon:
+      'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2',
+    arbitrum:
+      'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2',
+  }
 
-  const poolIds = await fetchPoolIds(sdk)
-  const pools = await fetchPools(sdk, poolIds)
-  return { pools }
+  const results: Record<
+    Network,
+    Awaited<ReturnType<typeof fetchPools>>
+  > = {} as never
+
+  for (const [network, endpoint] of Object.entries(endpoints) as [
+    Network,
+    string,
+  ][]) {
+    const client = new GraphQLClient(endpoint)
+    const sdk = getSdk(client)
+    const poolIds = await fetchPoolIds(sdk, network)
+    results[network] = await fetchPools(sdk, network, poolIds)
+  }
+
+  return results
 }
 
 export const fetchGraphData = async () => {
-  const balancer = await fetchBalancerGraphData()
-  return { balancer }
+  const pools = await fetchBalancerPoolsData()
+  return { balancer: { pools } }
 }

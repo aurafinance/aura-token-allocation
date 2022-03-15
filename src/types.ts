@@ -60,3 +60,5 @@ export interface MerkleDrops {
   genesis: MerkleDrop
   veBAL?: MerkleDrop
 }
+
+export type Network = 'mainnet' | 'polygon' | 'arbitrum'

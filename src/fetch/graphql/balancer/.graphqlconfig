@@ -3,8 +3,22 @@
   "schemaPath": "schema.gql",
   "extensions": {
     "endpoints": {
-      "default": {
-        "url": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer",
+      "mainnet": {
+        "url": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      },
+      "polygon": {
+        "url": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      },
+      "arbitrum": {
+        "url": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2",
         "headers": {
           "user-agent": "JS GraphQL"
         },

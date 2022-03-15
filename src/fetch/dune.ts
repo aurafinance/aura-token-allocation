@@ -6,7 +6,7 @@ import path from 'path'
 import cliProgress, { SingleBar } from 'cli-progress'
 
 import { Data } from '../types'
-import { GENESIS_CUTOFF_BLOCK_NUMBER } from '../constants'
+import { GENESIS_CUTOFF_BLOCK_NUMBERS } from '../constants'
 
 const BASE_URL = 'https://dune.xyz'
 const GRAPH_URL = 'https://core-hsr.duneanalytics.com/v1/graphql'
@@ -299,7 +299,7 @@ class DuneConnection {
 const BLOCK_NUMBER: DuneQueryParameter = {
   key: 'BlockNumber',
   type: 'number',
-  value: GENESIS_CUTOFF_BLOCK_NUMBER.toString(),
+  value: GENESIS_CUTOFF_BLOCK_NUMBERS.mainnet.toString(),
 }
 
 const QUERIES: Record<

@@ -12,4 +12,14 @@ export const AURA_TOTAL_SUPPLY = BigNumber.from('100').mul(1e6)
 // <$100 airdrop not viable on mainnet
 export const AURA_BAG_NGMI_THRESHOLD = SCALE.mul(25)
 
-export const GENESIS_CUTOFF_BLOCK_NUMBER = 14339625
+export const GENESIS_CUTOFF_BLOCK_NUMBERS = {
+  mainnet: 14339625,
+  polygon: 25900796,
+  arbitrum: 7844323,
+}
+
+export const BAL = {
+  mainnet: '0xba100000625a3754423978a60c9317c58a424e3d',
+  polygon: '0x9a71012b13ca4d3d0cdc72a177df3ef03b0e76a3',
+  arbitrum: '0x040d1edc9569d4bab2d15287dc5a4f10f56a56b8',
+}

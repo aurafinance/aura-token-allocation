@@ -47,12 +47,12 @@ const getBalancerVoters = async () => {
 
 export const fetchSnapshotData = async (): Promise<Data['snapshot']> => {
   const bar = new cliProgress.SingleBar(
-    { format: `Getting Balancer voters... {status}` },
+    { format: `Fetching Balancer voters: {status}` },
     cliProgress.Presets.shades_grey,
   )
-  bar.start(1, 0)
+  bar.start(1, 0, { status: 'Fetching' })
   const votes = await getBalancerVoters()
-  bar.update(1, { status: `Done (${votes.length}) records` })
+  bar.update(1, { status: `Done (${votes.length} records)` })
   bar.stop()
   return { votes }
 }

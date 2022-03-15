@@ -66,12 +66,94 @@ enum _SubgraphErrorPolicy_ {
   deny
 }
 
+type AmpUpdate {
+  id: ID!
+  poolId: Pool!
+  scheduledTimestamp: Int!
+  startTimestamp: BigInt!
+  endTimestamp: BigInt!
+  startAmp: BigInt!
+  endAmp: BigInt!
+}
+
+input AmpUpdate_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
+  scheduledTimestamp: Int
+  scheduledTimestamp_not: Int
+  scheduledTimestamp_gt: Int
+  scheduledTimestamp_lt: Int
+  scheduledTimestamp_gte: Int
+  scheduledTimestamp_lte: Int
+  scheduledTimestamp_in: [Int!]
+  scheduledTimestamp_not_in: [Int!]
+  startTimestamp: BigInt
+  startTimestamp_not: BigInt
+  startTimestamp_gt: BigInt
+  startTimestamp_lt: BigInt
+  startTimestamp_gte: BigInt
+  startTimestamp_lte: BigInt
+  startTimestamp_in: [BigInt!]
+  startTimestamp_not_in: [BigInt!]
+  endTimestamp: BigInt
+  endTimestamp_not: BigInt
+  endTimestamp_gt: BigInt
+  endTimestamp_lt: BigInt
+  endTimestamp_gte: BigInt
+  endTimestamp_lte: BigInt
+  endTimestamp_in: [BigInt!]
+  endTimestamp_not_in: [BigInt!]
+  startAmp: BigInt
+  startAmp_not: BigInt
+  startAmp_gt: BigInt
+  startAmp_lt: BigInt
+  startAmp_gte: BigInt
+  startAmp_lte: BigInt
+  startAmp_in: [BigInt!]
+  startAmp_not_in: [BigInt!]
+  endAmp: BigInt
+  endAmp_not: BigInt
+  endAmp_gt: BigInt
+  endAmp_lt: BigInt
+  endAmp_gte: BigInt
+  endAmp_lte: BigInt
+  endAmp_in: [BigInt!]
+  endAmp_not_in: [BigInt!]
+}
+
+enum AmpUpdate_orderBy {
+  id
+  poolId
+  scheduledTimestamp
+  startTimestamp
+  endTimestamp
+  startAmp
+  endAmp
+}
+
 type Balancer {
   id: ID!
-  color: String!
   poolCount: Int!
-  finalizedPoolCount: Int!
-  crpCount: Int!
   pools(
     skip: Int = 0
     first: Int = 100
@@ -79,8 +161,8 @@ type Balancer {
     orderDirection: OrderDirection
     where: Pool_filter
   ): [Pool!]
-  txCount: BigInt!
   totalLiquidity: BigDecimal!
+  totalSwapCount: BigInt!
   totalSwapVolume: BigDecimal!
   totalSwapFee: BigDecimal!
 }
@@ -94,20 +176,6 @@ input Balancer_filter {
   id_lte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  color: String
-  color_not: String
-  color_gt: String
-  color_lt: String
-  color_gte: String
-  color_lte: String
-  color_in: [String!]
-  color_not_in: [String!]
-  color_contains: String
-  color_not_contains: String
-  color_starts_with: String
-  color_not_starts_with: String
-  color_ends_with: String
-  color_not_ends_with: String
   poolCount: Int
   poolCount_not: Int
   poolCount_gt: Int
@@ -116,30 +184,6 @@ input Balancer_filter {
   poolCount_lte: Int
   poolCount_in: [Int!]
   poolCount_not_in: [Int!]
-  finalizedPoolCount: Int
-  finalizedPoolCount_not: Int
-  finalizedPoolCount_gt: Int
-  finalizedPoolCount_lt: Int
-  finalizedPoolCount_gte: Int
-  finalizedPoolCount_lte: Int
-  finalizedPoolCount_in: [Int!]
-  finalizedPoolCount_not_in: [Int!]
-  crpCount: Int
-  crpCount_not: Int
-  crpCount_gt: Int
-  crpCount_lt: Int
-  crpCount_gte: Int
-  crpCount_lte: Int
-  crpCount_in: [Int!]
-  crpCount_not_in: [Int!]
-  txCount: BigInt
-  txCount_not: BigInt
-  txCount_gt: BigInt
-  txCount_lt: BigInt
-  txCount_gte: BigInt
-  txCount_lte: BigInt
-  txCount_in: [BigInt!]
-  txCount_not_in: [BigInt!]
   totalLiquidity: BigDecimal
   totalLiquidity_not: BigDecimal
   totalLiquidity_gt: BigDecimal
@@ -148,6 +192,14 @@ input Balancer_filter {
   totalLiquidity_lte: BigDecimal
   totalLiquidity_in: [BigDecimal!]
   totalLiquidity_not_in: [BigDecimal!]
+  totalSwapCount: BigInt
+  totalSwapCount_not: BigInt
+  totalSwapCount_gt: BigInt
+  totalSwapCount_lt: BigInt
+  totalSwapCount_gte: BigInt
+  totalSwapCount_lte: BigInt
+  totalSwapCount_in: [BigInt!]
+  totalSwapCount_not_in: [BigInt!]
   totalSwapVolume: BigDecimal
   totalSwapVolume_not: BigDecimal
   totalSwapVolume_gt: BigDecimal
@@ -168,13 +220,105 @@ input Balancer_filter {
 
 enum Balancer_orderBy {
   id
-  color
   poolCount
-  finalizedPoolCount
-  crpCount
   pools
-  txCount
   totalLiquidity
+  totalSwapCount
+  totalSwapVolume
+  totalSwapFee
+}
+
+type BalancerSnapshot {
+  id: ID!
+  vault: Balancer!
+  timestamp: Int!
+  poolCount: Int!
+  totalLiquidity: BigDecimal!
+  totalSwapCount: BigInt!
+  totalSwapVolume: BigDecimal!
+  totalSwapFee: BigDecimal!
+}
+
+input BalancerSnapshot_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  vault: String
+  vault_not: String
+  vault_gt: String
+  vault_lt: String
+  vault_gte: String
+  vault_lte: String
+  vault_in: [String!]
+  vault_not_in: [String!]
+  vault_contains: String
+  vault_not_contains: String
+  vault_starts_with: String
+  vault_not_starts_with: String
+  vault_ends_with: String
+  vault_not_ends_with: String
+  timestamp: Int
+  timestamp_not: Int
+  timestamp_gt: Int
+  timestamp_lt: Int
+  timestamp_gte: Int
+  timestamp_lte: Int
+  timestamp_in: [Int!]
+  timestamp_not_in: [Int!]
+  poolCount: Int
+  poolCount_not: Int
+  poolCount_gt: Int
+  poolCount_lt: Int
+  poolCount_gte: Int
+  poolCount_lte: Int
+  poolCount_in: [Int!]
+  poolCount_not_in: [Int!]
+  totalLiquidity: BigDecimal
+  totalLiquidity_not: BigDecimal
+  totalLiquidity_gt: BigDecimal
+  totalLiquidity_lt: BigDecimal
+  totalLiquidity_gte: BigDecimal
+  totalLiquidity_lte: BigDecimal
+  totalLiquidity_in: [BigDecimal!]
+  totalLiquidity_not_in: [BigDecimal!]
+  totalSwapCount: BigInt
+  totalSwapCount_not: BigInt
+  totalSwapCount_gt: BigInt
+  totalSwapCount_lt: BigInt
+  totalSwapCount_gte: BigInt
+  totalSwapCount_lte: BigInt
+  totalSwapCount_in: [BigInt!]
+  totalSwapCount_not_in: [BigInt!]
+  totalSwapVolume: BigDecimal
+  totalSwapVolume_not: BigDecimal
+  totalSwapVolume_gt: BigDecimal
+  totalSwapVolume_lt: BigDecimal
+  totalSwapVolume_gte: BigDecimal
+  totalSwapVolume_lte: BigDecimal
+  totalSwapVolume_in: [BigDecimal!]
+  totalSwapVolume_not_in: [BigDecimal!]
+  totalSwapFee: BigDecimal
+  totalSwapFee_not: BigDecimal
+  totalSwapFee_gt: BigDecimal
+  totalSwapFee_lt: BigDecimal
+  totalSwapFee_gte: BigDecimal
+  totalSwapFee_lte: BigDecimal
+  totalSwapFee_in: [BigDecimal!]
+  totalSwapFee_not_in: [BigDecimal!]
+}
+
+enum BalancerSnapshot_orderBy {
+  id
+  vault
+  timestamp
+  poolCount
+  totalLiquidity
+  totalSwapCount
   totalSwapVolume
   totalSwapFee
 }
@@ -208,6 +352,311 @@ input Block_height {
 
 scalar Bytes
 
+type GradualWeightUpdate {
+  id: ID!
+  poolId: Pool!
+  scheduledTimestamp: Int!
+  startTimestamp: BigInt!
+  endTimestamp: BigInt!
+  startWeights: [BigInt!]!
+  endWeights: [BigInt!]!
+}
+
+input GradualWeightUpdate_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
+  scheduledTimestamp: Int
+  scheduledTimestamp_not: Int
+  scheduledTimestamp_gt: Int
+  scheduledTimestamp_lt: Int
+  scheduledTimestamp_gte: Int
+  scheduledTimestamp_lte: Int
+  scheduledTimestamp_in: [Int!]
+  scheduledTimestamp_not_in: [Int!]
+  startTimestamp: BigInt
+  startTimestamp_not: BigInt
+  startTimestamp_gt: BigInt
+  startTimestamp_lt: BigInt
+  startTimestamp_gte: BigInt
+  startTimestamp_lte: BigInt
+  startTimestamp_in: [BigInt!]
+  startTimestamp_not_in: [BigInt!]
+  endTimestamp: BigInt
+  endTimestamp_not: BigInt
+  endTimestamp_gt: BigInt
+  endTimestamp_lt: BigInt
+  endTimestamp_gte: BigInt
+  endTimestamp_lte: BigInt
+  endTimestamp_in: [BigInt!]
+  endTimestamp_not_in: [BigInt!]
+  startWeights: [BigInt!]
+  startWeights_not: [BigInt!]
+  startWeights_contains: [BigInt!]
+  startWeights_not_contains: [BigInt!]
+  endWeights: [BigInt!]
+  endWeights_not: [BigInt!]
+  endWeights_contains: [BigInt!]
+  endWeights_not_contains: [BigInt!]
+}
+
+enum GradualWeightUpdate_orderBy {
+  id
+  poolId
+  scheduledTimestamp
+  startTimestamp
+  endTimestamp
+  startWeights
+  endWeights
+}
+
+type Investment {
+  id: ID!
+  assetManagerAddress: Bytes!
+  amount: BigDecimal!
+  poolTokenId: PoolToken!
+  timestamp: Int!
+}
+
+input Investment_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  assetManagerAddress: Bytes
+  assetManagerAddress_not: Bytes
+  assetManagerAddress_in: [Bytes!]
+  assetManagerAddress_not_in: [Bytes!]
+  assetManagerAddress_contains: Bytes
+  assetManagerAddress_not_contains: Bytes
+  amount: BigDecimal
+  amount_not: BigDecimal
+  amount_gt: BigDecimal
+  amount_lt: BigDecimal
+  amount_gte: BigDecimal
+  amount_lte: BigDecimal
+  amount_in: [BigDecimal!]
+  amount_not_in: [BigDecimal!]
+  poolTokenId: String
+  poolTokenId_not: String
+  poolTokenId_gt: String
+  poolTokenId_lt: String
+  poolTokenId_gte: String
+  poolTokenId_lte: String
+  poolTokenId_in: [String!]
+  poolTokenId_not_in: [String!]
+  poolTokenId_contains: String
+  poolTokenId_not_contains: String
+  poolTokenId_starts_with: String
+  poolTokenId_not_starts_with: String
+  poolTokenId_ends_with: String
+  poolTokenId_not_ends_with: String
+  timestamp: Int
+  timestamp_not: Int
+  timestamp_gt: Int
+  timestamp_lt: Int
+  timestamp_gte: Int
+  timestamp_lte: Int
+  timestamp_in: [Int!]
+  timestamp_not_in: [Int!]
+}
+
+enum Investment_orderBy {
+  id
+  assetManagerAddress
+  amount
+  poolTokenId
+  timestamp
+}
+
+enum InvestType {
+  Join
+  Exit
+}
+
+type JoinExit {
+  id: ID!
+  type: InvestType!
+  sender: Bytes!
+  amounts: [BigDecimal!]!
+  pool: Pool!
+  user: User!
+  timestamp: Int!
+  tx: Bytes!
+}
+
+input JoinExit_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  type: InvestType
+  type_not: InvestType
+  type_in: [InvestType!]
+  type_not_in: [InvestType!]
+  sender: Bytes
+  sender_not: Bytes
+  sender_in: [Bytes!]
+  sender_not_in: [Bytes!]
+  sender_contains: Bytes
+  sender_not_contains: Bytes
+  amounts: [BigDecimal!]
+  amounts_not: [BigDecimal!]
+  amounts_contains: [BigDecimal!]
+  amounts_not_contains: [BigDecimal!]
+  pool: String
+  pool_not: String
+  pool_gt: String
+  pool_lt: String
+  pool_gte: String
+  pool_lte: String
+  pool_in: [String!]
+  pool_not_in: [String!]
+  pool_contains: String
+  pool_not_contains: String
+  pool_starts_with: String
+  pool_not_starts_with: String
+  pool_ends_with: String
+  pool_not_ends_with: String
+  user: String
+  user_not: String
+  user_gt: String
+  user_lt: String
+  user_gte: String
+  user_lte: String
+  user_in: [String!]
+  user_not_in: [String!]
+  user_contains: String
+  user_not_contains: String
+  user_starts_with: String
+  user_not_starts_with: String
+  user_ends_with: String
+  user_not_ends_with: String
+  timestamp: Int
+  timestamp_not: Int
+  timestamp_gt: Int
+  timestamp_lt: Int
+  timestamp_gte: Int
+  timestamp_lte: Int
+  timestamp_in: [Int!]
+  timestamp_not_in: [Int!]
+  tx: Bytes
+  tx_not: Bytes
+  tx_in: [Bytes!]
+  tx_not_in: [Bytes!]
+  tx_contains: Bytes
+  tx_not_contains: Bytes
+}
+
+enum JoinExit_orderBy {
+  id
+  type
+  sender
+  amounts
+  pool
+  user
+  timestamp
+  tx
+}
+
+type LatestPrice {
+  id: ID!
+  asset: Bytes!
+  pricingAsset: Bytes!
+  poolId: Pool!
+  price: BigDecimal!
+  block: BigInt!
+}
+
+input LatestPrice_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  asset: Bytes
+  asset_not: Bytes
+  asset_in: [Bytes!]
+  asset_not_in: [Bytes!]
+  asset_contains: Bytes
+  asset_not_contains: Bytes
+  pricingAsset: Bytes
+  pricingAsset_not: Bytes
+  pricingAsset_in: [Bytes!]
+  pricingAsset_not_in: [Bytes!]
+  pricingAsset_contains: Bytes
+  pricingAsset_not_contains: Bytes
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
+  price: BigDecimal
+  price_not: BigDecimal
+  price_gt: BigDecimal
+  price_lt: BigDecimal
+  price_gte: BigDecimal
+  price_lte: BigDecimal
+  price_in: [BigDecimal!]
+  price_not_in: [BigDecimal!]
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+}
+
+enum LatestPrice_orderBy {
+  id
+  asset
+  pricingAsset
+  poolId
+  price
+  block
+}
+
 """
 Defines the order direction, either ascending or descending
 """
@@ -218,22 +667,25 @@ enum OrderDirection {
 
 type Pool {
   id: ID!
-  controller: Bytes!
-  publicSwap: Boolean!
-  finalized: Boolean!
-  crp: Boolean!
-  crpController: Bytes
+  address: Bytes!
+  poolType: String
+  factory: Bytes
+  strategyType: Int!
   symbol: String
   name: String
-  rights: [String!]!
-  cap: BigInt
-  active: Boolean!
+  swapEnabled: Boolean!
   swapFee: BigDecimal!
-  totalWeight: BigDecimal!
-  totalShares: BigDecimal!
+  owner: Bytes
+  totalWeight: BigDecimal
   totalSwapVolume: BigDecimal!
   totalSwapFee: BigDecimal!
-  liquidity: BigDecimal!
+  totalLiquidity: BigDecimal!
+  totalShares: BigDecimal!
+  createTime: Int!
+  swapsCount: BigInt!
+  holdersCount: BigInt!
+  vaultID: Balancer!
+  tx: Bytes
   tokensList: [Bytes!]!
   tokens(
     skip: Int = 0
@@ -242,21 +694,6 @@ type Pool {
     orderDirection: OrderDirection
     where: PoolToken_filter
   ): [PoolToken!]
-  shares(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: PoolShare_orderBy
-    orderDirection: OrderDirection
-    where: PoolShare_filter
-  ): [PoolShare!]
-  createTime: Int!
-  tokensCount: BigInt!
-  holdersCount: BigInt!
-  joinsCount: BigInt!
-  exitsCount: BigInt!
-  swapsCount: BigInt!
-  factoryID: Balancer!
-  tx: Bytes
   swaps(
     skip: Int = 0
     first: Int = 100
@@ -264,6 +701,44 @@ type Pool {
     orderDirection: OrderDirection
     where: Swap_filter
   ): [Swap!]
+  shares(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PoolShare_orderBy
+    orderDirection: OrderDirection
+    where: PoolShare_filter
+  ): [PoolShare!]
+  historicalValues(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PoolHistoricalLiquidity_orderBy
+    orderDirection: OrderDirection
+    where: PoolHistoricalLiquidity_filter
+  ): [PoolHistoricalLiquidity!]
+  weightUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: GradualWeightUpdate_orderBy
+    orderDirection: OrderDirection
+    where: GradualWeightUpdate_filter
+  ): [GradualWeightUpdate!]
+  amp: BigInt
+  priceRateProviders(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PriceRateProvider_orderBy
+    orderDirection: OrderDirection
+    where: PriceRateProvider_filter
+  ): [PriceRateProvider!]
+  principalToken: Bytes
+  baseToken: Bytes
+  expiryTime: BigInt
+  unitSeconds: BigInt
+  managementFee: BigDecimal
+  mainIndex: Int
+  wrappedIndex: Int
+  lowerTarget: BigDecimal
+  upperTarget: BigDecimal
 }
 
 input Pool_filter {
@@ -275,30 +750,40 @@ input Pool_filter {
   id_lte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  controller: Bytes
-  controller_not: Bytes
-  controller_in: [Bytes!]
-  controller_not_in: [Bytes!]
-  controller_contains: Bytes
-  controller_not_contains: Bytes
-  publicSwap: Boolean
-  publicSwap_not: Boolean
-  publicSwap_in: [Boolean!]
-  publicSwap_not_in: [Boolean!]
-  finalized: Boolean
-  finalized_not: Boolean
-  finalized_in: [Boolean!]
-  finalized_not_in: [Boolean!]
-  crp: Boolean
-  crp_not: Boolean
-  crp_in: [Boolean!]
-  crp_not_in: [Boolean!]
-  crpController: Bytes
-  crpController_not: Bytes
-  crpController_in: [Bytes!]
-  crpController_not_in: [Bytes!]
-  crpController_contains: Bytes
-  crpController_not_contains: Bytes
+  address: Bytes
+  address_not: Bytes
+  address_in: [Bytes!]
+  address_not_in: [Bytes!]
+  address_contains: Bytes
+  address_not_contains: Bytes
+  poolType: String
+  poolType_not: String
+  poolType_gt: String
+  poolType_lt: String
+  poolType_gte: String
+  poolType_lte: String
+  poolType_in: [String!]
+  poolType_not_in: [String!]
+  poolType_contains: String
+  poolType_not_contains: String
+  poolType_starts_with: String
+  poolType_not_starts_with: String
+  poolType_ends_with: String
+  poolType_not_ends_with: String
+  factory: Bytes
+  factory_not: Bytes
+  factory_in: [Bytes!]
+  factory_not_in: [Bytes!]
+  factory_contains: Bytes
+  factory_not_contains: Bytes
+  strategyType: Int
+  strategyType_not: Int
+  strategyType_gt: Int
+  strategyType_lt: Int
+  strategyType_gte: Int
+  strategyType_lte: Int
+  strategyType_in: [Int!]
+  strategyType_not_in: [Int!]
   symbol: String
   symbol_not: String
   symbol_gt: String
@@ -327,22 +812,10 @@ input Pool_filter {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  rights: [String!]
-  rights_not: [String!]
-  rights_contains: [String!]
-  rights_not_contains: [String!]
-  cap: BigInt
-  cap_not: BigInt
-  cap_gt: BigInt
-  cap_lt: BigInt
-  cap_gte: BigInt
-  cap_lte: BigInt
-  cap_in: [BigInt!]
-  cap_not_in: [BigInt!]
-  active: Boolean
-  active_not: Boolean
-  active_in: [Boolean!]
-  active_not_in: [Boolean!]
+  swapEnabled: Boolean
+  swapEnabled_not: Boolean
+  swapEnabled_in: [Boolean!]
+  swapEnabled_not_in: [Boolean!]
   swapFee: BigDecimal
   swapFee_not: BigDecimal
   swapFee_gt: BigDecimal
@@ -351,6 +824,12 @@ input Pool_filter {
   swapFee_lte: BigDecimal
   swapFee_in: [BigDecimal!]
   swapFee_not_in: [BigDecimal!]
+  owner: Bytes
+  owner_not: Bytes
+  owner_in: [Bytes!]
+  owner_not_in: [Bytes!]
+  owner_contains: Bytes
+  owner_not_contains: Bytes
   totalWeight: BigDecimal
   totalWeight_not: BigDecimal
   totalWeight_gt: BigDecimal
@@ -359,14 +838,6 @@ input Pool_filter {
   totalWeight_lte: BigDecimal
   totalWeight_in: [BigDecimal!]
   totalWeight_not_in: [BigDecimal!]
-  totalShares: BigDecimal
-  totalShares_not: BigDecimal
-  totalShares_gt: BigDecimal
-  totalShares_lt: BigDecimal
-  totalShares_gte: BigDecimal
-  totalShares_lte: BigDecimal
-  totalShares_in: [BigDecimal!]
-  totalShares_not_in: [BigDecimal!]
   totalSwapVolume: BigDecimal
   totalSwapVolume_not: BigDecimal
   totalSwapVolume_gt: BigDecimal
@@ -383,18 +854,22 @@ input Pool_filter {
   totalSwapFee_lte: BigDecimal
   totalSwapFee_in: [BigDecimal!]
   totalSwapFee_not_in: [BigDecimal!]
-  liquidity: BigDecimal
-  liquidity_not: BigDecimal
-  liquidity_gt: BigDecimal
-  liquidity_lt: BigDecimal
-  liquidity_gte: BigDecimal
-  liquidity_lte: BigDecimal
-  liquidity_in: [BigDecimal!]
-  liquidity_not_in: [BigDecimal!]
-  tokensList: [Bytes!]
-  tokensList_not: [Bytes!]
-  tokensList_contains: [Bytes!]
-  tokensList_not_contains: [Bytes!]
+  totalLiquidity: BigDecimal
+  totalLiquidity_not: BigDecimal
+  totalLiquidity_gt: BigDecimal
+  totalLiquidity_lt: BigDecimal
+  totalLiquidity_gte: BigDecimal
+  totalLiquidity_lte: BigDecimal
+  totalLiquidity_in: [BigDecimal!]
+  totalLiquidity_not_in: [BigDecimal!]
+  totalShares: BigDecimal
+  totalShares_not: BigDecimal
+  totalShares_gt: BigDecimal
+  totalShares_lt: BigDecimal
+  totalShares_gte: BigDecimal
+  totalShares_lte: BigDecimal
+  totalShares_in: [BigDecimal!]
+  totalShares_not_in: [BigDecimal!]
   createTime: Int
   createTime_not: Int
   createTime_gt: Int
@@ -403,38 +878,6 @@ input Pool_filter {
   createTime_lte: Int
   createTime_in: [Int!]
   createTime_not_in: [Int!]
-  tokensCount: BigInt
-  tokensCount_not: BigInt
-  tokensCount_gt: BigInt
-  tokensCount_lt: BigInt
-  tokensCount_gte: BigInt
-  tokensCount_lte: BigInt
-  tokensCount_in: [BigInt!]
-  tokensCount_not_in: [BigInt!]
-  holdersCount: BigInt
-  holdersCount_not: BigInt
-  holdersCount_gt: BigInt
-  holdersCount_lt: BigInt
-  holdersCount_gte: BigInt
-  holdersCount_lte: BigInt
-  holdersCount_in: [BigInt!]
-  holdersCount_not_in: [BigInt!]
-  joinsCount: BigInt
-  joinsCount_not: BigInt
-  joinsCount_gt: BigInt
-  joinsCount_lt: BigInt
-  joinsCount_gte: BigInt
-  joinsCount_lte: BigInt
-  joinsCount_in: [BigInt!]
-  joinsCount_not_in: [BigInt!]
-  exitsCount: BigInt
-  exitsCount_not: BigInt
-  exitsCount_gt: BigInt
-  exitsCount_lt: BigInt
-  exitsCount_gte: BigInt
-  exitsCount_lte: BigInt
-  exitsCount_in: [BigInt!]
-  exitsCount_not_in: [BigInt!]
   swapsCount: BigInt
   swapsCount_not: BigInt
   swapsCount_gt: BigInt
@@ -443,58 +886,237 @@ input Pool_filter {
   swapsCount_lte: BigInt
   swapsCount_in: [BigInt!]
   swapsCount_not_in: [BigInt!]
-  factoryID: String
-  factoryID_not: String
-  factoryID_gt: String
-  factoryID_lt: String
-  factoryID_gte: String
-  factoryID_lte: String
-  factoryID_in: [String!]
-  factoryID_not_in: [String!]
-  factoryID_contains: String
-  factoryID_not_contains: String
-  factoryID_starts_with: String
-  factoryID_not_starts_with: String
-  factoryID_ends_with: String
-  factoryID_not_ends_with: String
+  holdersCount: BigInt
+  holdersCount_not: BigInt
+  holdersCount_gt: BigInt
+  holdersCount_lt: BigInt
+  holdersCount_gte: BigInt
+  holdersCount_lte: BigInt
+  holdersCount_in: [BigInt!]
+  holdersCount_not_in: [BigInt!]
+  vaultID: String
+  vaultID_not: String
+  vaultID_gt: String
+  vaultID_lt: String
+  vaultID_gte: String
+  vaultID_lte: String
+  vaultID_in: [String!]
+  vaultID_not_in: [String!]
+  vaultID_contains: String
+  vaultID_not_contains: String
+  vaultID_starts_with: String
+  vaultID_not_starts_with: String
+  vaultID_ends_with: String
+  vaultID_not_ends_with: String
   tx: Bytes
   tx_not: Bytes
   tx_in: [Bytes!]
   tx_not_in: [Bytes!]
   tx_contains: Bytes
   tx_not_contains: Bytes
+  tokensList: [Bytes!]
+  tokensList_not: [Bytes!]
+  tokensList_contains: [Bytes!]
+  tokensList_not_contains: [Bytes!]
+  amp: BigInt
+  amp_not: BigInt
+  amp_gt: BigInt
+  amp_lt: BigInt
+  amp_gte: BigInt
+  amp_lte: BigInt
+  amp_in: [BigInt!]
+  amp_not_in: [BigInt!]
+  principalToken: Bytes
+  principalToken_not: Bytes
+  principalToken_in: [Bytes!]
+  principalToken_not_in: [Bytes!]
+  principalToken_contains: Bytes
+  principalToken_not_contains: Bytes
+  baseToken: Bytes
+  baseToken_not: Bytes
+  baseToken_in: [Bytes!]
+  baseToken_not_in: [Bytes!]
+  baseToken_contains: Bytes
+  baseToken_not_contains: Bytes
+  expiryTime: BigInt
+  expiryTime_not: BigInt
+  expiryTime_gt: BigInt
+  expiryTime_lt: BigInt
+  expiryTime_gte: BigInt
+  expiryTime_lte: BigInt
+  expiryTime_in: [BigInt!]
+  expiryTime_not_in: [BigInt!]
+  unitSeconds: BigInt
+  unitSeconds_not: BigInt
+  unitSeconds_gt: BigInt
+  unitSeconds_lt: BigInt
+  unitSeconds_gte: BigInt
+  unitSeconds_lte: BigInt
+  unitSeconds_in: [BigInt!]
+  unitSeconds_not_in: [BigInt!]
+  managementFee: BigDecimal
+  managementFee_not: BigDecimal
+  managementFee_gt: BigDecimal
+  managementFee_lt: BigDecimal
+  managementFee_gte: BigDecimal
+  managementFee_lte: BigDecimal
+  managementFee_in: [BigDecimal!]
+  managementFee_not_in: [BigDecimal!]
+  mainIndex: Int
+  mainIndex_not: Int
+  mainIndex_gt: Int
+  mainIndex_lt: Int
+  mainIndex_gte: Int
+  mainIndex_lte: Int
+  mainIndex_in: [Int!]
+  mainIndex_not_in: [Int!]
+  wrappedIndex: Int
+  wrappedIndex_not: Int
+  wrappedIndex_gt: Int
+  wrappedIndex_lt: Int
+  wrappedIndex_gte: Int
+  wrappedIndex_lte: Int
+  wrappedIndex_in: [Int!]
+  wrappedIndex_not_in: [Int!]
+  lowerTarget: BigDecimal
+  lowerTarget_not: BigDecimal
+  lowerTarget_gt: BigDecimal
+  lowerTarget_lt: BigDecimal
+  lowerTarget_gte: BigDecimal
+  lowerTarget_lte: BigDecimal
+  lowerTarget_in: [BigDecimal!]
+  lowerTarget_not_in: [BigDecimal!]
+  upperTarget: BigDecimal
+  upperTarget_not: BigDecimal
+  upperTarget_gt: BigDecimal
+  upperTarget_lt: BigDecimal
+  upperTarget_gte: BigDecimal
+  upperTarget_lte: BigDecimal
+  upperTarget_in: [BigDecimal!]
+  upperTarget_not_in: [BigDecimal!]
 }
 
 enum Pool_orderBy {
   id
-  controller
-  publicSwap
-  finalized
-  crp
-  crpController
+  address
+  poolType
+  factory
+  strategyType
   symbol
   name
-  rights
-  cap
-  active
+  swapEnabled
   swapFee
+  owner
   totalWeight
-  totalShares
   totalSwapVolume
   totalSwapFee
-  liquidity
+  totalLiquidity
+  totalShares
+  createTime
+  swapsCount
+  holdersCount
+  vaultID
+  tx
   tokensList
   tokens
-  shares
-  createTime
-  tokensCount
-  holdersCount
-  joinsCount
-  exitsCount
-  swapsCount
-  factoryID
-  tx
   swaps
+  shares
+  historicalValues
+  weightUpdates
+  amp
+  priceRateProviders
+  principalToken
+  baseToken
+  expiryTime
+  unitSeconds
+  managementFee
+  mainIndex
+  wrappedIndex
+  lowerTarget
+  upperTarget
+}
+
+type PoolHistoricalLiquidity {
+  id: ID!
+  poolId: Pool!
+  poolTotalShares: BigDecimal!
+  poolLiquidity: BigDecimal!
+  poolShareValue: BigDecimal!
+  pricingAsset: Bytes!
+  block: BigInt!
+}
+
+input PoolHistoricalLiquidity_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
+  poolTotalShares: BigDecimal
+  poolTotalShares_not: BigDecimal
+  poolTotalShares_gt: BigDecimal
+  poolTotalShares_lt: BigDecimal
+  poolTotalShares_gte: BigDecimal
+  poolTotalShares_lte: BigDecimal
+  poolTotalShares_in: [BigDecimal!]
+  poolTotalShares_not_in: [BigDecimal!]
+  poolLiquidity: BigDecimal
+  poolLiquidity_not: BigDecimal
+  poolLiquidity_gt: BigDecimal
+  poolLiquidity_lt: BigDecimal
+  poolLiquidity_gte: BigDecimal
+  poolLiquidity_lte: BigDecimal
+  poolLiquidity_in: [BigDecimal!]
+  poolLiquidity_not_in: [BigDecimal!]
+  poolShareValue: BigDecimal
+  poolShareValue_not: BigDecimal
+  poolShareValue_gt: BigDecimal
+  poolShareValue_lt: BigDecimal
+  poolShareValue_gte: BigDecimal
+  poolShareValue_lte: BigDecimal
+  poolShareValue_in: [BigDecimal!]
+  poolShareValue_not_in: [BigDecimal!]
+  pricingAsset: Bytes
+  pricingAsset_not: Bytes
+  pricingAsset_in: [Bytes!]
+  pricingAsset_not_in: [Bytes!]
+  pricingAsset_contains: Bytes
+  pricingAsset_not_contains: Bytes
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+}
+
+enum PoolHistoricalLiquidity_orderBy {
+  id
+  poolId
+  poolTotalShares
+  poolLiquidity
+  poolShareValue
+  pricingAsset
+  block
 }
 
 type PoolShare {
@@ -558,15 +1180,116 @@ enum PoolShare_orderBy {
   balance
 }
 
+type PoolSnapshot {
+  id: ID!
+  pool: Pool!
+  amounts: [BigDecimal!]!
+  totalShares: BigDecimal!
+  swapVolume: BigDecimal!
+  swapFees: BigDecimal!
+  liquidity: BigDecimal!
+  timestamp: Int!
+}
+
+input PoolSnapshot_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  pool: String
+  pool_not: String
+  pool_gt: String
+  pool_lt: String
+  pool_gte: String
+  pool_lte: String
+  pool_in: [String!]
+  pool_not_in: [String!]
+  pool_contains: String
+  pool_not_contains: String
+  pool_starts_with: String
+  pool_not_starts_with: String
+  pool_ends_with: String
+  pool_not_ends_with: String
+  amounts: [BigDecimal!]
+  amounts_not: [BigDecimal!]
+  amounts_contains: [BigDecimal!]
+  amounts_not_contains: [BigDecimal!]
+  totalShares: BigDecimal
+  totalShares_not: BigDecimal
+  totalShares_gt: BigDecimal
+  totalShares_lt: BigDecimal
+  totalShares_gte: BigDecimal
+  totalShares_lte: BigDecimal
+  totalShares_in: [BigDecimal!]
+  totalShares_not_in: [BigDecimal!]
+  swapVolume: BigDecimal
+  swapVolume_not: BigDecimal
+  swapVolume_gt: BigDecimal
+  swapVolume_lt: BigDecimal
+  swapVolume_gte: BigDecimal
+  swapVolume_lte: BigDecimal
+  swapVolume_in: [BigDecimal!]
+  swapVolume_not_in: [BigDecimal!]
+  swapFees: BigDecimal
+  swapFees_not: BigDecimal
+  swapFees_gt: BigDecimal
+  swapFees_lt: BigDecimal
+  swapFees_gte: BigDecimal
+  swapFees_lte: BigDecimal
+  swapFees_in: [BigDecimal!]
+  swapFees_not_in: [BigDecimal!]
+  liquidity: BigDecimal
+  liquidity_not: BigDecimal
+  liquidity_gt: BigDecimal
+  liquidity_lt: BigDecimal
+  liquidity_gte: BigDecimal
+  liquidity_lte: BigDecimal
+  liquidity_in: [BigDecimal!]
+  liquidity_not_in: [BigDecimal!]
+  timestamp: Int
+  timestamp_not: Int
+  timestamp_gt: Int
+  timestamp_lt: Int
+  timestamp_gte: Int
+  timestamp_lte: Int
+  timestamp_in: [Int!]
+  timestamp_not_in: [Int!]
+}
+
+enum PoolSnapshot_orderBy {
+  id
+  pool
+  amounts
+  totalShares
+  swapVolume
+  swapFees
+  liquidity
+  timestamp
+}
+
 type PoolToken {
   id: ID!
   poolId: Pool!
-  symbol: String
-  name: String
+  token: Token!
+  symbol: String!
+  name: String!
   decimals: Int!
   address: String!
+  priceRate: BigDecimal!
   balance: BigDecimal!
-  denormWeight: BigDecimal!
+  invested: BigDecimal!
+  investments(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Investment_orderBy
+    orderDirection: OrderDirection
+    where: Investment_filter
+  ): [Investment!]
+  weight: BigDecimal
 }
 
 input PoolToken_filter {
@@ -592,6 +1315,20 @@ input PoolToken_filter {
   poolId_not_starts_with: String
   poolId_ends_with: String
   poolId_not_ends_with: String
+  token: String
+  token_not: String
+  token_gt: String
+  token_lt: String
+  token_gte: String
+  token_lte: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
   symbol: String
   symbol_not: String
   symbol_gt: String
@@ -642,6 +1379,14 @@ input PoolToken_filter {
   address_not_starts_with: String
   address_ends_with: String
   address_not_ends_with: String
+  priceRate: BigDecimal
+  priceRate_not: BigDecimal
+  priceRate_gt: BigDecimal
+  priceRate_lt: BigDecimal
+  priceRate_gte: BigDecimal
+  priceRate_lte: BigDecimal
+  priceRate_in: [BigDecimal!]
+  priceRate_not_in: [BigDecimal!]
   balance: BigDecimal
   balance_not: BigDecimal
   balance_gt: BigDecimal
@@ -650,25 +1395,136 @@ input PoolToken_filter {
   balance_lte: BigDecimal
   balance_in: [BigDecimal!]
   balance_not_in: [BigDecimal!]
-  denormWeight: BigDecimal
-  denormWeight_not: BigDecimal
-  denormWeight_gt: BigDecimal
-  denormWeight_lt: BigDecimal
-  denormWeight_gte: BigDecimal
-  denormWeight_lte: BigDecimal
-  denormWeight_in: [BigDecimal!]
-  denormWeight_not_in: [BigDecimal!]
+  invested: BigDecimal
+  invested_not: BigDecimal
+  invested_gt: BigDecimal
+  invested_lt: BigDecimal
+  invested_gte: BigDecimal
+  invested_lte: BigDecimal
+  invested_in: [BigDecimal!]
+  invested_not_in: [BigDecimal!]
+  weight: BigDecimal
+  weight_not: BigDecimal
+  weight_gt: BigDecimal
+  weight_lt: BigDecimal
+  weight_gte: BigDecimal
+  weight_lte: BigDecimal
+  weight_in: [BigDecimal!]
+  weight_not_in: [BigDecimal!]
 }
 
 enum PoolToken_orderBy {
   id
   poolId
+  token
   symbol
   name
   decimals
   address
+  priceRate
   balance
-  denormWeight
+  invested
+  investments
+  weight
+}
+
+type PriceRateProvider {
+  id: ID!
+  poolId: Pool!
+  token: PoolToken!
+  address: Bytes!
+  rate: BigDecimal!
+  lastCached: Int!
+  cacheDuration: Int!
+  cacheExpiry: Int!
+}
+
+input PriceRateProvider_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
+  token: String
+  token_not: String
+  token_gt: String
+  token_lt: String
+  token_gte: String
+  token_lte: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
+  address: Bytes
+  address_not: Bytes
+  address_in: [Bytes!]
+  address_not_in: [Bytes!]
+  address_contains: Bytes
+  address_not_contains: Bytes
+  rate: BigDecimal
+  rate_not: BigDecimal
+  rate_gt: BigDecimal
+  rate_lt: BigDecimal
+  rate_gte: BigDecimal
+  rate_lte: BigDecimal
+  rate_in: [BigDecimal!]
+  rate_not_in: [BigDecimal!]
+  lastCached: Int
+  lastCached_not: Int
+  lastCached_gt: Int
+  lastCached_lt: Int
+  lastCached_gte: Int
+  lastCached_lte: Int
+  lastCached_in: [Int!]
+  lastCached_not_in: [Int!]
+  cacheDuration: Int
+  cacheDuration_not: Int
+  cacheDuration_gt: Int
+  cacheDuration_lt: Int
+  cacheDuration_gte: Int
+  cacheDuration_lte: Int
+  cacheDuration_in: [Int!]
+  cacheDuration_not_in: [Int!]
+  cacheExpiry: Int
+  cacheExpiry_not: Int
+  cacheExpiry_gt: Int
+  cacheExpiry_lt: Int
+  cacheExpiry_gte: Int
+  cacheExpiry_lte: Int
+  cacheExpiry_in: [Int!]
+  cacheExpiry_not_in: [Int!]
+}
+
+enum PriceRateProvider_orderBy {
+  id
+  poolId
+  token
+  address
+  rate
+  lastCached
+  cacheDuration
+  cacheExpiry
 }
 
 type Query {
@@ -792,6 +1648,46 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [PoolToken!]!
+  priceRateProvider(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PriceRateProvider
+  priceRateProviders(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PriceRateProvider_orderBy
+    orderDirection: OrderDirection
+    where: PriceRateProvider_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PriceRateProvider!]!
   poolShare(
     id: ID!
 
@@ -872,6 +1768,126 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [User!]!
+  userInternalBalance(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): UserInternalBalance
+  userInternalBalances(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UserInternalBalance_orderBy
+    orderDirection: OrderDirection
+    where: UserInternalBalance_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [UserInternalBalance!]!
+  gradualWeightUpdate(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): GradualWeightUpdate
+  gradualWeightUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: GradualWeightUpdate_orderBy
+    orderDirection: OrderDirection
+    where: GradualWeightUpdate_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [GradualWeightUpdate!]!
+  ampUpdate(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AmpUpdate
+  ampUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AmpUpdate_orderBy
+    orderDirection: OrderDirection
+    where: AmpUpdate_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AmpUpdate!]!
   swap(
     id: ID!
 
@@ -912,7 +1928,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [Swap!]!
-  transaction(
+  joinExit(
     id: ID!
 
     """
@@ -929,13 +1945,13 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Transaction
-  transactions(
+  ): JoinExit
+  joinExits(
     skip: Int = 0
     first: Int = 100
-    orderBy: Transaction_orderBy
+    orderBy: JoinExit_orderBy
     orderDirection: OrderDirection
-    where: Transaction_filter
+    where: JoinExit_filter
 
     """
     The block at which the query should be executed. Can either be a `{ hash:
@@ -951,7 +1967,87 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [Transaction!]!
+  ): [JoinExit!]!
+  latestPrice(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): LatestPrice
+  latestPrices(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: LatestPrice_orderBy
+    orderDirection: OrderDirection
+    where: LatestPrice_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [LatestPrice!]!
+  poolHistoricalLiquidity(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PoolHistoricalLiquidity
+  poolHistoricalLiquidities(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PoolHistoricalLiquidity_orderBy
+    orderDirection: OrderDirection
+    where: PoolHistoricalLiquidity_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PoolHistoricalLiquidity!]!
   tokenPrice(
     id: ID!
 
@@ -992,6 +2088,286 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [TokenPrice!]!
+  investment(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Investment
+  investments(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Investment_orderBy
+    orderDirection: OrderDirection
+    where: Investment_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Investment!]!
+  poolSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PoolSnapshot
+  poolSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PoolSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: PoolSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PoolSnapshot!]!
+  token(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Token
+  tokens(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Token_orderBy
+    orderDirection: OrderDirection
+    where: Token_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Token!]!
+  tokenSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TokenSnapshot
+  tokenSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TokenSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: TokenSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TokenSnapshot!]!
+  tradePair(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TradePair
+  tradePairs(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TradePair_orderBy
+    orderDirection: OrderDirection
+    where: TradePair_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TradePair!]!
+  tradePairSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TradePairSnapshot
+  tradePairSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TradePairSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: TradePairSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TradePairSnapshot!]!
+  balancerSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BalancerSnapshot
+  balancerSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: BalancerSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: BalancerSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [BalancerSnapshot!]!
 
   """
   Access to subgraph metadata
@@ -1120,6 +2496,46 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [PoolToken!]!
+  priceRateProvider(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PriceRateProvider
+  priceRateProviders(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PriceRateProvider_orderBy
+    orderDirection: OrderDirection
+    where: PriceRateProvider_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PriceRateProvider!]!
   poolShare(
     id: ID!
 
@@ -1200,6 +2616,126 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [User!]!
+  userInternalBalance(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): UserInternalBalance
+  userInternalBalances(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UserInternalBalance_orderBy
+    orderDirection: OrderDirection
+    where: UserInternalBalance_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [UserInternalBalance!]!
+  gradualWeightUpdate(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): GradualWeightUpdate
+  gradualWeightUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: GradualWeightUpdate_orderBy
+    orderDirection: OrderDirection
+    where: GradualWeightUpdate_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [GradualWeightUpdate!]!
+  ampUpdate(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AmpUpdate
+  ampUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AmpUpdate_orderBy
+    orderDirection: OrderDirection
+    where: AmpUpdate_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AmpUpdate!]!
   swap(
     id: ID!
 
@@ -1240,7 +2776,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [Swap!]!
-  transaction(
+  joinExit(
     id: ID!
 
     """
@@ -1257,13 +2793,13 @@ type Subscription {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Transaction
-  transactions(
+  ): JoinExit
+  joinExits(
     skip: Int = 0
     first: Int = 100
-    orderBy: Transaction_orderBy
+    orderBy: JoinExit_orderBy
     orderDirection: OrderDirection
-    where: Transaction_filter
+    where: JoinExit_filter
 
     """
     The block at which the query should be executed. Can either be a `{ hash:
@@ -1279,7 +2815,87 @@ type Subscription {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [Transaction!]!
+  ): [JoinExit!]!
+  latestPrice(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): LatestPrice
+  latestPrices(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: LatestPrice_orderBy
+    orderDirection: OrderDirection
+    where: LatestPrice_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [LatestPrice!]!
+  poolHistoricalLiquidity(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PoolHistoricalLiquidity
+  poolHistoricalLiquidities(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PoolHistoricalLiquidity_orderBy
+    orderDirection: OrderDirection
+    where: PoolHistoricalLiquidity_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PoolHistoricalLiquidity!]!
   tokenPrice(
     id: ID!
 
@@ -1320,6 +2936,286 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [TokenPrice!]!
+  investment(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Investment
+  investments(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Investment_orderBy
+    orderDirection: OrderDirection
+    where: Investment_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Investment!]!
+  poolSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PoolSnapshot
+  poolSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PoolSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: PoolSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PoolSnapshot!]!
+  token(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Token
+  tokens(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Token_orderBy
+    orderDirection: OrderDirection
+    where: Token_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Token!]!
+  tokenSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TokenSnapshot
+  tokenSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TokenSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: TokenSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TokenSnapshot!]!
+  tradePair(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TradePair
+  tradePairs(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TradePair_orderBy
+    orderDirection: OrderDirection
+    where: TradePair_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TradePair!]!
+  tradePairSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TradePairSnapshot
+  tradePairSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TradePairSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: TradePairSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TradePairSnapshot!]!
+  balancerSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BalancerSnapshot
+  balancerSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: BalancerSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: BalancerSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [BalancerSnapshot!]!
 
   """
   Access to subgraph metadata
@@ -1336,14 +3232,10 @@ type Swap {
   tokenOutSym: String!
   tokenAmountIn: BigDecimal!
   tokenAmountOut: BigDecimal!
-  poolAddress: Pool
-  userAddress: User
-  value: BigDecimal!
-  feeValue: BigDecimal!
-  poolTotalSwapVolume: BigDecimal!
-  poolTotalSwapFee: BigDecimal!
-  poolLiquidity: BigDecimal!
+  poolId: Pool!
+  userAddress: User!
   timestamp: Int!
+  tx: Bytes!
 }
 
 input Swap_filter {
@@ -1417,20 +3309,20 @@ input Swap_filter {
   tokenAmountOut_lte: BigDecimal
   tokenAmountOut_in: [BigDecimal!]
   tokenAmountOut_not_in: [BigDecimal!]
-  poolAddress: String
-  poolAddress_not: String
-  poolAddress_gt: String
-  poolAddress_lt: String
-  poolAddress_gte: String
-  poolAddress_lte: String
-  poolAddress_in: [String!]
-  poolAddress_not_in: [String!]
-  poolAddress_contains: String
-  poolAddress_not_contains: String
-  poolAddress_starts_with: String
-  poolAddress_not_starts_with: String
-  poolAddress_ends_with: String
-  poolAddress_not_ends_with: String
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
   userAddress: String
   userAddress_not: String
   userAddress_gt: String
@@ -1445,46 +3337,6 @@ input Swap_filter {
   userAddress_not_starts_with: String
   userAddress_ends_with: String
   userAddress_not_ends_with: String
-  value: BigDecimal
-  value_not: BigDecimal
-  value_gt: BigDecimal
-  value_lt: BigDecimal
-  value_gte: BigDecimal
-  value_lte: BigDecimal
-  value_in: [BigDecimal!]
-  value_not_in: [BigDecimal!]
-  feeValue: BigDecimal
-  feeValue_not: BigDecimal
-  feeValue_gt: BigDecimal
-  feeValue_lt: BigDecimal
-  feeValue_gte: BigDecimal
-  feeValue_lte: BigDecimal
-  feeValue_in: [BigDecimal!]
-  feeValue_not_in: [BigDecimal!]
-  poolTotalSwapVolume: BigDecimal
-  poolTotalSwapVolume_not: BigDecimal
-  poolTotalSwapVolume_gt: BigDecimal
-  poolTotalSwapVolume_lt: BigDecimal
-  poolTotalSwapVolume_gte: BigDecimal
-  poolTotalSwapVolume_lte: BigDecimal
-  poolTotalSwapVolume_in: [BigDecimal!]
-  poolTotalSwapVolume_not_in: [BigDecimal!]
-  poolTotalSwapFee: BigDecimal
-  poolTotalSwapFee_not: BigDecimal
-  poolTotalSwapFee_gt: BigDecimal
-  poolTotalSwapFee_lt: BigDecimal
-  poolTotalSwapFee_gte: BigDecimal
-  poolTotalSwapFee_lte: BigDecimal
-  poolTotalSwapFee_in: [BigDecimal!]
-  poolTotalSwapFee_not_in: [BigDecimal!]
-  poolLiquidity: BigDecimal
-  poolLiquidity_not: BigDecimal
-  poolLiquidity_gt: BigDecimal
-  poolLiquidity_lt: BigDecimal
-  poolLiquidity_gte: BigDecimal
-  poolLiquidity_lte: BigDecimal
-  poolLiquidity_in: [BigDecimal!]
-  poolLiquidity_not_in: [BigDecimal!]
   timestamp: Int
   timestamp_not: Int
   timestamp_gt: Int
@@ -1493,6 +3345,12 @@ input Swap_filter {
   timestamp_lte: Int
   timestamp_in: [Int!]
   timestamp_not_in: [Int!]
+  tx: Bytes
+  tx_not: Bytes
+  tx_in: [Bytes!]
+  tx_not_in: [Bytes!]
+  tx_contains: Bytes
+  tx_not_contains: Bytes
 }
 
 enum Swap_orderBy {
@@ -1504,36 +3362,27 @@ enum Swap_orderBy {
   tokenOutSym
   tokenAmountIn
   tokenAmountOut
-  poolAddress
+  poolId
   userAddress
-  value
-  feeValue
-  poolTotalSwapVolume
-  poolTotalSwapFee
-  poolLiquidity
   timestamp
+  tx
 }
 
-enum SwapType {
-  swapExactAmountIn
-  swapExactAmountOut
-  joinswapExternAmountIn
-  joinswapPoolAmountOut
-  exitswapPoolAmountIn
-  exitswapExternAmountOut
-}
-
-type TokenPrice {
+type Token {
   id: ID!
   symbol: String
   name: String
   decimals: Int!
-  price: BigDecimal!
-  poolLiquidity: BigDecimal!
-  poolTokenId: String
+  address: String!
+  totalBalanceUSD: BigDecimal!
+  totalBalanceNotional: BigDecimal!
+  totalVolumeUSD: BigDecimal!
+  totalVolumeNotional: BigDecimal!
+  totalSwapCount: BigInt!
+  latestPrice: LatestPrice
 }
 
-input TokenPrice_filter {
+input Token_filter {
   id: ID
   id_not: ID
   id_gt: ID
@@ -1578,63 +3427,102 @@ input TokenPrice_filter {
   decimals_lte: Int
   decimals_in: [Int!]
   decimals_not_in: [Int!]
-  price: BigDecimal
-  price_not: BigDecimal
-  price_gt: BigDecimal
-  price_lt: BigDecimal
-  price_gte: BigDecimal
-  price_lte: BigDecimal
-  price_in: [BigDecimal!]
-  price_not_in: [BigDecimal!]
-  poolLiquidity: BigDecimal
-  poolLiquidity_not: BigDecimal
-  poolLiquidity_gt: BigDecimal
-  poolLiquidity_lt: BigDecimal
-  poolLiquidity_gte: BigDecimal
-  poolLiquidity_lte: BigDecimal
-  poolLiquidity_in: [BigDecimal!]
-  poolLiquidity_not_in: [BigDecimal!]
-  poolTokenId: String
-  poolTokenId_not: String
-  poolTokenId_gt: String
-  poolTokenId_lt: String
-  poolTokenId_gte: String
-  poolTokenId_lte: String
-  poolTokenId_in: [String!]
-  poolTokenId_not_in: [String!]
-  poolTokenId_contains: String
-  poolTokenId_not_contains: String
-  poolTokenId_starts_with: String
-  poolTokenId_not_starts_with: String
-  poolTokenId_ends_with: String
-  poolTokenId_not_ends_with: String
+  address: String
+  address_not: String
+  address_gt: String
+  address_lt: String
+  address_gte: String
+  address_lte: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  totalBalanceUSD: BigDecimal
+  totalBalanceUSD_not: BigDecimal
+  totalBalanceUSD_gt: BigDecimal
+  totalBalanceUSD_lt: BigDecimal
+  totalBalanceUSD_gte: BigDecimal
+  totalBalanceUSD_lte: BigDecimal
+  totalBalanceUSD_in: [BigDecimal!]
+  totalBalanceUSD_not_in: [BigDecimal!]
+  totalBalanceNotional: BigDecimal
+  totalBalanceNotional_not: BigDecimal
+  totalBalanceNotional_gt: BigDecimal
+  totalBalanceNotional_lt: BigDecimal
+  totalBalanceNotional_gte: BigDecimal
+  totalBalanceNotional_lte: BigDecimal
+  totalBalanceNotional_in: [BigDecimal!]
+  totalBalanceNotional_not_in: [BigDecimal!]
+  totalVolumeUSD: BigDecimal
+  totalVolumeUSD_not: BigDecimal
+  totalVolumeUSD_gt: BigDecimal
+  totalVolumeUSD_lt: BigDecimal
+  totalVolumeUSD_gte: BigDecimal
+  totalVolumeUSD_lte: BigDecimal
+  totalVolumeUSD_in: [BigDecimal!]
+  totalVolumeUSD_not_in: [BigDecimal!]
+  totalVolumeNotional: BigDecimal
+  totalVolumeNotional_not: BigDecimal
+  totalVolumeNotional_gt: BigDecimal
+  totalVolumeNotional_lt: BigDecimal
+  totalVolumeNotional_gte: BigDecimal
+  totalVolumeNotional_lte: BigDecimal
+  totalVolumeNotional_in: [BigDecimal!]
+  totalVolumeNotional_not_in: [BigDecimal!]
+  totalSwapCount: BigInt
+  totalSwapCount_not: BigInt
+  totalSwapCount_gt: BigInt
+  totalSwapCount_lt: BigInt
+  totalSwapCount_gte: BigInt
+  totalSwapCount_lte: BigInt
+  totalSwapCount_in: [BigInt!]
+  totalSwapCount_not_in: [BigInt!]
+  latestPrice: String
+  latestPrice_not: String
+  latestPrice_gt: String
+  latestPrice_lt: String
+  latestPrice_gte: String
+  latestPrice_lte: String
+  latestPrice_in: [String!]
+  latestPrice_not_in: [String!]
+  latestPrice_contains: String
+  latestPrice_not_contains: String
+  latestPrice_starts_with: String
+  latestPrice_not_starts_with: String
+  latestPrice_ends_with: String
+  latestPrice_not_ends_with: String
 }
 
-enum TokenPrice_orderBy {
+enum Token_orderBy {
   id
   symbol
   name
   decimals
-  price
-  poolLiquidity
-  poolTokenId
+  address
+  totalBalanceUSD
+  totalBalanceNotional
+  totalVolumeUSD
+  totalVolumeNotional
+  totalSwapCount
+  latestPrice
 }
 
-type Transaction {
+type TokenPrice {
   id: ID!
-  tx: Bytes!
-  event: String
-  block: Int!
+  poolId: Pool!
+  asset: Bytes!
+  amount: BigDecimal!
+  pricingAsset: Bytes!
+  price: BigDecimal!
+  block: BigInt!
   timestamp: Int!
-  gasUsed: BigDecimal!
-  gasPrice: BigDecimal!
-  poolAddress: Pool
-  userAddress: User
-  action: SwapType
-  sender: Bytes
 }
 
-input Transaction_filter {
+input TokenPrice_filter {
   id: ID
   id_not: ID
   id_gt: ID
@@ -1643,34 +3531,56 @@ input Transaction_filter {
   id_lte: ID
   id_in: [ID!]
   id_not_in: [ID!]
-  tx: Bytes
-  tx_not: Bytes
-  tx_in: [Bytes!]
-  tx_not_in: [Bytes!]
-  tx_contains: Bytes
-  tx_not_contains: Bytes
-  event: String
-  event_not: String
-  event_gt: String
-  event_lt: String
-  event_gte: String
-  event_lte: String
-  event_in: [String!]
-  event_not_in: [String!]
-  event_contains: String
-  event_not_contains: String
-  event_starts_with: String
-  event_not_starts_with: String
-  event_ends_with: String
-  event_not_ends_with: String
-  block: Int
-  block_not: Int
-  block_gt: Int
-  block_lt: Int
-  block_gte: Int
-  block_lte: Int
-  block_in: [Int!]
-  block_not_in: [Int!]
+  poolId: String
+  poolId_not: String
+  poolId_gt: String
+  poolId_lt: String
+  poolId_gte: String
+  poolId_lte: String
+  poolId_in: [String!]
+  poolId_not_in: [String!]
+  poolId_contains: String
+  poolId_not_contains: String
+  poolId_starts_with: String
+  poolId_not_starts_with: String
+  poolId_ends_with: String
+  poolId_not_ends_with: String
+  asset: Bytes
+  asset_not: Bytes
+  asset_in: [Bytes!]
+  asset_not_in: [Bytes!]
+  asset_contains: Bytes
+  asset_not_contains: Bytes
+  amount: BigDecimal
+  amount_not: BigDecimal
+  amount_gt: BigDecimal
+  amount_lt: BigDecimal
+  amount_gte: BigDecimal
+  amount_lte: BigDecimal
+  amount_in: [BigDecimal!]
+  amount_not_in: [BigDecimal!]
+  pricingAsset: Bytes
+  pricingAsset_not: Bytes
+  pricingAsset_in: [Bytes!]
+  pricingAsset_not_in: [Bytes!]
+  pricingAsset_contains: Bytes
+  pricingAsset_not_contains: Bytes
+  price: BigDecimal
+  price_not: BigDecimal
+  price_gt: BigDecimal
+  price_lt: BigDecimal
+  price_gte: BigDecimal
+  price_lte: BigDecimal
+  price_in: [BigDecimal!]
+  price_not_in: [BigDecimal!]
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
   timestamp: Int
   timestamp_not: Int
   timestamp_gt: Int
@@ -1679,74 +3589,251 @@ input Transaction_filter {
   timestamp_lte: Int
   timestamp_in: [Int!]
   timestamp_not_in: [Int!]
-  gasUsed: BigDecimal
-  gasUsed_not: BigDecimal
-  gasUsed_gt: BigDecimal
-  gasUsed_lt: BigDecimal
-  gasUsed_gte: BigDecimal
-  gasUsed_lte: BigDecimal
-  gasUsed_in: [BigDecimal!]
-  gasUsed_not_in: [BigDecimal!]
-  gasPrice: BigDecimal
-  gasPrice_not: BigDecimal
-  gasPrice_gt: BigDecimal
-  gasPrice_lt: BigDecimal
-  gasPrice_gte: BigDecimal
-  gasPrice_lte: BigDecimal
-  gasPrice_in: [BigDecimal!]
-  gasPrice_not_in: [BigDecimal!]
-  poolAddress: String
-  poolAddress_not: String
-  poolAddress_gt: String
-  poolAddress_lt: String
-  poolAddress_gte: String
-  poolAddress_lte: String
-  poolAddress_in: [String!]
-  poolAddress_not_in: [String!]
-  poolAddress_contains: String
-  poolAddress_not_contains: String
-  poolAddress_starts_with: String
-  poolAddress_not_starts_with: String
-  poolAddress_ends_with: String
-  poolAddress_not_ends_with: String
-  userAddress: String
-  userAddress_not: String
-  userAddress_gt: String
-  userAddress_lt: String
-  userAddress_gte: String
-  userAddress_lte: String
-  userAddress_in: [String!]
-  userAddress_not_in: [String!]
-  userAddress_contains: String
-  userAddress_not_contains: String
-  userAddress_starts_with: String
-  userAddress_not_starts_with: String
-  userAddress_ends_with: String
-  userAddress_not_ends_with: String
-  action: SwapType
-  action_not: SwapType
-  action_in: [SwapType!]
-  action_not_in: [SwapType!]
-  sender: Bytes
-  sender_not: Bytes
-  sender_in: [Bytes!]
-  sender_not_in: [Bytes!]
-  sender_contains: Bytes
-  sender_not_contains: Bytes
 }
 
-enum Transaction_orderBy {
+enum TokenPrice_orderBy {
   id
-  tx
-  event
+  poolId
+  asset
+  amount
+  pricingAsset
+  price
   block
   timestamp
-  gasUsed
-  gasPrice
-  poolAddress
-  userAddress
-  action
-  sender
+}
+
+type TokenSnapshot {
+  id: ID!
+  token: Token!
+  timestamp: Int!
+  totalBalanceUSD: BigDecimal!
+  totalBalanceNotional: BigDecimal!
+  totalVolumeUSD: BigDecimal!
+  totalVolumeNotional: BigDecimal!
+  totalSwapCount: BigInt!
+}
+
+input TokenSnapshot_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  token: String
+  token_not: String
+  token_gt: String
+  token_lt: String
+  token_gte: String
+  token_lte: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
+  timestamp: Int
+  timestamp_not: Int
+  timestamp_gt: Int
+  timestamp_lt: Int
+  timestamp_gte: Int
+  timestamp_lte: Int
+  timestamp_in: [Int!]
+  timestamp_not_in: [Int!]
+  totalBalanceUSD: BigDecimal
+  totalBalanceUSD_not: BigDecimal
+  totalBalanceUSD_gt: BigDecimal
+  totalBalanceUSD_lt: BigDecimal
+  totalBalanceUSD_gte: BigDecimal
+  totalBalanceUSD_lte: BigDecimal
+  totalBalanceUSD_in: [BigDecimal!]
+  totalBalanceUSD_not_in: [BigDecimal!]
+  totalBalanceNotional: BigDecimal
+  totalBalanceNotional_not: BigDecimal
+  totalBalanceNotional_gt: BigDecimal
+  totalBalanceNotional_lt: BigDecimal
+  totalBalanceNotional_gte: BigDecimal
+  totalBalanceNotional_lte: BigDecimal
+  totalBalanceNotional_in: [BigDecimal!]
+  totalBalanceNotional_not_in: [BigDecimal!]
+  totalVolumeUSD: BigDecimal
+  totalVolumeUSD_not: BigDecimal
+  totalVolumeUSD_gt: BigDecimal
+  totalVolumeUSD_lt: BigDecimal
+  totalVolumeUSD_gte: BigDecimal
+  totalVolumeUSD_lte: BigDecimal
+  totalVolumeUSD_in: [BigDecimal!]
+  totalVolumeUSD_not_in: [BigDecimal!]
+  totalVolumeNotional: BigDecimal
+  totalVolumeNotional_not: BigDecimal
+  totalVolumeNotional_gt: BigDecimal
+  totalVolumeNotional_lt: BigDecimal
+  totalVolumeNotional_gte: BigDecimal
+  totalVolumeNotional_lte: BigDecimal
+  totalVolumeNotional_in: [BigDecimal!]
+  totalVolumeNotional_not_in: [BigDecimal!]
+  totalSwapCount: BigInt
+  totalSwapCount_not: BigInt
+  totalSwapCount_gt: BigInt
+  totalSwapCount_lt: BigInt
+  totalSwapCount_gte: BigInt
+  totalSwapCount_lte: BigInt
+  totalSwapCount_in: [BigInt!]
+  totalSwapCount_not_in: [BigInt!]
+}
+
+enum TokenSnapshot_orderBy {
+  id
+  token
+  timestamp
+  totalBalanceUSD
+  totalBalanceNotional
+  totalVolumeUSD
+  totalVolumeNotional
+  totalSwapCount
+}
+
+type TradePair {
+  """
+  Token Address - Token Address
+  """
+  id: ID!
+  token0: Token!
+  token1: Token!
+  totalSwapVolume: BigDecimal!
+  totalSwapFee: BigDecimal!
+}
+
+input TradePair_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  token0: String
+  token0_not: String
+  token0_gt: String
+  token0_lt: String
+  token0_gte: String
+  token0_lte: String
+  token0_in: [String!]
+  token0_not_in: [String!]
+  token0_contains: String
+  token0_not_contains: String
+  token0_starts_with: String
+  token0_not_starts_with: String
+  token0_ends_with: String
+  token0_not_ends_with: String
+  token1: String
+  token1_not: String
+  token1_gt: String
+  token1_lt: String
+  token1_gte: String
+  token1_lte: String
+  token1_in: [String!]
+  token1_not_in: [String!]
+  token1_contains: String
+  token1_not_contains: String
+  token1_starts_with: String
+  token1_not_starts_with: String
+  token1_ends_with: String
+  token1_not_ends_with: String
+  totalSwapVolume: BigDecimal
+  totalSwapVolume_not: BigDecimal
+  totalSwapVolume_gt: BigDecimal
+  totalSwapVolume_lt: BigDecimal
+  totalSwapVolume_gte: BigDecimal
+  totalSwapVolume_lte: BigDecimal
+  totalSwapVolume_in: [BigDecimal!]
+  totalSwapVolume_not_in: [BigDecimal!]
+  totalSwapFee: BigDecimal
+  totalSwapFee_not: BigDecimal
+  totalSwapFee_gt: BigDecimal
+  totalSwapFee_lt: BigDecimal
+  totalSwapFee_gte: BigDecimal
+  totalSwapFee_lte: BigDecimal
+  totalSwapFee_in: [BigDecimal!]
+  totalSwapFee_not_in: [BigDecimal!]
+}
+
+enum TradePair_orderBy {
+  id
+  token0
+  token1
+  totalSwapVolume
+  totalSwapFee
+}
+
+type TradePairSnapshot {
+  id: ID!
+  pair: TradePair!
+  timestamp: Int!
+  totalSwapVolume: BigDecimal!
+  totalSwapFee: BigDecimal!
+}
+
+input TradePairSnapshot_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  pair: String
+  pair_not: String
+  pair_gt: String
+  pair_lt: String
+  pair_gte: String
+  pair_lte: String
+  pair_in: [String!]
+  pair_not_in: [String!]
+  pair_contains: String
+  pair_not_contains: String
+  pair_starts_with: String
+  pair_not_starts_with: String
+  pair_ends_with: String
+  pair_not_ends_with: String
+  timestamp: Int
+  timestamp_not: Int
+  timestamp_gt: Int
+  timestamp_lt: Int
+  timestamp_gte: Int
+  timestamp_lte: Int
+  timestamp_in: [Int!]
+  timestamp_not_in: [Int!]
+  totalSwapVolume: BigDecimal
+  totalSwapVolume_not: BigDecimal
+  totalSwapVolume_gt: BigDecimal
+  totalSwapVolume_lt: BigDecimal
+  totalSwapVolume_gte: BigDecimal
+  totalSwapVolume_lte: BigDecimal
+  totalSwapVolume_in: [BigDecimal!]
+  totalSwapVolume_not_in: [BigDecimal!]
+  totalSwapFee: BigDecimal
+  totalSwapFee_not: BigDecimal
+  totalSwapFee_gt: BigDecimal
+  totalSwapFee_lt: BigDecimal
+  totalSwapFee_gte: BigDecimal
+  totalSwapFee_lte: BigDecimal
+  totalSwapFee_in: [BigDecimal!]
+  totalSwapFee_not_in: [BigDecimal!]
+}
+
+enum TradePairSnapshot_orderBy {
+  id
+  pair
+  timestamp
+  totalSwapVolume
+  totalSwapFee
 }
 
 type User {
@@ -1758,13 +3845,6 @@ type User {
     orderDirection: OrderDirection
     where: PoolShare_filter
   ): [PoolShare!]
-  txs(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: Transaction_orderBy
-    orderDirection: OrderDirection
-    where: Transaction_filter
-  ): [Transaction!]
   swaps(
     skip: Int = 0
     first: Int = 100
@@ -1772,6 +3852,13 @@ type User {
     orderDirection: OrderDirection
     where: Swap_filter
   ): [Swap!]
+  userInternalBalances(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UserInternalBalance_orderBy
+    orderDirection: OrderDirection
+    where: UserInternalBalance_filter
+  ): [UserInternalBalance!]
 }
 
 input User_filter {
@@ -1788,6 +3875,59 @@ input User_filter {
 enum User_orderBy {
   id
   sharesOwned
-  txs
   swaps
+  userInternalBalances
+}
+
+type UserInternalBalance {
+  id: ID!
+  userAddress: User
+  token: Bytes!
+  balance: BigDecimal!
+}
+
+input UserInternalBalance_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  userAddress: String
+  userAddress_not: String
+  userAddress_gt: String
+  userAddress_lt: String
+  userAddress_gte: String
+  userAddress_lte: String
+  userAddress_in: [String!]
+  userAddress_not_in: [String!]
+  userAddress_contains: String
+  userAddress_not_contains: String
+  userAddress_starts_with: String
+  userAddress_not_starts_with: String
+  userAddress_ends_with: String
+  userAddress_not_ends_with: String
+  token: Bytes
+  token_not: Bytes
+  token_in: [Bytes!]
+  token_not_in: [Bytes!]
+  token_contains: Bytes
+  token_not_contains: Bytes
+  balance: BigDecimal
+  balance_not: BigDecimal
+  balance_gt: BigDecimal
+  balance_lt: BigDecimal
+  balance_gte: BigDecimal
+  balance_lte: BigDecimal
+  balance_in: [BigDecimal!]
+  balance_not_in: [BigDecimal!]
+}
+
+enum UserInternalBalance_orderBy {
+  id
+  userAddress
+  token
+  balance
 }

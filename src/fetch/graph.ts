@@ -4,7 +4,7 @@ import { GraphQLClient } from 'graphql-request'
 
 import { getSdk, PoolQuery, Sdk } from './graphql/balancer/balancer_lp'
 import { BAL, GENESIS_CUTOFF_BLOCK_NUMBERS } from '../constants'
-import { Network } from '../types'
+import { Data, Network } from '../types'
 
 const fetchPoolIds = async (sdk: Sdk, network: Network) => {
   const bar = new cliProgress.SingleBar(
@@ -43,7 +43,6 @@ const exhaustPoolQuery = async (
       async () => {
         const query_ = await sdk.Pool({
           blockNumber: GENESIS_CUTOFF_BLOCK_NUMBERS[network],
-          bal: BAL[network],
           poolId,
           sharesSkip: skip,
           sharesLimit: limit,
@@ -73,10 +72,11 @@ const exhaustPoolQuery = async (
 
   await runQuery()
 
-  const { id, tokens } = poolData[0]
+  const { id, tokens, totalShares } = poolData[0]
   return {
     id,
     tokens,
+    totalShares,
     shares: poolData.reduce((prev, pool) => prev.concat(pool.shares), []),
   }
 }
@@ -131,7 +131,8 @@ const fetchBalancerPoolsData = async () => {
   return results
 }
 
-export const fetchGraphData = async () => {
-  const pools = await fetchBalancerPoolsData()
+export const fetchGraphData = async (): Promise<Data['graph']> => {
+  const pools =
+    (await fetchBalancerPoolsData()) as Data['graph']['balancer']['pools']
   return { balancer: { pools } }
 }

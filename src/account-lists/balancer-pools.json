@@ -301,6 +301,7 @@
     "0x2e46d8d54b606ebe1e8f653a265ef8b1638e64cb": "Balancer: Pool 5097",
     "0x6cf9d531cd62428665195742438e06de990ebdcd": "Balancer: Pool 510",
     "0xfd18f126eabfe70d3c30912986fb5bdb95a02c6c": "Balancer: Pool 5114",
-    "0x4fd974aee9c45a043d3e10efc3caa7de9ddfb0b3": "Balancer: Pool 512"
+    "0x4fd974aee9c45a043d3e10efc3caa7de9ddfb0b3": "Balancer: Pool 512",
+    "0xcd1ac0014e2ebd972f40f24df1694e6f528b2fd4": "BalancerPCVDepositWeightedPool"
   }
 }

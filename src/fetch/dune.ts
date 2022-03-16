@@ -6,14 +6,14 @@ import path from 'path'
 import cliProgress, { SingleBar } from 'cli-progress'
 
 import { Data } from '../types'
-import { GENESIS_CUTOFF_BLOCK_NUMBERS } from '../constants'
+import { BAL, GENESIS_CUTOFF_BLOCK_NUMBERS } from '../constants'
 
 const BASE_URL = 'https://dune.xyz'
 const GRAPH_URL = 'https://core-hsr.duneanalytics.com/v1/graphql'
 
 interface DuneQueryParameter {
   key: string
-  type: 'number' | 'date' | 'string'
+  type: 'number' | 'date' | 'text'
   value: string
 }
 
@@ -192,6 +192,7 @@ class DuneConnection {
     queryId: number,
     query: string,
     queryName: string,
+    datasetId: number,
     parameters: DuneQueryParameter[],
   ) {
     const queryData = {
@@ -204,7 +205,7 @@ class DuneConnection {
         object: {
           id: queryId,
           schedule: null,
-          dataset_id: 4, // mainnet
+          dataset_id: datasetId,
           name: queryName,
           query: query,
           user_id: 84,
@@ -247,6 +248,7 @@ class DuneConnection {
     queryId: number,
     queryFilepath: string,
     queryName: string,
+    datasetId: number,
     parameters: DuneQueryParameter[],
     bar: SingleBar,
     pingFrequency: number = 5,
@@ -257,7 +259,13 @@ class DuneConnection {
     const query = await this.openQuery(queryFilepath)
 
     bar.update({ status: 'Initiating new query' })
-    await this.initiateNewQuery(queryId, query, queryName, parameters)
+    await this.initiateNewQuery(
+      queryId,
+      query,
+      queryName,
+      datasetId,
+      parameters,
+    )
 
     const result = await pRetry(
       async () => this.executeAndAwaitResults(queryId, pingFrequency),
@@ -279,6 +287,7 @@ class DuneConnection {
     queryId: number,
     queryFilepath: string,
     queryName: string,
+    datasetId: number,
     parameters: DuneQueryParameter[],
   ) {
     const bar = new cliProgress.SingleBar(
@@ -290,6 +299,7 @@ class DuneConnection {
       queryId,
       queryFilepath,
       queryName,
+      datasetId,
       parameters,
       bar,
     )
@@ -309,6 +319,7 @@ const QUERIES: Record<
     parameters: DuneQueryParameter[]
     queryFilepath: string
     queryId: number
+    datasetId: number
   }
 > = {
   vlCVX: {
@@ -316,13 +327,59 @@ const QUERIES: Record<
     queryName: 'vlCVX holders',
     parameters: [BLOCK_NUMBER],
     queryId: 463336,
+    datasetId: 4,
   },
-  BAL: {
-    queryFilepath: 'mainnet_bal_holders.sql',
-    queryName: 'BAL holders (mainnet)',
-    parameters: [BLOCK_NUMBER],
+  balMainnet: {
+    queryFilepath: 'token_balances.sql',
+    queryName: 'BAL holders (Mainnet)',
+    parameters: [
+      BLOCK_NUMBER,
+      {
+        key: 'Address',
+        type: 'text',
+        value: BAL.mainnet,
+      },
+    ],
     queryId: 493891,
+    datasetId: 4,
   },
+  balPolygon: {
+    queryFilepath: 'token_balances.sql',
+    queryName: 'BAL holders (Polygon)',
+    parameters: [
+      {
+        key: 'BlockNumber',
+        type: 'number',
+        value: GENESIS_CUTOFF_BLOCK_NUMBERS.polygon.toString(),
+      },
+      {
+        key: 'Address',
+        type: 'text',
+        value: BAL.polygon,
+      },
+    ],
+    queryId: 511724,
+    datasetId: 7,
+  },
+  // Dune doesn't support Arbitrum yet :(
+  // balArbitrum: {
+  //   queryFilepath: 'token_balances.sql',
+  //   queryName: 'BAL holders (Arbitrum)',
+  //   parameters: [
+  //     {
+  //       key: 'BlockNumber',
+  //       type: 'number',
+  //       value: GENESIS_CUTOFF_BLOCK_NUMBERS.arbitrum.toString(),
+  //     },
+  //     {
+  //       key: 'Address',
+  //       type: 'text',
+  //       value: BAL.arbitrum,
+  //     },
+  //   ],
+  //   queryId: 493891,
+  //   datasetId: 4,
+  // },
 }
 
 export const fetchDuneData = async (): Promise<Data['dune']> => {
@@ -334,15 +391,16 @@ export const fetchDuneData = async (): Promise<Data['dune']> => {
 
   // Run all queries in sequence to avoid losing the Dune connection
   // Pretty dumb, all in memory – don't ask for too much
-  const results: Data['dune'] = { vlCVX: [], BAL: [] }
+  const results: Data['dune'] = { vlCVX: [], balMainnet: [], balPolygon: [] }
   for (const [
     key,
-    { queryId, queryFilepath, queryName, parameters },
+    { queryId, queryFilepath, queryName, parameters, datasetId },
   ] of Object.entries(QUERIES)) {
     results[key] = await dune.fetch(
       queryId,
       queryFilepath,
       queryName,
+      datasetId,
       parameters,
     )
     await new Promise((resolve) => setTimeout(resolve, 1000))

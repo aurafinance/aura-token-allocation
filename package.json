@@ -30,12 +30,15 @@
     "d3-scale": "^4.0.2",
     "dotenv": "^16.0.0",
     "ethers": "^5.6.0",
+    "gini": "^1.1.7",
     "graphql": "^16.3.0",
     "graphql-request": "^4.1.0",
+    "hsl-to-rgb-for-reals": "^1.1.1",
     "immutable": "^4.0.0",
     "merkletreejs": "^0.2.31",
     "p-retry": "^5.0.0",
-    "superagent": "^7.1.1"
+    "superagent": "^7.1.1",
+    "ts-pipe-compose": "^0.2.1"
   },
   "devDependencies": {
     "prettier": "^2.5.1",

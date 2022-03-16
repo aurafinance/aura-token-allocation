@@ -2573,6 +2573,11 @@ get-stream@^5.1.0:
   dependencies:
     pump "^3.0.0"
 
+gini@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/gini/-/gini-1.1.7.tgz#4a8ed2449ef8b0bc4227ab55f17a5cef803646bb"
+  integrity sha1-So7SRJ74sLxCJ6tV8Xpc74A2Rrs=
+
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -2746,6 +2751,11 @@ hmac-drbg@^1.0.1:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
+
+hsl-to-rgb-for-reals@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/hsl-to-rgb-for-reals/-/hsl-to-rgb-for-reals-1.1.1.tgz#e1eb23f6b78016e3722431df68197e6dcdc016d9"
+  integrity sha512-LgOWAkrN0rFaQpfdWBQlv/VhkOxb5AsBjk6NQVx4yEzWS923T07X0M1Y0VNko2H52HeSpZrZNNMJ0aFqsdVzQg==
 
 http-cache-semantics@^4.0.0:
   version "4.1.0"
@@ -4312,6 +4322,11 @@ ts-node@^9:
     make-error "^1.1.1"
     source-map-support "^0.5.17"
     yn "3.1.1"
+
+ts-pipe-compose@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ts-pipe-compose/-/ts-pipe-compose-0.2.1.tgz#6b43cd9adfa7e61945d47070968ed3ab91bee7fe"
+  integrity sha512-gf6ZldcfCDyNXPRiW3lQjEP1Z9rrUM/4Cn7BZbv3SdTA82zxWRP8OmLwvGR974uuENhGCFgFdN11z3n1Ofpprg==
 
 tslib@^1.9.0:
   version "1.14.1"

@@ -20,10 +20,10 @@ export const exactToSimple = (bd: BigNumber): number =>
 
 export const getFieldTotal = <T extends object>(
   iter: Collection.Keyed<string, Record<T>>,
-  field: keyof T,
+  keyPath: string[],
 ): BigNumber =>
   iter.reduce(
-    (prev, record) => prev.add(record.get(field) as unknown as BigNumber),
+    (prev, record) => prev.add(record.getIn(keyPath) as unknown as BigNumber),
     ZERO,
   )
 

@@ -12,7 +12,7 @@ export const createGenesisDrop = (
   data: Data,
   spec: GenesisSpec,
 ): MerkleDrop => {
-  const { allocations, accounts, dustAccounts } = getAllocations(data, spec)
+  const { allocations, accounts } = getAllocations(data, spec)
 
   const merkleTree = createMerkleTree(allocations)
 
@@ -27,7 +27,6 @@ export const createGenesisDrop = (
     spec,
     merkleTree,
     accounts,
-    dustAccounts,
     allocations,
     totalAllocation,
     totalDust,

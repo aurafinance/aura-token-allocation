@@ -36,7 +36,9 @@ export interface VeBalSpec extends MerkleDropSpec {
 export interface Data {
   dune: {
     vlCVX: { account: string; amount: number }[]
-    BAL: { account: string; amount: number }[]
+    balMainnet: { account: string; amount: number }[]
+    balPolygon: { account: string; amount: number }[]
+    // balArbitrum: { account: string; amount: number }[]
   }
   snapshot: { votes: { voter: string; vp: number; choice: 1 | 0 }[] }
   graph: {
@@ -60,7 +62,6 @@ export interface MerkleDrop {
   totalAllocation: BigNumber
   merkleTree: MerkleTree
   totalDust: BigNumber
-  dustAccounts: Accounts
 }
 
 export interface MerkleDrops {

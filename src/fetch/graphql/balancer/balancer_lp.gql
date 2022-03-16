@@ -1,6 +1,6 @@
 query PoolIDs($blockNumber: Int!, $bal: Bytes!) {
   pools(
-    where: { tokensList_contains: [$bal] }
+    where: { tokensList_contains: [$bal], totalLiquidity_gt: 10000 }
     block: { number: $blockNumber }
   ) {
     id
@@ -9,21 +9,19 @@ query PoolIDs($blockNumber: Int!, $bal: Bytes!) {
 
 query Pool(
   $blockNumber: Int!
-  $bal: Bytes!
   $poolId: ID!
   $sharesSkip: Int!
   $sharesLimit: Int!
 ) {
-  pools(
-    where: { id: $poolId, tokensList_contains: [$bal] }
-    block: { number: $blockNumber }
-  ) {
+  pools(where: { id: $poolId }, block: { number: $blockNumber }) {
     id
+    totalShares
     shares(
       first: $sharesLimit
       skip: $sharesSkip
       orderDirection: desc
       orderBy: balance
+      where: { balance_gt: 0 }
     ) {
       userAddress {
         id

@@ -3,34 +3,40 @@ import { Record, RecordOf } from 'immutable'
 
 import { ZERO } from './constants'
 
-export interface AllocationAmounts {
-  vlCVX: BigNumber
-  BAL: BigNumber
-  veBAL?: BigNumber
-}
-
 export enum SnapshotVote {
   Yes,
   No,
   DidNotVote,
 }
 
-export interface AccountProps {
-  address: string
+export interface AllocationProps {
   vlCVX: BigNumber
   BAL: BigNumber
-  allocation: BigNumber
-  vote: SnapshotVote
   votingPower: BigNumber
+  total: BigNumber
+}
+
+export interface AccountProps {
+  address: string
+  vote: SnapshotVote
+  rawBalances: AllocationRecord
+  rescaledAllocation: AllocationRecord
 }
 
 export type AccountRecord = RecordOf<AccountProps>
 
-export const Account = Record<AccountProps>({
-  address: constants.AddressZero,
+export type AllocationRecord = RecordOf<AllocationProps>
+
+export const Allocation = Record<AllocationProps>({
+  total: ZERO,
   vlCVX: ZERO,
   BAL: ZERO,
-  allocation: ZERO,
-  vote: SnapshotVote.DidNotVote,
   votingPower: ZERO,
+})
+
+export const Account = Record<AccountProps>({
+  address: constants.AddressZero,
+  vote: SnapshotVote.DidNotVote,
+  rawBalances: Allocation(),
+  rescaledAllocation: Allocation(),
 })

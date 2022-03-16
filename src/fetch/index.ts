@@ -2,6 +2,7 @@ import { readCache, writeCache } from './cache'
 import { fetchDuneData } from './dune'
 import { fetchSnapshotData } from './snapshot'
 import { fetchGraphData } from './graph'
+import { Data } from '../types'
 
 export const fetchData = async ({ cache }: { cache?: boolean }) => {
   if (cache) {
@@ -11,9 +12,8 @@ export const fetchData = async ({ cache }: { cache?: boolean }) => {
 
   const dune = await fetchDuneData()
   const snapshot = await fetchSnapshotData()
-
   const graph = await fetchGraphData()
-  const data = { dune, snapshot, graph }
+  const data: Data = { dune, snapshot, graph }
 
   await writeCache(data)
 

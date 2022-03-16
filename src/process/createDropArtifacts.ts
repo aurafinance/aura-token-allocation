@@ -3,54 +3,113 @@ import fs from 'fs'
 import path from 'path'
 import { stringify } from 'csv-stringify'
 import cliProgress from 'cli-progress'
+import { Seq } from 'immutable'
 
 import { Accounts, MerkleDrop } from '../types'
-import { Account, SnapshotVote } from '../Account'
+import {
+  Account,
+  AccountProps,
+  AllocationProps,
+  SnapshotVote,
+} from '../Account'
+import { BigNumber } from 'ethers'
+
+const formatBN = (bn: BigNumber) => bn.toString()
+
+const formatAllocation = ({
+  total,
+  votingPower,
+  vlCVX,
+  BAL,
+}: AllocationProps) => {
+  return {
+    total: formatBN(total),
+    votingPower: formatBN(votingPower),
+    vlCVX: formatBN(vlCVX),
+    BAL: formatBN(BAL),
+  }
+}
+
+const formatAccount = ({
+  vote,
+  address,
+  rescaledAllocation,
+  rawBalances,
+}: Omit<AccountProps, 'rescaledAllocation' | 'rawBalances'> & {
+  rawBalances: AllocationProps
+  rescaledAllocation: AllocationProps
+}) => {
+  return {
+    address,
+    vote:
+      vote === SnapshotVote.No ? 'N' : vote === SnapshotVote.Yes ? 'Y' : '-',
+    rawBalances: formatAllocation(rawBalances),
+    rescaledAllocation: formatAllocation(rescaledAllocation),
+  }
+}
 
 const createAccountsArtifactsItem = async (
   dirPath: string,
   name: string,
   accounts: Accounts,
 ) => {
-  const formattedAccounts = accounts
-    .valueSeq()
-    .sort((a, b) => (a.get('allocation').gt(b.get('allocation')) ? -1 : 1))
-    .map((account) => {
-      const totalBAL = account.get('BAL')
-      const vote = account.get('vote')
-      const voteText =
-        vote === SnapshotVote.No ? 'N' : vote === SnapshotVote.Yes ? 'Y' : '-'
-      return {
-        address: account.get('address'),
-        allocation: account.get('allocation').toString(),
-        totalBAL: totalBAL.toString(),
-        vlCVX: account.get('vlCVX').toString(),
-        votingPower: account.get('votingPower').toString(),
-        vote: voteText,
-      }
-    })
+  const formattedAccounts: Seq.Indexed<ReturnType<typeof formatAccount>> =
+    accounts
+      .valueSeq()
+      .sort((a, b) =>
+        a
+          .get('rescaledAllocation')
+          .get('total')
+          .gt(b.get('rescaledAllocation').get('total'))
+          ? -1
+          : 1,
+      )
+      .map((record) => record.toJS())
+      .map(formatAccount)
 
   {
     const writeStream = fs.createWriteStream(path.join(dirPath, `${name}.csv`))
     stringify(
       formattedAccounts
-        .map(({ address, allocation, totalBAL, vlCVX, votingPower, vote }) => [
-          address,
-          allocation,
-          totalBAL,
-          vlCVX,
-          votingPower,
-          vote,
-        ])
+        .map(
+          ({
+            address,
+            rescaledAllocation: {
+              total: rescaledTotal,
+              BAL: rescaledBAL,
+              votingPower: rescaledVotingPower,
+              vlCVX: rescaledVlCVX,
+            },
+            rawBalances: {
+              BAL: rawBAL,
+              votingPower: rawVotingPower,
+              vlCVX: rawVlCVX,
+            },
+            vote,
+          }) => [
+            address,
+            rescaledTotal,
+            rawBAL,
+            rawVlCVX,
+            rawVotingPower,
+            rescaledBAL,
+            rescaledVlCVX,
+            rescaledVotingPower,
+            vote,
+          ],
+        )
         .toArray(),
       {
         header: true,
         columns: [
           'Account',
           'Allocation',
-          'Total BAL',
-          'Total vlCVX',
-          'Total voting power',
+          'BAL (raw)',
+          'vlCVX (raw)',
+          'Voting power (raw)',
+          'BAL (rescaled)',
+          'vlCVX (rescaled)',
+          'Voting power (rescaled)',
           'Vote',
         ],
       },
@@ -74,10 +133,9 @@ const createAccountsArtifactsItem = async (
 
 const createAccountsArtifacts = async (
   dirPath: string,
-  { accounts, dustAccounts }: MerkleDrop,
+  { accounts }: MerkleDrop,
 ) => {
   await createAccountsArtifactsItem(dirPath, 'accounts', accounts)
-  await createAccountsArtifactsItem(dirPath, 'dust-accounts', dustAccounts)
 }
 
 const createAllocationsArtifacts = async (
@@ -146,7 +204,6 @@ const createReportArtifact = async (
     allocations,
     totalAllocation,
     totalDust,
-    dustAccounts,
     accounts,
     spec,
     merkleTree,
@@ -156,7 +213,6 @@ const createReportArtifact = async (
     totalAllocation: formatUnits(totalAllocation),
     totalDust: formatUnits(totalDust),
     allocations: allocations.size,
-    dustAccounts: dustAccounts.size,
     accounts: accounts.size,
     id: spec.id,
     rootHash: merkleTree.getHexRoot(),
@@ -175,7 +231,7 @@ export const createDropArtifacts = async (merkleDrop: MerkleDrop) => {
     [
       createAccountsArtifacts,
       createAllocationsArtifacts,
-      // createMerkleProofArtifacts,
+      createMerkleProofArtifacts,
       createReportArtifact,
     ].map((fn) => fn(dirPath, merkleDrop)),
   )

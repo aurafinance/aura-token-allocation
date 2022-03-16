@@ -3127,35 +3127,36 @@ export type PoolIDsQuery = { __typename?: 'Query', pools: Array<{ __typename?: '
 
 export type PoolQueryVariables = Exact<{
   blockNumber: Scalars['Int'];
-  bal: Scalars['Bytes'];
   poolId: Scalars['ID'];
   sharesSkip: Scalars['Int'];
   sharesLimit: Scalars['Int'];
 }>;
 
 
-export type PoolQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'Pool', id: string, shares?: Array<{ __typename?: 'PoolShare', balance: any, userAddress: { __typename?: 'User', id: string } }> | null, tokens?: Array<{ __typename?: 'PoolToken', address: string, weight?: any | null, balance: any }> | null }> };
+export type PoolQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'Pool', id: string, totalShares: any, shares?: Array<{ __typename?: 'PoolShare', balance: any, userAddress: { __typename?: 'User', id: string } }> | null, tokens?: Array<{ __typename?: 'PoolToken', address: string, weight?: any | null, balance: any }> | null }> };
 
 
 export const PoolIDsDocument = gql`
     query PoolIDs($blockNumber: Int!, $bal: Bytes!) {
-  pools(where: {tokensList_contains: [$bal]}, block: {number: $blockNumber}) {
+  pools(
+    where: {tokensList_contains: [$bal], totalLiquidity_gt: 10000}
+    block: {number: $blockNumber}
+  ) {
     id
   }
 }
     `;
 export const PoolDocument = gql`
-    query Pool($blockNumber: Int!, $bal: Bytes!, $poolId: ID!, $sharesSkip: Int!, $sharesLimit: Int!) {
-  pools(
-    where: {id: $poolId, tokensList_contains: [$bal]}
-    block: {number: $blockNumber}
-  ) {
+    query Pool($blockNumber: Int!, $poolId: ID!, $sharesSkip: Int!, $sharesLimit: Int!) {
+  pools(where: {id: $poolId}, block: {number: $blockNumber}) {
     id
+    totalShares
     shares(
       first: $sharesLimit
       skip: $sharesSkip
       orderDirection: desc
       orderBy: balance
+      where: {balance_gt: 0}
     ) {
       userAddress {
         id

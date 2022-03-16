@@ -5,15 +5,16 @@ import { fetchGraphData } from './graph'
 import { Data } from '../types'
 
 export const fetchData = async ({ cache }: { cache?: boolean }) => {
+  let data: Data = await readCache()
   if (cache) {
-    const data = await readCache()
     if (data && Object.values(data.dune).some((val) => val.length)) return data
   }
 
+  // TODO make this configurable (just fetch x)
   const dune = await fetchDuneData()
   const snapshot = await fetchSnapshotData()
   const graph = await fetchGraphData()
-  const data: Data = { dune, snapshot, graph }
+  data = { ...data, dune, snapshot, graph }
 
   await writeCache(data)
 

@@ -37,19 +37,16 @@ export const getAccounts = (data: Data): Accounts => {
 
       accounts = accounts.mergeDeepIn([account.get('address')], account)
     })
-
-  data.dune.BAL.filter(({ account }) => notInAccountLists(account)).forEach(
-    (record) => {
-      const account = Account({
-        address: record.account,
-        rawBalances: Allocation({
-          BAL: parseUnits(record.amount.toString()),
-        }),
-      })
-
-      accounts = accounts.mergeDeepIn([account.get('address')], account)
-    },
-  )
+  ;[data.dune.balMainnet, data.dune.balPolygon]
+    .flat()
+    .filter(({ account }) => notInAccountLists(account))
+    .forEach((record) => {
+      accounts = accounts
+        .set(record.account, Account({ address: record.account }))
+        .updateIn([record.account, 'rawBalances', 'BAL'], (value: BigNumber) =>
+          value.add(parseUnits(record.amount.toString())),
+        )
+    })
 
   // BAL held per account over all LP
   Object.values(data.graph.balancer.pools)

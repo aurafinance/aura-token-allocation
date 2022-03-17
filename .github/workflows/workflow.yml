@@ -1,0 +1,29 @@
+name: Aura token allocation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  run-allocation:
+    name: 'Run allocation'
+    runs-on: ubuntu-latest
+    env:
+      DUNE_USER: ${{ secrets.DUNE_USER }}
+      DUNE_PASSWORD: ${{ secrets.DUNE_PASSWORD }}
+      RPC_URL: ${{ secrets.RPC_URL }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: yarn install
+      - run: yarn graphql-codegen
+      - run: yarn start
+      - name: Store artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts/**/*

@@ -5,6 +5,7 @@ import path from 'path'
 const filePath = path.join('./.cache/data-cache.json')
 
 export const writeCache = async (data: Data) => {
+  await fs.mkdir('./.cache', { recursive: true })
   await fs.writeFile(filePath, JSON.stringify(data))
 }
 

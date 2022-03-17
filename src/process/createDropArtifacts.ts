@@ -186,7 +186,11 @@ const createMerkleProofArtifacts = async (
     const proof = merkleTree.getHexProof(leaf)
 
     const proofsPath = path.join(dirPath, 'proofs')
-    await fs.promises.rmdir(proofsPath, { recursive: true })
+    try {
+      await fs.promises.rm(proofsPath, { recursive: true })
+    } catch (error) {
+      // ignore
+    }
     await fs.promises.mkdir(proofsPath, { recursive: true })
 
     await fs.promises.writeFile(
@@ -231,7 +235,7 @@ export const createDropArtifacts = async (merkleDrop: MerkleDrop) => {
     [
       createAccountsArtifacts,
       createAllocationsArtifacts,
-      createMerkleProofArtifacts,
+      // createMerkleProofArtifacts,
       createReportArtifact,
     ].map((fn) => fn(dirPath, merkleDrop)),
   )

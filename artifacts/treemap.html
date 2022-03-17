@@ -6,10 +6,31 @@
     rel="stylesheet"
     href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
   />
+  <style type="text/css">
+    main {
+      padding: 1rem !important;
+    }
+    #charts {
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+    .treemap-viz rect {
+      stroke: none !important;
+    }
+  </style>
 </head>
 <body>
   <main>
-    <div id="treemap"></div>
+    <div id="search">
+      <input type="text" placeholder="Search for an address" />
+    </div>
+    <div id="charts">
+      <div id="chart-0"></div>
+      <div id="chart-1"></div>
+      <div id="chart-2"></div>
+    </div>
   </main>
   <script>
     const main = async () => {
@@ -83,7 +104,7 @@
             )} voting power)`,
             children: voteEntries.map(
               ([address, { rawBalances, rescaledAllocation }], index) => ({
-                name: address.slice(0, 6),
+                name: address,
                 address,
                 value: rescaledAllocation.votingPower,
                 color: index % 2 === 0 ? '#59a619' : '#91c765',
@@ -112,7 +133,7 @@
             color: 'transparent',
             children: vlCvxEntries.map(
               ([address, { rawBalances, rescaledAllocation }], index) => ({
-                name: address.slice(0, 6),
+                name: address,
                 address,
                 value: rescaledAllocation.vlCVX,
                 color: index % 2 === 0 ? '#ffa200' : '#fdbe49',
@@ -141,10 +162,10 @@
             )} BAL)`,
             children: balEntries.map(
               ([address, { rawBalances, rescaledAllocation }], index) => ({
-                name: address.slice(0, 6),
+                name: address,
                 address,
                 value: rescaledAllocation.BAL,
-                color: index % 2 === 0 ? '#053a77' : '#163f64',
+                color: index % 2 === 0 ? '#053a77' : '#1e559d',
                 tooltipContent: `${fmt(rescaledAllocation.BAL)} AURA (${fmt(
                   rawBalances.BAL,
                 )} BAL)`,
@@ -154,21 +175,60 @@
         ],
       }
 
-      const chart = Treemap()
-        .data(data)
-        .excludeRoot(true)
-        .tooltipContent((node) => {
-          return node.tooltipContent || ''
-        })
-        .padding(0)
-        .color('color')
-        .onClick((node) => {
-          if (node.address) {
-            window.open(`https://etherscan.io/address/${node.address}`)
-          }
-        })
+      const charts = data.children.map((group) =>
+        Treemap()
+          .data(group)
+          .excludeRoot(true)
+          .tooltipContent((node) => {
+            return node.tooltipContent || ''
+          })
+          .width(window.innerWidth * 0.31)
+          .height(window.innerHeight - 150)
+          .padding(0)
+          .color('color')
+          .transitionDuration(0)
+          .showLabels(false)
+          .minBlockArea(0)
+          .onClick((node) => {
+            if (node.address) {
+              window.open(`https://etherscan.io/address/${node.address}`)
+            }
+          }),
+      )
 
-      chart(document.getElementById('treemap'))
+      charts.forEach((chart, idx) =>
+        chart(document.getElementById(`chart-${idx}`)),
+      )
+
+      const searchInput = document.querySelector('#search > input')
+
+      searchInput.addEventListener('paste', () => {
+        searchInput.onchange()
+      })
+
+      searchInput.addEventListener('change', (event) => {
+        const input = event.target.value
+        if (input.startsWith('0x')) {
+          const address = input.toLowerCase()
+          const account = accounts[address]
+          if (account) {
+            charts.forEach((chart) => {
+              const node = chart
+                .data()
+                .children.filter((node) => node.address === address)[0]
+              if (node) {
+                chart.zoomToNode(node).zoomBy(0.75)
+              } else {
+                chart.zoomReset()
+              }
+            })
+          }
+        } else {
+          charts.forEach((chart) => {
+            chart.zoomReset()
+          })
+        }
+      })
     }
     main()
   </script>

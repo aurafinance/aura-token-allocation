@@ -73,11 +73,12 @@ export type Network = 'mainnet' | 'polygon' | 'arbitrum'
 
 export interface Config {
   cache: boolean
-  scaleExponent: number
+  scaleExponentBal: number
+  scaleExponentVlcvx: number
+  scaleExponentVote: number
   cutoffMainnet: number
   cutoffPolygon: number
   cutoffArbitrum: number
   minAuraReward: number
-  auraPrice: number
   balancerVoteProposalId: string
 }

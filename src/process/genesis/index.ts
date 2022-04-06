@@ -14,12 +14,12 @@ import { getAllocations } from './getAllocations'
 const getSpecAllocation = (spec: MerkleDropSpec): BigNumber =>
   Object.values(spec.groups).reduce((prev, amount) => prev.add(amount), ZERO)
 
-export const createGenesisDrop = (
+export const createGenesisDrop = async (
   data: Data,
   spec: GenesisSpec,
   config: Config,
-): MerkleDrop => {
-  const { allocations, accounts } = getAllocations(data, spec, config)
+): Promise<MerkleDrop> => {
+  const { allocations, accounts } = await getAllocations(data, spec, config)
 
   const merkleTree = createMerkleTree(allocations)
 

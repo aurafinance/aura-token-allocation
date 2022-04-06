@@ -1,11 +1,11 @@
-import badActors from './bad-actors.json'
+import badEggs from './bad-eggs.json'
 import balancerDao from './balancer-dao.json'
 import balancerPools from './balancer-pools.json'
 import infra from './infra.json'
 
 import chalk from 'chalk'
 
-const lists = [badActors, balancerDao, balancerPools, infra]
+const lists = [badEggs, balancerDao, balancerPools, infra]
 const colours = [chalk.red, chalk.green, chalk.blue, chalk.gray]
 
 export const notInAccountLists = (account: string) => {

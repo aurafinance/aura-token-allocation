@@ -19,6 +19,9 @@
     .treemap-viz rect {
       stroke: none !important;
     }
+    .chart-tooltip {
+      font-family: monospace !important;
+    }
   </style>
 </head>
 <body>
@@ -38,6 +41,12 @@
       let accounts = await accountsResp.json()
 
       const fmt = (n) => numeral(n).format('0.[00]a')
+
+      // $500m FDV
+      const hypotheticalAuraPrice = 5
+
+      const balPrice = 15.77
+      const cvxPrice = 35.81
 
       accounts = Object.fromEntries(
         Object.entries(accounts).map(
@@ -108,9 +117,27 @@
                 address,
                 value: rescaledAllocation.votingPower,
                 color: index % 2 === 0 ? '#59a619' : '#91c765',
-                tooltipContent: `${fmt(
-                  rescaledAllocation.votingPower,
-                )} AURA (${fmt(rawBalances.votingPower)} voting power)`,
+                tooltipContent: (() => {
+                  const airdropValue =
+                    rescaledAllocation.votingPower * hypotheticalAuraPrice
+                  const holdingValue = rawBalances.votingPower * balPrice
+                  const rewardPerToken =
+                    rescaledAllocation.votingPower / rawBalances.votingPower
+                  const pricePerReward =
+                    (rawBalances.votingPower * balPrice) /
+                    (rescaledAllocation.votingPower * hypotheticalAuraPrice)
+                  const costBasis = pricePerReward.toFixed(2)
+                  return `
+                    <div>AURA: ${fmt(rescaledAllocation.votingPower)} ($${fmt(
+                    airdropValue,
+                  )})</div>
+                    <div>Votes: ${fmt(rawBalances.votingPower)} ($${fmt(
+                    holdingValue,
+                  )})</div>
+                    <div>AURA per votes: ${rewardPerToken.toFixed(4)}</div>
+                    <div>Cost basis: $${costBasis}</div>
+                    `
+                })(),
               }),
             ),
           },
@@ -137,9 +164,27 @@
                 address,
                 value: rescaledAllocation.vlCVX,
                 color: index % 2 === 0 ? '#ffa200' : '#fdbe49',
-                tooltipContent: `${fmt(rescaledAllocation.vlCVX)} AURA (${fmt(
-                  rawBalances.vlCVX,
-                )} vlCVX)`,
+                tooltipContent: (() => {
+                  const airdropValue =
+                    rescaledAllocation.vlCVX * hypotheticalAuraPrice
+                  const holdingValue = rawBalances.vlCVX * cvxPrice
+                  const rewardPerToken =
+                    rescaledAllocation.vlCVX / rawBalances.vlCVX
+                  const pricePerReward =
+                    (rawBalances.vlCVX * cvxPrice) /
+                    (rescaledAllocation.vlCVX * hypotheticalAuraPrice)
+                  const costBasis = pricePerReward.toFixed(2)
+                  return `
+                    <div>AURA: ${fmt(rescaledAllocation.vlCVX)} ($${fmt(
+                    airdropValue,
+                  )})</div>
+                    <div>vlCVX: ${fmt(rawBalances.vlCVX)}  ($${fmt(
+                    holdingValue,
+                  )})</div>
+                    <div>AURA per vlCVX: ${rewardPerToken.toFixed(4)}</div>
+                    <div>Cost basis: $${costBasis}</div>
+                    `
+                })(),
               }),
             ),
           },
@@ -160,15 +205,33 @@
                 0,
               ),
             )} BAL)`,
-            children: balEntries.map(
+            children: balEntries.sort((a, b) => b[1].rescaledAllocation.BAL - a[1].rescaledAllocation.BAL).map(
               ([address, { rawBalances, rescaledAllocation }], index) => ({
                 name: address,
                 address,
                 value: rescaledAllocation.BAL,
                 color: index % 2 === 0 ? '#053a77' : '#1e559d',
-                tooltipContent: `${fmt(rescaledAllocation.BAL)} AURA (${fmt(
-                  rawBalances.BAL,
-                )} BAL)`,
+                tooltipContent: (() => {
+                  const airdropValue =
+                    rescaledAllocation.BAL * hypotheticalAuraPrice
+                  const holdingValue = rawBalances.BAL * balPrice
+                  const rewardPerToken =
+                    rescaledAllocation.BAL / rawBalances.BAL
+                  const pricePerReward =
+                    (rawBalances.BAL * balPrice) /
+                    (rescaledAllocation.BAL * hypotheticalAuraPrice)
+                  const costBasis = pricePerReward.toFixed(2)
+                  return `
+                    <div>AURA: ${fmt(rescaledAllocation.BAL)} ($${fmt(
+                    airdropValue,
+                  )})</div>
+                    <div>BAL: ${fmt(rawBalances.BAL)} ($${fmt(
+                    holdingValue,
+                  )})</div>
+                    <div>AURA per BAL: ${rewardPerToken.toFixed(4)}</div>
+                    <div>Cost basis: $${costBasis}</div>
+                    `
+                })(),
               }),
             ),
           },
@@ -183,7 +246,7 @@
             return node.tooltipContent || ''
           })
           .width(window.innerWidth * 0.31)
-          .height(window.innerHeight - 150)
+          .height(window.innerHeight - 210)
           .padding(0)
           .color('color')
           .transitionDuration(0)

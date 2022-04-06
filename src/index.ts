@@ -26,13 +26,23 @@ const main = async () => {
       default: true,
       describe: 'Whether to use cached query results',
     },
-    scaleExponent: {
+    scaleExponentBal: {
       default: 0.75,
       type: 'number',
-      describe: 'Exponent used to rescale allocations',
+      describe: 'Exponent used to rescale allocations (BAL)',
+    },
+    scaleExponentVlcvx: {
+      default: 0.75,
+      type: 'number',
+      describe: 'Exponent used to rescale allocations (vlCVX)',
+    },
+    scaleExponentVote: {
+      default: 0.4,
+      type: 'number',
+      describe: 'Exponent used to rescale allocations (Vote)',
     },
     cutoffMainnet: {
-      default: 14339625,
+      default: 14474050,
       type: 'number',
       describe: 'Snapshot cutoff block for Mainnet',
     },
@@ -47,19 +57,14 @@ const main = async () => {
       describe: 'Snapshot cutoff block for Arbitrum',
     },
     minAuraReward: {
-      default: 25,
+      default: 30,
       type: 'number',
       describe: 'Minimum reward size in $AURA',
-    },
-    auraPrice: {
-      default: 10,
-      type: 'number',
-      describe: 'Hypothetical Aura price used to calculate airdrop value',
     },
     balancerVoteProposalId: {
       type: 'string',
       default:
-        '0xa3548202efb91c59c40586d0cd3e71655529edef196d814bff145cf1cc0fcbf1',
+        '0xf9e44f6659b0a3a3249341bf8588b192ab923374fbca3f9be929c156036565e7',
       describe: 'Proposal ID from Snapshot used for the Balancer vote query',
     },
   }).argv

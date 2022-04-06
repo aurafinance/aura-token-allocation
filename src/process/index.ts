@@ -17,7 +17,11 @@ export const createMerkleDrop = async <TSpec extends MerkleDropSpec>(
   let merkleDrop: MerkleDrop
 
   if (spec.id === MerkleDropId.GENESIS) {
-    merkleDrop = createGenesisDrop(data, spec as unknown as GenesisSpec, config)
+    merkleDrop = await createGenesisDrop(
+      data,
+      spec as unknown as GenesisSpec,
+      config,
+    )
   } else {
     throw new Error('Unhandled spec')
   }

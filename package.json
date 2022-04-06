@@ -37,6 +37,7 @@
     "hsl-to-rgb-for-reals": "^1.1.1",
     "immutable": "^4.0.0",
     "merkletreejs": "^0.2.31",
+    "p-limit": "^4.0.0",
     "p-retry": "^5.0.0",
     "superagent": "^7.1.1",
     "ts-pipe-compose": "^0.2.1",

@@ -2,7 +2,6 @@ import { BigNumber } from 'ethers'
 import { scalePow } from 'd3-scale'
 import { formatUnits } from 'ethers/lib/utils'
 import { Map } from 'immutable'
-import chalk from 'chalk'
 
 import { Accounts, Config, GenesisSpec } from '../../types'
 import { Account, Allocation, AllocationProps } from '../../Account'
@@ -18,42 +17,46 @@ export const rescale = ({
   spec: GenesisSpec
   config: Config
 }) => {
-  console.info(chalk.grey(`Rescaling with exponent ${config.scaleExponent}...`))
   const getScaledValues = (
     key: keyof AllocationProps,
-    allocation: BigNumber,
+    allocationExact: BigNumber,
+    scaleExponent: number,
   ) => {
-    const values = accounts.map((account) =>
+    const allocation = exactToSimple(allocationExact)
+
+    const rawBalances = accounts.map((account) =>
       exactToSimple((account.getIn(['rawBalances', key]) ?? ZERO) as BigNumber),
     )
 
     // Get the highest value entry
-    const maxEntry = values.entrySeq().max(([, a], [, b]) => (a > b ? 1 : -1))
+    const maxEntry = rawBalances
+      .entrySeq()
+      .max(([, a], [, b]) => (a > b ? 1 : -1))
     const [maxAddr, maxValue] = maxEntry
 
     // Power distribution
-    const scale = scalePow()
-      .exponent(config.scaleExponent)
-      .domain([0, maxValue])
+    const scale = scalePow().exponent(scaleExponent).domain([0, maxValue])
 
-    const sqrtValues = values.map(scale)
+    // Values from 0-1
+    const multipliers = rawBalances.map(scale)
 
-    // Total the scaled values and get the share of the allocation
-    const total = sqrtValues.reduce((prev, value) => prev + value, 0)
-    if (total === 0) {
-      throw new Error(`div(0) for ${key} total`)
-    }
-    const allocationShare = exactToSimple(allocation) / total
+    const totalMultipliers = multipliers.reduce(
+      (prev, value) => prev + value,
+      0,
+    )
+    const allocationShare = allocation / totalMultipliers
 
     // Rescale the values by the share of the allocation
-    let rescaledValues = sqrtValues.map((value) =>
+    let rescaledValues = multipliers.map((value) =>
       parseBigDecimal(allocationShare * value),
     )
 
     // Since we lost precision, handle any dust that accrued (can be ±total)
-    const dust = allocation.sub(
-      rescaledValues.reduce((prev, value) => prev.add(value), ZERO),
+    const totalRescaledValues = rescaledValues.reduce(
+      (prev, value) => prev.add(value),
+      ZERO,
     )
+    const dust = allocationExact.sub(totalRescaledValues)
     if (dust.gt(SCALE)) {
       throw new Error(`Too much dust for ${key}: ${formatUnits(dust.abs())}`)
     } else {
@@ -70,13 +73,13 @@ export const rescale = ({
   const rescaledBalances = Map<keyof AllocationProps, Map<string, BigNumber>>(
     (
       [
-        ['vlCVX', spec.groups.vlCVX],
-        ['BAL', spec.groups.BAL],
-        ['votingPower', spec.groups.yesVote],
-      ] as [keyof AllocationProps, BigNumber][]
-    ).map(([key, groupAllocation]) => [
+        ['vlCVX', spec.groups.vlCVX, config.scaleExponentVlcvx],
+        ['BAL', spec.groups.BAL, config.scaleExponentBal],
+        ['votingPower', spec.groups.yesVote, config.scaleExponentVote],
+      ] as [keyof AllocationProps, BigNumber, number][]
+    ).map(([key, groupAllocation, scaleExponent]) => [
       key,
-      getScaledValues(key, groupAllocation),
+      getScaledValues(key, groupAllocation, scaleExponent),
     ]),
   )
 

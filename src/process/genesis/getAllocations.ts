@@ -6,19 +6,21 @@ import gini from 'gini'
 import hsl2rgb from 'hsl-to-rgb-for-reals'
 import chalk from 'chalk'
 
-import { Accounts, AllocationMap, Data, GenesisSpec } from '../../types'
+import { Accounts, AllocationMap, Config, Data, GenesisSpec } from '../../types'
 import { getAccounts } from './getAccounts'
 import { rescale } from './rescale'
 import { exactToSimple, getFieldTotal } from '../../utils'
 import { AccountRecord } from '../../Account'
-import { AURA_BAG_NGMI_THRESHOLD, ZERO } from '../../constants'
+import { SCALE, ZERO } from '../../constants'
 
 const cullShrimp = ({
   accounts,
   spec,
+  config,
 }: {
   accounts: Accounts
   spec: GenesisSpec
+  config: Config
 }) => {
   console.info(chalk.grey('Culling shrimp...'))
   const accountsSizeBefore = accounts.size
@@ -27,8 +29,9 @@ const cullShrimp = ({
     'total',
   ])
 
+  const minAuraRewardExact = SCALE.mul(config.minAuraReward)
   accounts = accounts.filter((account: AccountRecord) =>
-    account.get('rescaledAllocation').get('total').gte(AURA_BAG_NGMI_THRESHOLD),
+    account.get('rescaledAllocation').get('total').gte(minAuraRewardExact),
   )
 
   const totalAllocation = getFieldTotal(accounts, [
@@ -44,10 +47,14 @@ const cullShrimp = ({
     )} AURA`,
   )
 
-  return { accounts, spec }
+  return { accounts, spec, config }
 }
 
-const explain = (input: { accounts: Accounts; spec: GenesisSpec }) => {
+const explain = (input: {
+  accounts: Accounts
+  spec: GenesisSpec
+  config: Config
+}) => {
   const getGiniCoeff = (keyPath: string[]) => {
     const values = input.accounts
       .map(
@@ -91,12 +98,14 @@ const explain = (input: { accounts: Accounts; spec: GenesisSpec }) => {
 export const getAllocations = (
   data: Data,
   spec: GenesisSpec,
+  config: Config,
 ): {
   allocations: AllocationMap
   accounts: Accounts
+  config: Config
 } => {
   const accounts = pipeline(
-    () => ({ accounts: getAccounts(data), spec }),
+    () => ({ accounts: getAccounts(data), spec, config }),
     explain,
     rescale,
     explain,
@@ -116,5 +125,5 @@ export const getAllocations = (
       .sort((a, b) => (a.gt(b) ? -1 : 1)),
   )
 
-  return { allocations, accounts }
+  return { allocations, accounts, config }
 }

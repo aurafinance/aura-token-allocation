@@ -1,10 +1,10 @@
 import { BigNumber } from 'ethers'
-import { scaleSqrt } from 'd3-scale'
+import { scalePow } from 'd3-scale'
 import { formatUnits } from 'ethers/lib/utils'
 import { Map } from 'immutable'
 import chalk from 'chalk'
 
-import { Accounts, GenesisSpec } from '../../types'
+import { Accounts, Config, GenesisSpec } from '../../types'
 import { Account, Allocation, AllocationProps } from '../../Account'
 import { exactToSimple, parseBigDecimal } from '../../utils'
 import { SCALE, ZERO } from '../../constants'
@@ -12,11 +12,13 @@ import { SCALE, ZERO } from '../../constants'
 export const rescale = ({
   accounts,
   spec,
+  config,
 }: {
   accounts: Accounts
   spec: GenesisSpec
+  config: Config
 }) => {
-  console.info(chalk.grey('Rescaling...'))
+  console.info(chalk.grey(`Rescaling with exponent ${config.scaleExponent}...`))
   const getScaledValues = (
     key: keyof AllocationProps,
     allocation: BigNumber,
@@ -29,8 +31,11 @@ export const rescale = ({
     const maxEntry = values.entrySeq().max(([, a], [, b]) => (a > b ? 1 : -1))
     const [maxAddr, maxValue] = maxEntry
 
-    // Square root distribution
-    const scale = scaleSqrt().domain([0, maxValue])
+    // Power distribution
+    const scale = scalePow()
+      .exponent(config.scaleExponent)
+      .domain([0, maxValue])
+
     const sqrtValues = values.map(scale)
 
     // Total the scaled values and get the share of the allocation
@@ -100,5 +105,5 @@ export const rescale = ({
     })
   })
 
-  return { accounts: rescaledAccounts, spec }
+  return { accounts: rescaledAccounts, spec, config }
 }

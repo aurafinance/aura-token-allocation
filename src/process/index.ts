@@ -1,4 +1,5 @@
 import {
+  Config,
   Data,
   GenesisSpec,
   MerkleDrop,
@@ -11,14 +12,15 @@ import { createDropArtifacts } from './createDropArtifacts'
 export const createMerkleDrop = async <TSpec extends MerkleDropSpec>(
   data: Data,
   spec: TSpec,
+  config: Config,
 ) => {
   let merkleDrop: MerkleDrop
 
   if (spec.id === MerkleDropId.GENESIS) {
-    merkleDrop = createGenesisDrop(data, spec as unknown as GenesisSpec)
+    merkleDrop = createGenesisDrop(data, spec as unknown as GenesisSpec, config)
   } else {
     throw new Error('Unhandled spec')
   }
 
-  await createDropArtifacts(merkleDrop)
+  await createDropArtifacts(merkleDrop, config)
 }

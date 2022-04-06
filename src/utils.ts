@@ -4,7 +4,7 @@ import { MerkleTree } from 'merkletreejs'
 import { formatUnits, parseUnits, soliditySha256 } from 'ethers/lib/utils'
 
 import { SCALE, ZERO } from './constants'
-import { AllocationMap } from './types'
+import { AllocationMap, Config, Network } from './types'
 
 export const mulTruncate = (bn: BigNumber, other: BigNumber) =>
   bn.mul(other).div(SCALE)
@@ -32,4 +32,15 @@ export const createMerkleTree = (allocations: AllocationMap): MerkleTree => {
     soliditySha256(['address', 'uint256'], [address, amount.toString()])
   const leaves = allocations.toArray().map(hashFn)
   return new MerkleTree(leaves, hashFn)
+}
+
+export const getCutoffBlock = (config: Config, network: Network) => {
+  switch (network) {
+    case 'arbitrum':
+      return config.cutoffArbitrum
+    case 'mainnet':
+      return config.cutoffMainnet
+    case 'polygon':
+      return config.cutoffPolygon
+  }
 }

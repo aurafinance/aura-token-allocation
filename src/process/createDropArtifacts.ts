@@ -5,7 +5,7 @@ import { stringify } from 'csv-stringify'
 import cliProgress from 'cli-progress'
 import { Seq } from 'immutable'
 
-import { Accounts, MerkleDrop } from '../types'
+import { Accounts, Config, MerkleDrop } from '../types'
 import {
   Account,
   AccountProps,
@@ -227,7 +227,10 @@ const createReportArtifact = async (
   )
 }
 
-export const createDropArtifacts = async (merkleDrop: MerkleDrop) => {
+export const createDropArtifacts = async (
+  merkleDrop: MerkleDrop,
+  config: Config,
+) => {
   const dirPath = path.join('./artifacts', merkleDrop.spec.id)
   await fs.promises.mkdir(dirPath, { recursive: true })
 

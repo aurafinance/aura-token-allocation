@@ -1,6 +1,12 @@
 import { BigNumber } from 'ethers'
 
-import { Data, GenesisSpec, MerkleDrop, MerkleDropSpec } from '../../types'
+import {
+  Config,
+  Data,
+  GenesisSpec,
+  MerkleDrop,
+  MerkleDropSpec,
+} from '../../types'
 import { ZERO } from '../../constants'
 import { createMerkleTree } from '../../utils'
 import { getAllocations } from './getAllocations'
@@ -11,8 +17,9 @@ const getSpecAllocation = (spec: MerkleDropSpec): BigNumber =>
 export const createGenesisDrop = (
   data: Data,
   spec: GenesisSpec,
+  config: Config,
 ): MerkleDrop => {
-  const { allocations, accounts } = getAllocations(data, spec)
+  const { allocations, accounts } = getAllocations(data, spec, config)
 
   const merkleTree = createMerkleTree(allocations)
 

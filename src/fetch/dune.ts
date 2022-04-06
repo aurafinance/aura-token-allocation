@@ -5,8 +5,9 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import cliProgress, { SingleBar } from 'cli-progress'
 
-import { Data } from '../types'
-import { BAL, GENESIS_CUTOFF_BLOCK_NUMBERS } from '../constants'
+import { Config, Data, Network } from '../types'
+import { BAL } from '../constants'
+import { getCutoffBlock } from '../utils'
 
 const BASE_URL = 'https://dune.xyz'
 const GRAPH_URL = 'https://core-hsr.duneanalytics.com/v1/graphql'
@@ -306,13 +307,18 @@ class DuneConnection {
   }
 }
 
-const BLOCK_NUMBER: DuneQueryParameter = {
+const getBlockNumberParam = (
+  config: Config,
+  network: Network,
+): DuneQueryParameter => ({
   key: 'BlockNumber',
   type: 'number',
-  value: GENESIS_CUTOFF_BLOCK_NUMBERS.mainnet.toString(),
-}
+  value: getCutoffBlock(config, network).toString(),
+})
 
-const QUERIES: Record<
+const getQueries = (
+  config: Config,
+): Record<
   keyof Data['dune'],
   {
     queryName: string
@@ -321,11 +327,11 @@ const QUERIES: Record<
     queryId: number
     datasetId: number
   }
-> = {
+> => ({
   vlCVX: {
     queryFilepath: 'mainnet_vlcvx_holders.sql',
     queryName: 'vlCVX holders',
-    parameters: [BLOCK_NUMBER],
+    parameters: [getBlockNumberParam(config, 'mainnet')],
     queryId: 463336,
     datasetId: 4,
   },
@@ -333,7 +339,7 @@ const QUERIES: Record<
     queryFilepath: 'token_balances.sql',
     queryName: 'BAL holders (Mainnet)',
     parameters: [
-      BLOCK_NUMBER,
+      getBlockNumberParam(config, 'mainnet'),
       {
         key: 'Address',
         type: 'text',
@@ -347,11 +353,7 @@ const QUERIES: Record<
     queryFilepath: 'token_balances.sql',
     queryName: 'BAL holders (Polygon)',
     parameters: [
-      {
-        key: 'BlockNumber',
-        type: 'number',
-        value: GENESIS_CUTOFF_BLOCK_NUMBERS.polygon.toString(),
-      },
+      getBlockNumberParam(config, 'polygon'),
       {
         key: 'Address',
         type: 'text',
@@ -366,11 +368,7 @@ const QUERIES: Record<
   //   queryFilepath: 'token_balances.sql',
   //   queryName: 'BAL holders (Arbitrum)',
   //   parameters: [
-  //     {
-  //       key: 'BlockNumber',
-  //       type: 'number',
-  //       value: GENESIS_CUTOFF_BLOCK_NUMBERS.arbitrum.toString(),
-  //     },
+  //     getBlockNumberParam(config, 'arbitrum'),
   //     {
   //       key: 'Address',
   //       type: 'text',
@@ -380,14 +378,14 @@ const QUERIES: Record<
   //   queryId: 493891,
   //   datasetId: 4,
   // },
-}
+})
 
-export const fetchDuneData = async (): Promise<Data['dune']> => {
-  const config = {
+export const fetchDuneData = async (config: Config): Promise<Data['dune']> => {
+  const duneConfig = {
     username: process.env.DUNE_USER,
     password: process.env.DUNE_PASSWORD,
   }
-  const dune = await DuneConnection.connect(config)
+  const dune = await DuneConnection.connect(duneConfig)
 
   // Run all queries in sequence to avoid losing the Dune connection
   // Pretty dumb, all in memory – don't ask for too much
@@ -395,7 +393,7 @@ export const fetchDuneData = async (): Promise<Data['dune']> => {
   for (const [
     key,
     { queryId, queryFilepath, queryName, parameters, datasetId },
-  ] of Object.entries(QUERIES)) {
+  ] of Object.entries(getQueries(config))) {
     results[key] = await dune.fetch(
       queryId,
       queryFilepath,

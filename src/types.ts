@@ -70,3 +70,14 @@ export interface MerkleDrops {
 }
 
 export type Network = 'mainnet' | 'polygon' | 'arbitrum'
+
+export interface Config {
+  cache: boolean
+  scaleExponent: number
+  cutoffMainnet: number
+  cutoffPolygon: number
+  cutoffArbitrum: number
+  minAuraReward: number
+  auraPrice: number
+  balancerVoteProposalId: string
+}

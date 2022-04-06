@@ -1,11 +1,11 @@
 import { gql, request } from 'graphql-request'
-
-import { Data } from '../types'
 import cliProgress from 'cli-progress'
+
+import { Config, Data } from '../types'
 
 const SNAPSHOT_URL = 'https://hub.snapshot.org/graphql'
 
-const getBalancerVoters = async () => {
+const getBalancerVoters = async (config: Config) => {
   // Get Balancer votes for the proposal
   // Select the first 10000 by voting power to avoid dust
   const { votes } = await request<
@@ -34,8 +34,7 @@ const getBalancerVoters = async () => {
       }
     `,
     {
-      proposalId:
-        '0xa3548202efb91c59c40586d0cd3e71655529edef196d814bff145cf1cc0fcbf1',
+      proposalId: config.balancerVoteProposalId,
     },
   )
   return votes.map(({ voter, vp, choice }) => ({
@@ -45,13 +44,15 @@ const getBalancerVoters = async () => {
   }))
 }
 
-export const fetchSnapshotData = async (): Promise<Data['snapshot']> => {
+export const fetchSnapshotData = async (
+  config: Config,
+): Promise<Data['snapshot']> => {
   const bar = new cliProgress.SingleBar(
     { format: `Fetching Balancer voters: {status}` },
     cliProgress.Presets.shades_grey,
   )
   bar.start(1, 0, { status: 'Fetching' })
-  const votes = await getBalancerVoters()
+  const votes = await getBalancerVoters(config)
   bar.update(1, { status: `Done (${votes.length} records)` })
   bar.stop()
   return { votes }

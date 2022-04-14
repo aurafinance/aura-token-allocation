@@ -1,0 +1,11 @@
+query VotingEscrowLocks($blockNumber: Int!) {
+  votingEscrowLocks(
+    first: 1000
+    orderBy: lockedBalance
+    orderDirection: desc
+    block: { number: $blockNumber }
+  ) {
+    id
+    lockedBalance
+  }
+}

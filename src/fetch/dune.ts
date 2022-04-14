@@ -170,7 +170,6 @@ class DuneConnection {
     // Since queries take some time to complete we include a sleep parameter
     // since there is no purpose in constantly pinging for results
     await this.executeQuery(queryId)
-    // fixme resultId can be null
     const resultId = await pRetry<number>(
       async () => {
         const maybeResultId = await this.queryResultId(queryId)

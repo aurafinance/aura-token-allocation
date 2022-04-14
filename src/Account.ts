@@ -10,17 +10,17 @@ export enum SnapshotVote {
 }
 
 export interface AllocationProps {
-  vlCVX: BigNumber
-  BAL: BigNumber
-  votingPower: BigNumber
-  total: BigNumber
+  convex: BigNumber
+  balancer: BigNumber
 }
 
 export interface AccountProps {
   address: string
+  allocation: AllocationRecord
+  BAL: BigNumber
+  vlCVX: BigNumber
+  votingPower: BigNumber
   vote: SnapshotVote
-  rawBalances: AllocationRecord
-  rescaledAllocation: AllocationRecord
 }
 
 export type AccountRecord = RecordOf<AccountProps>
@@ -28,15 +28,15 @@ export type AccountRecord = RecordOf<AccountProps>
 export type AllocationRecord = RecordOf<AllocationProps>
 
 export const Allocation = Record<AllocationProps>({
-  total: ZERO,
-  vlCVX: ZERO,
-  BAL: ZERO,
-  votingPower: ZERO,
+  convex: ZERO,
+  balancer: ZERO,
 })
 
 export const Account = Record<AccountProps>({
   address: constants.AddressZero,
+  allocation: Allocation(),
+  BAL: BigNumber.from(0),
+  vlCVX: BigNumber.from(0),
+  votingPower: BigNumber.from(0),
   vote: SnapshotVote.DidNotVote,
-  rawBalances: Allocation(),
-  rescaledAllocation: Allocation(),
 })

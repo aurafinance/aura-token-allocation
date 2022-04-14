@@ -1,0 +1,15 @@
+{
+  "name": "Balancer Gauges subgraph",
+  "schemaPath": "schema.gql",
+  "extensions": {
+    "endpoints": {
+      "mainnet": {
+        "url": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

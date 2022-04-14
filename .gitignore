@@ -1,6 +1,5 @@
 node_modules/
 .env
-.cache/
 .idea/
 artifacts/*/proofs/
 yarn-error.log

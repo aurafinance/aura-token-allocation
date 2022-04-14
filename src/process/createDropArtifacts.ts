@@ -5,7 +5,7 @@ import { stringify } from 'csv-stringify'
 import cliProgress from 'cli-progress'
 import { Seq } from 'immutable'
 
-import { Accounts, Config, MerkleDrop } from '../types'
+import { Config, MerkleDrop } from '../types'
 import {
   Account,
   AccountProps,
@@ -16,87 +16,60 @@ import { BigNumber } from 'ethers'
 
 const formatBN = (bn: BigNumber) => bn.toString()
 
-const formatAllocation = ({
-  total,
-  votingPower,
-  vlCVX,
-  BAL,
-}: AllocationProps) => {
+const formatAllocation = ({ convex, balancer }: AllocationProps) => {
   return {
-    total: formatBN(total),
-    votingPower: formatBN(votingPower),
-    vlCVX: formatBN(vlCVX),
-    BAL: formatBN(BAL),
+    convex: formatBN(convex),
+    balancer: formatBN(balancer),
   }
 }
 
 const formatAccount = ({
   vote,
   address,
-  rescaledAllocation,
-  rawBalances,
-}: Omit<AccountProps, 'rescaledAllocation' | 'rawBalances'> & {
-  rawBalances: AllocationProps
-  rescaledAllocation: AllocationProps
+  allocation,
+  BAL,
+  vlCVX,
+  votingPower,
+}: Omit<AccountProps, 'allocation'> & {
+  allocation: AllocationProps
 }) => {
   return {
     address,
     vote:
       vote === SnapshotVote.No ? 'N' : vote === SnapshotVote.Yes ? 'Y' : '-',
-    rawBalances: formatAllocation(rawBalances),
-    rescaledAllocation: formatAllocation(rescaledAllocation),
+    votingPower: formatBN(votingPower),
+    vlCVX: formatBN(vlCVX),
+    BAL: formatBN(BAL),
+    allocation: formatAllocation(allocation),
   }
 }
 
 const createAccountsArtifactsItem = async (
   dirPath: string,
-  name: string,
-  accounts: Accounts,
+  { accounts, allocationKey: key, id }: MerkleDrop,
 ) => {
   const formattedAccounts: Seq.Indexed<ReturnType<typeof formatAccount>> =
     accounts
       .valueSeq()
       .sort((a, b) =>
-        a
-          .get('rescaledAllocation')
-          .get('total')
-          .gt(b.get('rescaledAllocation').get('total'))
-          ? -1
-          : 1,
+        a.get('allocation').get(key).gt(b.get('allocation').get(key)) ? -1 : 1,
       )
       .map((record) => record.toJS())
       .map(formatAccount)
 
   {
-    const writeStream = fs.createWriteStream(path.join(dirPath, `${name}.csv`))
+    const writeStream = fs.createWriteStream(path.join(dirPath, `${id}.csv`))
     stringify(
       formattedAccounts
         .map(
           ({
             address,
-            rescaledAllocation: {
-              total: rescaledTotal,
-              BAL: rescaledBAL,
-              votingPower: rescaledVotingPower,
-              vlCVX: rescaledVlCVX,
-            },
-            rawBalances: {
-              BAL: rawBAL,
-              votingPower: rawVotingPower,
-              vlCVX: rawVlCVX,
-            },
+            allocation: { [key]: allocation },
+            BAL,
+            votingPower,
+            vlCVX,
             vote,
-          }) => [
-            address,
-            rescaledTotal,
-            rawBAL,
-            rawVlCVX,
-            rawVotingPower,
-            rescaledBAL,
-            rescaledVlCVX,
-            rescaledVotingPower,
-            vote,
-          ],
+          }) => [address, allocation, BAL, vlCVX, votingPower, vote],
         )
         .toArray(),
       {
@@ -104,12 +77,9 @@ const createAccountsArtifactsItem = async (
         columns: [
           'Account',
           'Allocation',
-          'BAL (raw)',
-          'vlCVX (raw)',
-          'Voting power (raw)',
-          'BAL (rescaled)',
-          'vlCVX (rescaled)',
-          'Voting power (rescaled)',
+          'BAL',
+          'vlCVX',
+          'Voting power',
           'Vote',
         ],
       },
@@ -126,16 +96,16 @@ const createAccountsArtifactsItem = async (
       .toArray(),
   )
   await fs.promises.writeFile(
-    path.join(dirPath, `${name}.json`),
+    path.join(dirPath, `${id}.json`),
     JSON.stringify(formattedAccountsObj),
   )
 }
 
 const createAccountsArtifacts = async (
   dirPath: string,
-  { accounts }: MerkleDrop,
+  merkleDrop: MerkleDrop,
 ) => {
-  await createAccountsArtifactsItem(dirPath, 'accounts', accounts)
+  await createAccountsArtifactsItem(dirPath, merkleDrop)
 }
 
 const createAllocationsArtifacts = async (
@@ -176,6 +146,14 @@ const createMerkleProofArtifacts = async (
   )
   bar.start(allocations.size, 0)
 
+  const proofsPath = path.join(dirPath, 'proofs')
+  try {
+    await fs.promises.rm(proofsPath, { recursive: true })
+  } catch (error) {
+    // ignore
+  }
+  await fs.promises.mkdir(proofsPath, { recursive: true })
+
   for (const [address, amount] of allocations) {
     bar.increment()
 
@@ -184,14 +162,6 @@ const createMerkleProofArtifacts = async (
       [address, amount.toString()],
     )
     const proof = merkleTree.getHexProof(leaf)
-
-    const proofsPath = path.join(dirPath, 'proofs')
-    try {
-      await fs.promises.rm(proofsPath, { recursive: true })
-    } catch (error) {
-      // ignore
-    }
-    await fs.promises.mkdir(proofsPath, { recursive: true })
 
     await fs.promises.writeFile(
       path.join(proofsPath, `${address}.json`),
@@ -205,11 +175,11 @@ const createMerkleProofArtifacts = async (
 const createReportArtifact = async (
   dirPath: string,
   {
+    id,
     allocations,
     totalAllocation,
     totalDust,
     accounts,
-    spec,
     merkleTree,
   }: MerkleDrop,
 ) => {
@@ -218,7 +188,7 @@ const createReportArtifact = async (
     totalDust: formatUnits(totalDust),
     allocations: allocations.size,
     accounts: accounts.size,
-    id: spec.id,
+    id: id,
     rootHash: merkleTree.getHexRoot(),
   }
   await fs.promises.writeFile(
@@ -231,14 +201,14 @@ export const createDropArtifacts = async (
   merkleDrop: MerkleDrop,
   config: Config,
 ) => {
-  const dirPath = path.join('./artifacts', merkleDrop.spec.id)
+  const dirPath = path.join('./artifacts', merkleDrop.id)
   await fs.promises.mkdir(dirPath, { recursive: true })
 
   await Promise.all(
     [
       createAccountsArtifacts,
       createAllocationsArtifacts,
-      // createMerkleProofArtifacts,
+      createMerkleProofArtifacts,
       createReportArtifact,
     ].map((fn) => fn(dirPath, merkleDrop)),
   )

@@ -6,19 +6,22 @@
     rel="stylesheet"
     href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
   />
-  <style type="text/css">
+  <style>
     main {
       padding: 1rem !important;
     }
+
     #charts {
       width: 100%;
       display: flex;
       gap: 1rem;
       justify-content: space-between;
     }
+
     .treemap-viz rect {
       stroke: none !important;
     }
+
     .chart-tooltip {
       font-family: monospace !important;
     }
@@ -32,14 +35,10 @@
     <div id="charts">
       <div id="chart-0"></div>
       <div id="chart-1"></div>
-      <div id="chart-2"></div>
     </div>
   </main>
   <script>
     const main = async () => {
-      const accountsResp = await fetch('./Genesis/accounts.json')
-      let accounts = await accountsResp.json()
-
       const fmt = (n) => numeral(n).format('0.[00]a')
 
       // $500m FDV
@@ -48,139 +47,70 @@
       const balPrice = 15.77
       const cvxPrice = 35.81
 
-      accounts = Object.fromEntries(
-        Object.entries(accounts).map(
-          ([address, { rescaledAllocation, rawBalances, ...account }]) => [
+      const convexAccountsResp = await fetch('./convex/convex.json')
+      const balancerAccountsResp = await fetch('./balancer/balancer.json')
+      let convexAccounts = await convexAccountsResp.json()
+      let balancerAccounts = await balancerAccountsResp.json()
+
+      convexAccounts = Object.fromEntries(
+        Object.entries(convexAccounts).map(
+          ([address, { allocation, vlCVX }]) => [
             address,
             {
-              ...account,
-              rawBalances: Object.fromEntries(
-                Object.entries(rawBalances).map(([key, value]) => [
-                  key,
-                  parseInt(value) / 1e18,
-                ]),
-              ),
-              rescaledAllocation: Object.fromEntries(
-                Object.entries(rescaledAllocation).map(([key, value]) => [
-                  key,
-                  parseInt(value) / 1e18,
-                ]),
-              ),
+              balance: parseInt(vlCVX) / 1e18,
+              allocation: parseInt(allocation.convex) / 1e18,
+            },
+          ],
+        ),
+      )
+      balancerAccounts = Object.fromEntries(
+        Object.entries(balancerAccounts).map(
+          ([address, { allocation, BAL, vote }]) => [
+            address,
+            {
+              balance: parseInt(BAL) / 1e18,
+              allocation: parseInt(allocation.balancer) / 1e18,
+              vote,
             },
           ],
         ),
       )
 
-      const voteEntries = Object.entries(accounts).filter(
-        ([, { vote }]) => vote === 'Y',
+      const convexEntries = Object.entries(convexAccounts).filter(
+        ([, { allocation }]) => allocation > 0,
       )
-      const vlCvxEntries = Object.entries(accounts).filter(
-        ([
-          ,
-          {
-            rescaledAllocation: { vlCVX },
-          },
-        ]) => vlCVX > 0,
-      )
-      const balEntries = Object.entries(accounts).filter(
-        ([
-          ,
-          {
-            rescaledAllocation: { BAL },
-          },
-        ]) => BAL > 0,
+      const balancerEntries = Object.entries(balancerAccounts).filter(
+        ([, { allocation }]) => allocation > 0,
       )
 
       const data = {
         name: 'root',
         children: [
           {
-            name: 'Vote',
-            color: 'transparent',
-            tooltipContent: `${voteEntries.length} accounts (${fmt(
-              voteEntries.reduce(
-                (
-                  prev,
-                  [
-                    ,
-                    {
-                      rawBalances: { votingPower },
-                    },
-                  ],
-                ) => prev + votingPower,
-                0,
-              ),
-            )} voting power)`,
-            children: voteEntries.map(
-              ([address, { rawBalances, rescaledAllocation }], index) => ({
-                name: address,
-                address,
-                value: rescaledAllocation.votingPower,
-                color: index % 2 === 0 ? '#59a619' : '#91c765',
-                tooltipContent: (() => {
-                  const airdropValue =
-                    rescaledAllocation.votingPower * hypotheticalAuraPrice
-                  const holdingValue = rawBalances.votingPower * balPrice
-                  const rewardPerToken =
-                    rescaledAllocation.votingPower / rawBalances.votingPower
-                  const pricePerReward =
-                    (rawBalances.votingPower * balPrice) /
-                    (rescaledAllocation.votingPower * hypotheticalAuraPrice)
-                  const costBasis = pricePerReward.toFixed(2)
-                  return `
-                    <div>AURA: ${fmt(rescaledAllocation.votingPower)} ($${fmt(
-                    airdropValue,
-                  )})</div>
-                    <div>Votes: ${fmt(rawBalances.votingPower)} ($${fmt(
-                    holdingValue,
-                  )})</div>
-                    <div>AURA per votes: ${rewardPerToken.toFixed(4)}</div>
-                    <div>Cost basis: $${costBasis}</div>
-                    `
-                })(),
-              }),
-            ),
-          },
-          {
-            name: 'vlCVX',
-            tooltipContent: `${vlCvxEntries.length} accounts (${fmt(
-              vlCvxEntries.reduce(
-                (
-                  prev,
-                  [
-                    ,
-                    {
-                      rawBalances: { vlCVX },
-                    },
-                  ],
-                ) => prev + vlCVX,
+            name: 'convex',
+            tooltipContent: `${convexEntries.length} accounts (${fmt(
+              convexEntries.reduce(
+                (prev, [, { balance }]) => prev + balance,
                 0,
               ),
             )} vlCVX)`,
             color: 'transparent',
-            children: vlCvxEntries.map(
-              ([address, { rawBalances, rescaledAllocation }], index) => ({
+            children: convexEntries.map(
+              ([address, { balance, allocation }], index) => ({
                 name: address,
                 address,
-                value: rescaledAllocation.vlCVX,
+                value: allocation,
                 color: index % 2 === 0 ? '#ffa200' : '#fdbe49',
                 tooltipContent: (() => {
-                  const airdropValue =
-                    rescaledAllocation.vlCVX * hypotheticalAuraPrice
-                  const holdingValue = rawBalances.vlCVX * cvxPrice
-                  const rewardPerToken =
-                    rescaledAllocation.vlCVX / rawBalances.vlCVX
+                  const airdropValue = allocation * hypotheticalAuraPrice
+                  const holdingValue = balance * cvxPrice
+                  const rewardPerToken = allocation / balance
                   const pricePerReward =
-                    (rawBalances.vlCVX * cvxPrice) /
-                    (rescaledAllocation.vlCVX * hypotheticalAuraPrice)
+                    (balance * cvxPrice) / (allocation * hypotheticalAuraPrice)
                   const costBasis = pricePerReward.toFixed(2)
                   return `
-                    <div>AURA: ${fmt(rescaledAllocation.vlCVX)} ($${fmt(
-                    airdropValue,
-                  )})</div>
-                    <div>vlCVX: ${fmt(rawBalances.vlCVX)}  ($${fmt(
-                    holdingValue,
-                  )})</div>
+                    <div>AURA: ${fmt(allocation)} ($${fmt(airdropValue)})</div>
+                    <div>vlCVX: ${fmt(balance)}  ($${fmt(holdingValue)})</div>
                     <div>AURA per vlCVX: ${rewardPerToken.toFixed(4)}</div>
                     <div>Cost basis: $${costBasis}</div>
                     `
@@ -189,51 +119,38 @@
             ),
           },
           {
-            name: 'BAL',
+            name: 'balancer',
             color: 'transparent',
-            tooltipContent: `${balEntries.length} accounts (${fmt(
-              balEntries.reduce(
-                (
-                  prev,
-                  [
-                    ,
-                    {
-                      rawBalances: { BAL },
-                    },
-                  ],
-                ) => prev + BAL,
+            tooltipContent: `${balancerEntries.length} accounts (${fmt(
+              balancerEntries.reduce(
+                (prev, [, { balance }]) => prev + balance,
                 0,
               ),
             )} BAL)`,
-            children: balEntries.sort((a, b) => b[1].rescaledAllocation.BAL - a[1].rescaledAllocation.BAL).map(
-              ([address, { rawBalances, rescaledAllocation }], index) => ({
+            children: balancerEntries
+              .sort((a, b) => b[1].allocation - a[1].allocation)
+              .map(([address, { balance, allocation, vote }], index) => ({
                 name: address,
                 address,
-                value: rescaledAllocation.BAL,
-                color: index % 2 === 0 ? '#053a77' : '#1e559d',
+                value: allocation,
+                color: vote === 'Y' ? '#02e1ff' : vote === 'N' ? '#f53a77' : index % 2 === 0 ? '#053a77' : '#1e559d',
                 tooltipContent: (() => {
-                  const airdropValue =
-                    rescaledAllocation.BAL * hypotheticalAuraPrice
-                  const holdingValue = rawBalances.BAL * balPrice
-                  const rewardPerToken =
-                    rescaledAllocation.BAL / rawBalances.BAL
+                  const airdropValue = allocation * hypotheticalAuraPrice
+                  const holdingValue = balance * balPrice
+                  const rewardPerToken = allocation / balance
                   const pricePerReward =
-                    (rawBalances.BAL * balPrice) /
-                    (rescaledAllocation.BAL * hypotheticalAuraPrice)
+                    (balance * balPrice) / (allocation * hypotheticalAuraPrice)
                   const costBasis = pricePerReward.toFixed(2)
                   return `
-                    <div>AURA: ${fmt(rescaledAllocation.BAL)} ($${fmt(
-                    airdropValue,
-                  )})</div>
-                    <div>BAL: ${fmt(rawBalances.BAL)} ($${fmt(
+                    <div>AURA: ${fmt(allocation)} ($${fmt(airdropValue)})</div>
+                    <div>BAL: ${fmt(balance)} ($${fmt(
                     holdingValue,
-                  )})</div>
+                  )})</div><div>Vote: ${vote}</div>
                     <div>AURA per BAL: ${rewardPerToken.toFixed(4)}</div>
                     <div>Cost basis: $${costBasis}</div>
                     `
                 })(),
-              }),
-            ),
+              })),
           },
         ],
       }
@@ -245,7 +162,7 @@
           .tooltipContent((node) => {
             return node.tooltipContent || ''
           })
-          .width(window.innerWidth * 0.31)
+          .width(window.innerWidth * 0.49)
           .height(window.innerHeight - 210)
           .padding(0)
           .color('color')
@@ -273,7 +190,7 @@
         const input = event.target.value
         if (input.startsWith('0x')) {
           const address = input.toLowerCase()
-          const account = accounts[address]
+          const account = balancerAccounts[address] ?? convexAccounts[address]
           if (account) {
             charts.forEach((chart) => {
               const node = chart

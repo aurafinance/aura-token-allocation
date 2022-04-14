@@ -3138,10 +3138,7 @@ export type PoolQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'Poo
 
 export const PoolIDsDocument = gql`
     query PoolIDs($blockNumber: Int!, $bal: Bytes!) {
-  pools(
-    where: {tokensList_contains: [$bal], totalLiquidity_gt: 10000}
-    block: {number: $blockNumber}
-  ) {
+  pools(where: {tokensList_contains: [$bal]}, block: {number: $blockNumber}) {
     id
   }
 }

@@ -3,23 +3,12 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
 import { fetchData } from './fetch'
-import { createMerkleDrop } from './process'
-import { MILLION, SCALE } from './constants'
-import { Config, GenesisSpec, MerkleDropId } from './types'
-import { divPrecisely } from './utils'
+import { createMerkleDrops } from './process'
+import { Config } from './types'
 
 dotenvConfig()
 
 const main = async () => {
-  const genesisSpec: GenesisSpec = {
-    id: MerkleDropId.GENESIS,
-    groups: {
-      vlCVX: MILLION,
-      BAL: MILLION,
-      yesVote: divPrecisely(MILLION, SCALE.mul(2)),
-    },
-  }
-
   const config: Config = await yargs(hideBin(process.argv)).options({
     cache: {
       type: 'boolean',
@@ -36,41 +25,46 @@ const main = async () => {
       type: 'number',
       describe: 'Exponent used to rescale allocations (vlCVX)',
     },
-    scaleExponentVote: {
-      default: 0.4,
-      type: 'number',
-      describe: 'Exponent used to rescale allocations (Vote)',
-    },
     cutoffMainnet: {
-      default: 14474050,
+      default: 14577822,
       type: 'number',
       describe: 'Snapshot cutoff block for Mainnet',
     },
     cutoffPolygon: {
-      default: 25900796,
+      default: 27092000,
       type: 'number',
       describe: 'Snapshot cutoff block for Polygon',
     },
     cutoffArbitrum: {
-      default: 7844323,
+      default: 9751000,
       type: 'number',
       describe: 'Snapshot cutoff block for Arbitrum',
     },
-    minAuraReward: {
-      default: 30,
+    minAuraRewardBalancer: {
+      default: 25,
       type: 'number',
-      describe: 'Minimum reward size in $AURA',
+      describe: 'Minimum reward size in AURA for the Balancer Merkle drop',
+    },
+    minAuraRewardConvex: {
+      default: 25,
+      type: 'number',
+      describe: 'Minimum reward size in AURA for the Convex Merkle drop',
     },
     balancerVoteProposalId: {
       type: 'string',
       default:
-        '0xf9e44f6659b0a3a3249341bf8588b192ab923374fbca3f9be929c156036565e7',
+        '0xe8c75512fad1ae00352d70da8572b2184e430d9fbfd1e77369ddc3639bc22695',
       describe: 'Proposal ID from Snapshot used for the Balancer vote query',
+    },
+    balancerVoteMultiplier: {
+      type: 'number',
+      default: 1.5,
+      describe: 'Balance multiplier given to yes voters',
     },
   }).argv
 
   const data = await fetchData(config)
-  await createMerkleDrop(data, genesisSpec, config)
+  await createMerkleDrops(data, config)
 }
 
 main()

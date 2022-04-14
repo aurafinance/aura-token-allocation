@@ -6,3 +6,10 @@ generates:
       - typescript
       - typescript-operations
       - typescript-graphql-request
+  ./src/fetch/graphql/balancer-gauges/balancer_gauges.ts:
+    schema: ./src/fetch/graphql/balancer-gauges/schema.gql
+    documents: ./src/fetch/graphql/balancer-gauges/balancer_gauges.gql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request

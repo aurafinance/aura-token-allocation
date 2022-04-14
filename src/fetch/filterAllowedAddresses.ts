@@ -2,18 +2,16 @@ import { providers } from 'ethers'
 import pRetry from 'p-retry'
 import pLimit from 'p-limit'
 import cliProgress from 'cli-progress'
-import { readCache, writeCache } from './cache'
+import { readData, writeData } from './data'
 
 const ALLOWED_CODES = [
   // Gnosis Safe
-  '0x608060405273ffffffffffffffffffffffffffffffffffffffff600054167fa619486e0000000000000000000000000000000000000000000000000000000060003514156050578060005260206000f35b3660008037600080366000845af43d6000803e60008114156070573d6000fd5b3d6000f3fea',
+  '608060405273ffffffffffffffffffffffffffffffffffffffff600054167fa619486e0000000000000000000000000000000000000000000000000000000060003514156050578060005260206000f35b3660008037600080366000845af43d6000803e60008114156070573d6000fd5b3d6000f3fea',
 ]
 
 const isAllowedAddressCode = (code: string) => {
   if (code === '0x') return true
-  return ALLOWED_CODES.some(
-    (_code) => _code === code || code.slice(0, _code.length) === _code,
-  )
+  return ALLOWED_CODES.some((allowedCode) => code.includes(allowedCode))
 }
 
 export const filterAllowedAddresses = async (
@@ -25,7 +23,7 @@ export const filterAllowedAddresses = async (
   )
 
   const fileName = 'address-codes.json'
-  const cached = (await readCache<Record<string, string>>(fileName)) ?? {}
+  const cached = (await readData<Record<string, string>>(fileName)) ?? {}
 
   const addressesToFetch = addresses.filter(
     (address) => !cached.hasOwnProperty(address),
@@ -71,7 +69,7 @@ export const filterAllowedAddresses = async (
 
   const addressCodes: Record<string, string> = { ...cached, ...fetched }
 
-  await writeCache(fileName, addressCodes)
+  await writeData(fileName, addressCodes)
 
   return Object.entries(addressCodes).reduce(
     (prev, [address, code]) => {

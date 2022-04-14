@@ -12,11 +12,11 @@ cp .env.example .env
 yarn
 
 # Run without using cached data. This will take some time.
-# Caution: ~30k throttled requests to Infura will be made.
+# Caution: Many (throttled) requests to Infura, Dune Analytics and The Graph will be made.
 yarn start --cache false
 
 # Optionally, run with config:
-yarn start --cache true --scaleExponentBal 0.75 --scaleExponentVlcvx 0.75 --scaleExponentVote 0.4 --minAuraReward 30
+yarn start --cache true --scaleExponentBal 0.75 --scaleExponentVlcvx 0.75 --minAuraRewardBalancer 30
 ```
 
 ## Configuration
@@ -24,12 +24,13 @@ yarn start --cache true --scaleExponentBal 0.75 --scaleExponentVlcvx 0.75 --scal
 - `cache`: Whether to use cached query results
 - `scaleExponentBal`: Exponent used to rescale allocations (BAL)
 - `scaleExponentVlcvx`: Exponent used to rescale allocations (vlCVX)
-- `scaleExponentVote`: Exponent used to rescale allocations (Vote)
 - `cutoffMainnet`: Snapshot cutoff block for Mainnet
 - `cutoffPolygon`: Snapshot cutoff block for Polygon
 - `cutoffArbitrum`: Snapshot cutoff block for Arbitrum
-- `minAuraReward`: Minimum reward size in $AURA
+- `minAuraRewardBalancer`: Minimum reward size in $AURA for Balancer
+- `minAuraRewardConvex`: Minimum reward size in $AURA for Convex
 - `balancerVoteProposalId`: Proposal ID from Snapshot used for the Balancer vote query
+- `balancerVoteMultiplier`: Balance multiplier given to yes voters
 
 ## Methodology
 

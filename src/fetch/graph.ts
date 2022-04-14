@@ -3,6 +3,7 @@ import cliProgress, { SingleBar } from 'cli-progress'
 import { GraphQLClient } from 'graphql-request'
 
 import { getSdk, PoolQuery, Sdk } from './graphql/balancer/balancer_lp'
+import { getSdk as getGaugesSdk } from './graphql/balancer-gauges/balancer_gauges'
 import { BAL } from '../constants'
 import { Config, Data, Network } from '../types'
 import { getCutoffBlock } from '../utils'
@@ -138,11 +139,23 @@ const fetchBalancerPoolsData = async (config: Config) => {
   return results
 }
 
+const fetchBalancerGaugeData = async (config: Config) => {
+  const client = new GraphQLClient(
+    'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges',
+  )
+  const sdk = getGaugesSdk(client)
+  const query = await sdk.VotingEscrowLocks({
+    blockNumber: getCutoffBlock(config, 'mainnet'),
+  })
+  return query.votingEscrowLocks
+}
+
 export const fetchGraphData = async (
   config: Config,
 ): Promise<Data['graph']> => {
   const pools = (await fetchBalancerPoolsData(
     config,
   )) as Data['graph']['balancer']['pools']
-  return { balancer: { pools } }
+  const votingEscrowLocks = await fetchBalancerGaugeData(config)
+  return { balancer: { pools, votingEscrowLocks } }
 }

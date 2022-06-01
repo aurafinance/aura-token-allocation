@@ -1,0 +1,40 @@
+query PoolIDs($blockNumber: Int!, $bal: Bytes!) {
+  pools(
+    where: { tokensList_contains: [$bal], totalShares_gt: 0 }
+    block: { number: $blockNumber }
+  ) {
+    id
+  }
+}
+
+query Pool(
+  $blockNumber: Int!
+  $poolId: ID!
+  $sharesSkip: Int!
+  $sharesLimit: Int!
+) {
+  pools(
+    where: { id: $poolId, totalShares_gt: 0 }
+    block: { number: $blockNumber }
+  ) {
+    id
+    totalShares
+    shares(
+      first: $sharesLimit
+      skip: $sharesSkip
+      orderDirection: desc
+      orderBy: balance
+      where: { balance_gt: 0 }
+    ) {
+      userAddress {
+        id
+      }
+      balance
+    }
+    tokens {
+      address
+      weight
+      balance
+    }
+  }
+}

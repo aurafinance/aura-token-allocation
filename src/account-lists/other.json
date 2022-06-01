@@ -1,0 +1,20 @@
+{
+  "name": "Other",
+  "description": "Other exclusions",
+  "accounts": {
+    "0x5dd596c901987a2b28c38a9c1dfbf86fffc15d77": "Sifu",
+    "0x0c3a1a43392f06347aa8fea1852b4ba068443a0d": "Mochi",
+    "0xbEC5E1AD5422e52821735b59b39Dc03810aAe682": "Terra",
+    "0x355d72fb52ad4591b2066e43e89a7a38cf5cb341": "Wonderland",
+    "0x841bc0ba1851defc9f46fe5b006aef718161616e": "Sybil",
+    "0x6531cd56a27cedf3e4e0de6410ccb8cae529dac6": "Sybil",
+    "0x3b6cd447412767014e8e127666b7d35cc2dec81e": "Sybil",
+    "0xf0d1ea509f19836907c5324fd8c19ed7943097eb": "Sybil",
+    "0x8c2212a2176147d26470c389cbec1611e15dabb0": "Sybil",
+    "0x006437f9523325287aeeac4c688459044b7e3bea": "Sybil",
+    "0xc06a6bbef0ae40ae29164452e08a32666094ec99": "Sybil",
+    "0x492b0e2c94445239a786f0c8072ca66cf6b13e3a": "Sybil",
+    "0x583fe4000dfd828fe6d187eb58b855baa296822d": "Sybil",
+    "0x6a15110a67b8b43e93c9072d27f45c5f71ac8bd9": "Sybil"
+  }
+}

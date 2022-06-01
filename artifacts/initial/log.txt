@@ -1,0 +1,323 @@
+{"balancerVoteMultiplier":3,"balancerVoteProposalId":"0xb8c3a2e527e9e502055926a3bc646874207e46c8985f9e6317c331338da70711","cutoffArbitrum":12779734,"cutoffMainnet":14829454,"cutoffPolygon":28669903,"level":"info","message":"Config","minAuraRewardBalancer":50,"minAuraRewardConvex":50,"scaleExponentBal":0.75,"scaleExponentVlcvx":0.75}
+{"level":"warn","message":"Redirection destination total mismatch ./redirection/aaveBal.json: 0x272f97b7a56a387ae942350bbc7df5700f8a4576: 1268 (0.000000000000001268) not allocated"}
+{"level":"warn","message":"Redirection destination total mismatch ./redirection/badger.json: 0x898111d1f4eb55025d0036568212425ee2274082: 2225 (0.000000000000002225) not allocated"}
+{"level":"warn","message":"Redirection destination total mismatch ./redirection/badger.json: 0x26f6f27fdbc3b9cde4b1943b1c07606caf2c4c6c: 26 (0.000000000000000000000000000026) not allocated"}
+{"level":"warn","message":"Redirection destination total mismatch ./redirection/badger.json: 0x937b8e917d0f36edebba8e459c5fb16f3b315551: 20002 (0.000000000000000000000000000020002) not allocated"}
+{"level":"warn","message":"Redirection destination total mismatch ./redirection/badger.json: 0x660802fc641b154aba66a62137e71f331b6d787a: 120124479992837543299772241275 (0.000120124479992837543299772241275) not allocated"}
+{"level":"info","message":"Excluding 0x4281e53938c3b1c1d3e8afd21c02ce8512cdbc93: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xaa857ddce7b5b9cb17296c790cb40e8c11a3d4f0: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x242d7cd78cce454946f35f0a263b54fbe228852c: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xe7a76d8513e55578c80e4b26fc61ee7d4906d4cd: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xbec5e1ad5422e52821735b59b39dc03810aae682: Other (Terra)"}
+{"level":"info","message":"Excluding 0x355d72fb52ad4591b2066e43e89a7a38cf5cb341: Other (Wonderland)"}
+{"level":"info","message":"Total vlCVX (dune): 49659602.80840449"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"Excluding 0x10a19e7ee7d7f8a52822f6817de8ea18204f2e4f: Balancer DAO (Balancer DAO Multisig)"}
+{"level":"info","message":"Excluding 0xb129f73f1afd3a49c701241f374db17ae63b20eb: Balancer DAO (Balancer Future fund raise)"}
+{"level":"info","message":"Excluding 0xcdcebf1f28678eb4a1478403ba7f34c94f7ddbc5: Balancer DAO (Balancer Team)"}
+{"level":"info","message":"Excluding 0xf977814e90da44bfa03b6295a0616a897441acec: Infrastructure (Binance 8)"}
+{"level":"info","message":"Excluding 0xff052381092420b7f24cc97fded9c0c17b2cbbb9: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xceacc82ddcdb00bfe19a9d3458db3e6b8aef542b: Balancer DAO (Balancer (other 1))"}
+{"level":"info","message":"Excluding 0x40ec5b33f54e0e8a33a975908c5ba1c14e5bbbdf: Infrastructure (Polygon bridge)"}
+{"level":"info","message":"Excluding 0x6d19b2bf3a36a61530909ae65445a906d98a2fa8: Balancer DAO (Balancer Distribution)"}
+{"level":"info","message":"Excluding 0xa3a7b6f88361f48403514059f1f16c8e78d60eec: Infrastructure (Arbi gateway)"}
+{"level":"info","message":"Excluding 0x7a2e4aa4f2f6ab66594fff84dcabac67fb9773c8: Infrastructure (Kraken)"}
+{"level":"info","message":"Excluding 0x53a87b98e38cf1fe906422e624c6954421391f44: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x0845989a8a6da24874b37b7c610b2d6fc524c067: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x74c3646adad7e196102d1fe35267adfd401a568b: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x1c8bcb6348c84122e67a50e513a1e183c0e6929a: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x438fd34eab0e80814a231a983d8bfaf507ae16d4: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x91b9e59614995e13a32e36440ac524825f7ae39e: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x94278cbc4cb0c15ad23084502db7e6154eaf9b0d: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x2faf487a4414fe77e2327f0bf4ae2a264a776ad2: Infrastructure (FTX Exchange)"}
+{"level":"info","message":"Excluding 0x28c6c06298d514db089934071355e5743bf21d60: Infrastructure (Binance 14)"}
+{"level":"info","message":"Excluding 0xddfabcdc4d8ffc6d5beaf154f18b778f892a0740: Infrastructure (Coinbase 3)"}
+{"level":"info","message":"Excluding 0xf0bc36fa47a052b92da4f50bd042d9e047192a65: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xaebfe1e1bd01d4b6baf4b998e7b8dc93182d40e0: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xe08a8b19e5722a201eaf20a6bc595ef655397bd5: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x3c221e16a342a5ec114f7259a37ef42b0597c251: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xda6b2a5e0c56542984d84a710f90eefd94ca1991: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x66c9e1e4fe518cebfe59c9de16e1c780ef5bacd3: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xc9cea7a3984cefd7a8d2a0405999cb62e8d206dc: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x6aee9dc09702dffab334f3f8e6f3f97c0e7261f4: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x9b71dbccd9ffb858899ef3244b09a5354b16048e: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xd519d5704b41511951c8cf9f65fee9ab9bef2611: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x6a15110a67b8b43e93c9072d27f45c5f71ac8bd9: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x3b6cd447412767014e8e127666b7d35cc2dec81e: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x492b0e2c94445239a786f0c8072ca66cf6b13e3a: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x006437f9523325287aeeac4c688459044b7e3bea: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x6531cd56a27cedf3e4e0de6410ccb8cae529dac6: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x8c2212a2176147d26470c389cbec1611e15dabb0: Other (Sybil)"}
+{"level":"info","message":"Excluding 0xc06a6bbef0ae40ae29164452e08a32666094ec99: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x583fe4000dfd828fe6d187eb58b855baa296822d: Other (Sybil)"}
+{"level":"info","message":"Excluding 0x841bc0ba1851defc9f46fe5b006aef718161616e: Other (Sybil)"}
+{"level":"info","message":"Excluding 0xf0d1ea509f19836907c5324fd8c19ed7943097eb: Other (Sybil)"}
+{"level":"info","message":"Excluding 0xe93381fb4c4f14bda253907b18fad305d799241a: Infrastructure (Huobi 10)"}
+{"level":"info","message":"Excluding 0x8d6f396d210d385033b348bcae9e4f9ea4e045bd: Infrastructure (Gemini 6)"}
+{"level":"info","message":"Excluding 0x6cc5f688a315f3dc28a7781717a9a798a59fda7b: Infrastructure (OKEx)"}
+{"level":"info","message":"Excluding 0x5f65f7b609678448494de4c87521cdf6cef1e932: Infrastructure (Gemini 4)"}
+{"level":"info","message":"Excluding 0xc75159987ab5bba7df82684aad12af3123a5f667: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x788c0d59aee802ee615b3db138215862247f5960: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x9acbb72cf67103a30333a32cd203459c6a9c3311: Infrastructure (Paribu 5)"}
+{"level":"info","message":"Excluding 0x6e33b41e44ca2be27e8f65b5231ae61a21044b4a: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xd3238d8be92fd856146f53a8b6582bc88e887559: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x0a29500ccc6af0b11c72d4e171d925eb0bb7ee15: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x0b177b7f10faeadd6eee6d2cc46d783f460566c8: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xf1f7c71cb81ceba1dc5fd659eeb144301df0dbb4: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xbe0eb53f46cd790cd13851d5eff43d12404d33e8: Infrastructure (Binance 7)"}
+{"level":"info","message":"Excluding 0xdceacfdc8679cc3223541e840a38627e8d2d9fed: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xf96cd1cf416b50b60358a17bc8593060148de422: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x1cbad69d9cc22962a0a885921518c06ed2f04ffd: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xdea0d77a9b02020acf075074881f370a31009982: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x49ff149d649769033d43783e7456f626862cd160: Balancer pools (Balancer: Pool 431,328)"}
+{"level":"info","message":"Excluding 0x6d5dda04760f0515dc131ff4df76a5188ffcdfcb: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98: Infrastructure (Bittrex)"}
+{"level":"info","message":"Excluding 0x742d35cc6634c0532925a3b844bc454e4438f44e: Infrastructure (Bitfinex 2)"}
+{"level":"info","message":"Excluding 0xaa857ddce7b5b9cb17296c790cb40e8c11a3d4f0: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x0d0707963952f2fba59dd06f2b425ace40b492fe: Infrastructure (Gate.io)"}
+{"level":"info","message":"Excluding 0x876eabf441b2ee5b5b0554fd502a8e0600950cfa: Infrastructure (Bitfinex 3)"}
+{"level":"info","message":"Excluding 0x6262998ced04146fa42253a5c0af90ca02dfd2a3: Infrastructure (Crypto.com)"}
+{"level":"info","message":"Excluding 0xbb19053e031d9b2b364351b21a8ed3568b21399b: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x4281e53938c3b1c1d3e8afd21c02ce8512cdbc93: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xa910f92acdaf488fa6ef02174fb86208ad7722ba: Infrastructure (Poloniex 4)"}
+{"level":"info","message":"Excluding 0xf16e9b0d03470827a95cdfd0cb8a8a3b46969b91: Infrastructure (KuCoin 9)"}
+{"level":"info","message":"Excluding 0x46340b20830761efd32832a74d7169b29feb9758: Infrastructure (Crypto.com 2)"}
+{"level":"info","message":"Excluding 0x55031f623152cfb63c60a152238b9b3b28c568b0: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xb3f923eabaf178fc1bd8e13902fc5c61d3ddef5b: Infrastructure (Binance)"}
+{"level":"info","message":"Excluding 0xc81d50c17754b379f1088574cf723be4fb00307d: Balancer pools (Balancer: ETH/PNK 50/50 #241)"}
+{"level":"info","message":"Excluding 0xd6216fc19db775df9774a6e33526131da7d19a2c: Infrastructure (KuCoin 6)"}
+{"level":"info","message":"Excluding 0x21a31ee1afc51d94c2efccaa2092ad1028285549: Infrastructure (Binance 15)"}
+{"level":"info","message":"Excluding 0x0ed9a1323db9653f4650de782ade8504617ecbd3: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x6724f3fbb16f542401bfc42c464ce91b6c31001e: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xd09ca75315e70bd3988a47958a0c6c5b30b830e1: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x167a9333bf582556f35bd4d16a7e80e191aa6476: Infrastructure (Coinone)"}
+{"level":"info","message":"Excluding 0x75e89d5979e4f6fba9f97c104c2f0afb3f1dcb88: Infrastructure (MEXC: Mexc.com)"}
+{"level":"info","message":"Excluding 0xe7a76d8513e55578c80e4b26fc61ee7d4906d4cd: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x562680a4dc50ed2f14d75bf31f494cfe0b8d10a1: Infrastructure (Hotbit 3)"}
+{"level":"info","message":"Excluding 0xa12431d0b9db640034b0cdfceef9cce161e62be4: Infrastructure (HitBTC 3)"}
+{"level":"info","message":"Excluding 0x6cc8dcbca746a6e4fdefb98e1d0df903b107fd21: Infrastructure (Bitrue)"}
+{"level":"info","message":"Excluding 0xf73c3c65bde10bf26c2e1763104e609a41702efe: Infrastructure (Bibox)"}
+{"level":"info","message":"Excluding 0xd4dcd2459bb78d7a645aa7e196857d421b10d93f: Infrastructure (Peatio)"}
+{"level":"info","message":"Excluding 0x352bdabe484499e4c25c3536cc3eda1edbc5ad29: Infrastructure (KickEX)"}
+{"level":"info","message":"Excluding 0x6eff3372fa352b239bb24ff91b423a572347000d: Infrastructure (BIKI.com)"}
+{"level":"info","message":"Excluding 0xbb3fd383d1c5540e52ef0a7bcb9433375793aeaf: Infrastructure (Unknown exchange 2)"}
+{"level":"info","message":"Excluding 0xdf290293c4a4d6ebe38fd7085d7721041f927e0a: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xdfd5293d8e347dfe59e90efd55b2956a1343963d: Infrastructure (Binance 16)"}
+{"level":"info","message":"Excluding 0x6f1c8742ba79d9bc1dfcb01fefdd54c38f99f9ca: Balancer pools (Balancer: DAI/renBTC/ETH/BAL 25/25/25/25)"}
+{"level":"info","message":"Excluding 0x39f6a6c85d39d5abad8a398310c52e7c374f2ba3: Infrastructure (WhiteBIT)"}
+{"level":"info","message":"Excluding 0x59a5208b32e627891c389ebafc644145224006e8: Infrastructure (HitBTC 2)"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"Total BAL (dune, mainnet): 49738514.74249883"}
+{"level":"info","message":"Total BAL (dune, polygon): 643834.5796677867"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"Excluding 0xd09ca75315e70bd3988a47958a0c6c5b30b830e1: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Total BAL (covalent, arbitrum): 469489.392472664"}
+{"level":"info","message":"BAL in pool 0x01abc00e86c7e258823b9a055fd62ca6cf61a16300010000000000000000003b: 7.693019674267373128"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0x03cd191f589d12b0582a99808cf19851e468e6b500020000000000000000002b: 0.646553624519376179"}
+{"level":"info","message":"BAL in pool 0x148ce9b50be946a96e94a4f5479b771bab9b1c59000100000000000000000054: 356.499332899012261306"}
+{"level":"info","message":"BAL in pool 0x20facecaa68e9b7c92d2d0ec9136d864df805233000100000000000000000190: 381.153613055293608199"}
+{"level":"info","message":"BAL in pool 0x36128d5436d2d70cab39c9af9cce146c38554ff0000200000000000000000009: 0.000000000001003693"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0x3ebf48cd7586d7a4521ce59e53d9a907ebf1480f000200000000000000000028: 33855.740540029306258222"}
+{"level":"info","message":"BAL in pool 0x4080f182f6c654b87eaa3366139378c4b9a4626f0001000000000000000001d8: 0.000000000001524456"}
+{"level":"info","message":"BAL in pool 0x4626d81b3a1711beb79f4cecff2413886d461677000200000000000000000011: 8879.162762426010768922"}
+{"level":"info","message":"BAL in pool 0x58af920d9dc0bc4e8f771ff013d79215cabcaa9e00010000000000000000005f: 0.000000000000151005"}
+{"level":"info","message":"BAL in pool 0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014: 10373116.128775915310640744"}
+{"level":"info","message":"Excluding 0x1c39babd4e0d7bff33bc27c6cc5a4f1d74c9f562: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xbb19053e031d9b2b364351b21a8ed3568b21399b: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x4281e53938c3b1c1d3e8afd21c02ce8512cdbc93: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x6724f3fbb16f542401bfc42c464ce91b6c31001e: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"BAL in pool 0x647c1fd457b95b75d0972ff08fe01d7d7bda05df000200000000000000000002: 2.764128129867829704"}
+{"level":"info","message":"BAL in pool 0x7bf521b4f4c1543a622e11ee347efb1a2374332200010000000000000000005c: 0.000000000000146482"}
+{"level":"info","message":"BAL in pool 0x8bda1ab5eead21547ba0f33c07c86c5dc48d9baa00010000000000000000005b: 0.000000000000179662"}
+{"level":"info","message":"BAL in pool 0x8f4205e1604133d1875a3e771ae7e4f2b086563900020000000000000000010e: 38177.810544181220101232"}
+{"level":"info","message":"Excluding 0x10a19e7ee7d7f8a52822f6817de8ea18204f2e4f: Balancer DAO (Balancer DAO Multisig)"}
+{"level":"info","message":"BAL in pool 0x991aeafbe1b1c7ac8348dc623ae350768d0c65b3000100000000000000000008: 0.000000000000189085"}
+{"level":"info","message":"BAL in pool 0x9c08c7a7a89cfd671c79eacdc6f07c1996277ed5000200000000000000000025: 131.708532598408479145"}
+{"level":"info","message":"BAL in pool 0x9e7fd25ad9d97f1e6716fa5bb04749a4621e892d000100000000000000000039: 10.318927603320386066"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0x9f1f16b025f703ee985b58ced48daf93dad2f7ef00020000000000000000001e: 15.223283449246014096"}
+{"level":"info","message":"BAL in pool 0xb6b9b165c4ac3f5233a0cf413126c72be28b468a00010000000000000000005a: 5.342132219684034314"}
+{"level":"info","message":"BAL in pool 0xf461f2240b66d55dcf9059e26c022160c06863bf000100000000000000000007: 0.000000000000205095"}
+{"level":"info","message":"BAL in pool 0x0297e37f1873d2dab4487aa67cd56b58e2f27875000100000000000000000002: 227622.969630039471736508"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0x03c4abd4df428b72c31c61c014683309b56303b6000100000000000000000399: 0.01026835733694569"}
+{"level":"info","message":"BAL in pool 0x0578292cb20a443ba1cde459c985ce14ca2bdee5000100000000000000000123: 0.000000000000002837"}
+{"level":"info","message":"BAL in pool 0x105c3f7875bc4284c5151718aa18890994cf48fe0002000000000000000004cc: 0.000000000000147976"}
+{"level":"info","message":"BAL in pool 0x114becba0adbcb26dc373d843393cd490b8484550001000000000000000003f2: 0.000000000003624334"}
+{"level":"info","message":"BAL in pool 0x186084ff790c65088ba694df11758fae4943ee9e000200000000000000000032: 14264.589123145365707375"}
+{"level":"info","message":"BAL in pool 0x205ef52dc36917e2cf3b8f2e6a759caec3094fed00020000000000000000008c: 0.100783241228316975"}
+{"level":"info","message":"BAL in pool 0x236c0eb7fe569528e4894906a29acd711eede093000100000000000000000516: 0.000068896299265658"}
+{"level":"info","message":"BAL in pool 0x27fbd1f7a75324671cdb54f76a6d5f82c9bd6b3300010000000000000000019c: 0.000000000000002686"}
+{"level":"info","message":"BAL in pool 0x2a5f716bda01e74d2b19ac10d0c7e1c04485eab50001000000000000000001d5: 0.000000000000003596"}
+{"level":"info","message":"BAL in pool 0x32d719732d9c2a0dd293253dad78e25213f60265000100000000000000000302: 0.000000000000334894"}
+{"level":"info","message":"BAL in pool 0x32fc95287b14eaef3afa92cccc48c285ee3a280a000100000000000000000005: 168.604538839123234025"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0x35e68dce39f774c37b1f2307ae975a512776208200010000000000000000042b: 0.310022693877136933"}
+{"level":"info","message":"BAL in pool 0x36128d5436d2d70cab39c9af9cce146c38554ff0000100000000000000000008: 98080.003848130141155166"}
+{"level":"info","message":"BAL in pool 0x37306aec67220b11991416e1e7a97f9caeeaff7d0001000000000000000001cc: 0.557005792528298997"}
+{"level":"info","message":"BAL in pool 0x39a63771c4cab1ba452ee65cc580f72a53cdabe700020000000000000000034f: 0.00000002043525689"}
+{"level":"info","message":"BAL in pool 0x3a19030ed746bd1c3f2b0f996ff9479af04c5f0a000100000000000000000004: 0.000000000000403025"}
+{"level":"info","message":"BAL in pool 0x3d468ab2329f296e1b9d8476bb54dd77d8c2320f000200000000000000000426: 82.57153610097253149"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0x415747ee98d482e6dd9b431fa76ad5553744f24700010000000000000000007d: 549.695836942191038084"}
+{"level":"info","message":"BAL in pool 0x432eb5a7e69f0753298f111b0ce633642392560800020000000000000000006e: 0.367401632062664455"}
+{"level":"info","message":"BAL in pool 0x47ebc05bc9476c9ae36679fbc3cd7bbc83a651900001000000000000000001cb: 0.554129320672624669"}
+{"level":"info","message":"BAL in pool 0x4956d05002bbe857a6b20eb17cbd66da40a5e97100020000000000000000002e: 0.000001"}
+{"level":"info","message":"BAL in pool 0x4da9027fad093c21edb86645aad5a2e1e3deb3440001000000000000000003cd: 0.000000000002649401"}
+{"level":"info","message":"BAL in pool 0x55ffeb33a19952530997572fbb6d039310b2e799000100000000000000000208: 0.007323481070236662"}
+{"level":"info","message":"BAL in pool 0x5780edb480d7dc586370984918442573d1da8da000010000000000000000034c: 0.000000000000000001"}
+{"level":"info","message":"BAL in pool 0x59f8df294e60667f5e34df44370ebf53533d7ebf000100000000000000000318: 0.00000000000001205"}
+{"level":"info","message":"BAL in pool 0x5c406e75baf8c66ea7b7c266ba2f4d474f33ec100001000000000000000001f1: 0.000000000000002051"}
+{"level":"info","message":"BAL in pool 0x5ec12475eaab4a52d6f89e4b20868a268bc903e00001000000000000000002cd: 0.242943903229242875"}
+{"level":"info","message":"BAL in pool 0x638d694608726c407c13f96b926fc73bcd0437a80002000000000000000002a5: 126.485516330937863765"}
+{"level":"info","message":"BAL in pool 0x664e158dc6d1c0aacec01c59a9d11643f1a97e8a0001000000000000000001d8: 0.000000000000006723"}
+{"level":"info","message":"BAL in pool 0x7173b184525fead2ffbde5fbe6fcb65ea8246ee7000100000000000000000056: 0.032401779789470892"}
+{"level":"info","message":"BAL in pool 0x7320d680ca9bce8048a286f00a79a2c9f8dcd7b3000100000000000000000044: 0.516621175971728336"}
+{"level":"info","message":"BAL in pool 0x746f004089d4050c564954a7413d78b7e5c02e35000100000000000000000507: 6.190232668254684707"}
+{"level":"info","message":"BAL in pool 0x769432a08426d25f8f99a1af16db23ce41cad784000100000000000000000188: 0.000000000000019642"}
+{"level":"info","message":"BAL in pool 0x76fcf0e8c7ff37a47a799fa2cd4c13cde0d981c90001000000000000000001f5: 0.009109515644351181"}
+{"level":"info","message":"BAL in pool 0x77ffd0a758b0a3960c208130b37f1130c2b9192a00010000000000000000005d: 3.301137690144612784"}
+{"level":"info","message":"BAL in pool 0x7e51bbf45a0cb76ef972ade3e9ff7fa949e05552000100000000000000000078: 0.00000000000014177"}
+{"level":"info","message":"BAL in pool 0x7eb878107af0440f9e776f999ce053d277c8aca800020000000000000000002f: 121.782762334518767058"}
+{"level":"info","message":"BAL in pool 0x7ed8639b84a0f55f87204f45a06eccf566815eaf000100000000000000000209: 0.001628943254248023"}
+{"level":"info","message":"BAL in pool 0x7effb38c7e25c2f976c8a169a385bb147fb8cb320001000000000000000002ee: 0.000578031853149133"}
+{"level":"info","message":"BAL in pool 0x81343c08cccd0e13f3c49c8270c93edc5f3d0fc6000100000000000000000203: 0.006179673209287259"}
+{"level":"info","message":"BAL in pool 0x813e6a5f31c95f7c5f9982b1fdc6c69610beab4a000200000000000000000215: 4.598009277612751202"}
+{"level":"info","message":"BAL in pool 0x827ad315960f5a0f5280d6936c8e52a5878bba0400020000000000000000005c: 1224.19496237607601583"}
+{"level":"info","message":"BAL in pool 0x8a6b25e33b12d1bb6929a8793961076bd1f9d3eb000100000000000000000213: 0.000000000000247421"}
+{"level":"info","message":"BAL in pool 0x8ae511baa25d6c7d21f45ebe60ff29912d28a8e60001000000000000000001f9: 0.000000000000000004"}
+{"level":"info","message":"BAL in pool 0x8f4205e1604133d1875a3e771ae7e4f2b086563900020000000000000000006f: 0.563969509914671672"}
+{"level":"info","message":"BAL in pool 0x97cbac8b44b6e6c3e181cd33cdbd2d47d02568b1000100000000000000000446: 0.00032264635441053"}
+{"level":"info","message":"BAL in pool 0x9d66b76792848814fba9b30c5f78c1c27ed3d58900010000000000000000033a: 0.000000000000000001"}
+{"level":"info","message":"BAL in pool 0x9ee0af1ee0a0782daf5f1af47fd49b2a766bd8d40001000000000000000001ce: 0.000000000000030696"}
+{"level":"info","message":"BAL in pool 0x9fcaebbc766cd6db8d96bbede2fc7bdbbae0b3aa0001000000000000000002e1: 0.000000000000001156"}
+{"level":"info","message":"BAL in pool 0xa3283e3470d3cd1f18c074e3f2d3965f6d62fff200010000000000000000011b: 679.525663528095312942"}
+{"level":"info","message":"BAL in pool 0xaebaaa8cdedddb665089551878dddefe2c50660d0001000000000000000003cf: 10.123129867315616227"}
+{"level":"info","message":"BAL in pool 0xb4590ec0f77737b08254564e2834eed757a6126e000200000000000000000310: 0.000000000000000163"}
+{"level":"info","message":"BAL in pool 0xba07d63875d0c2319d43cbb8a897f89bdafd7e87000100000000000000000077: 433.757540355820576"}
+{"level":"info","message":"BAL in pool 0xbc7661fb94a2c0c40203afe1c6fac48581a36d1d0001000000000000000002ce: 0.000000000000123964"}
+{"level":"info","message":"BAL in pool 0xbd3a698826d27563d08d459faff2d5f6960e21cf0001000000000000000001d6: 0.000000000000036823"}
+{"level":"info","message":"BAL in pool 0xc0a98f47720c058395c33ed144aabd67943d9f7800010000000000000000050d: 0.000000001098214049"}
+{"level":"info","message":"BAL in pool 0xc1e29303d8b8ceef9e022eba5b127df2a7bed9f00001000000000000000002d6: 0.000000000001391555"}
+{"level":"info","message":"BAL in pool 0xc3141fc45791cca3f21f2a926fd8598c39a4c6d20001000000000000000001d3: 0.000000000000002704"}
+{"level":"info","message":"BAL in pool 0xc6a5032dc4bf638e15b4a66bc718ba7ba474ff73000100000000000000000003: 1.894085237863642761"}
+{"level":"info","message":"BAL in pool 0xc798e9e74a49246cff5993881894b5eea54c60c700010000000000000000050f: 0.000018545108664351"}
+{"level":"info","message":"BAL in pool 0xce66904b68f1f070332cbc631de7ee98b650b499000100000000000000000009: 62883.892334191113755707"}
+{"level":"info","message":"Excluding 0xba12222222228d8ba445958a75a0704d566bf2c8: Balancer DAO (Balancer Vault)"}
+{"level":"info","message":"BAL in pool 0xd590931466cdd6d488a25da1e89dd0539723800c00020000000000000000023b: 0.000504512291860732"}
+{"level":"info","message":"BAL in pool 0xdb1db6e248d7bb4175f6e5a382d0a03fe3dcc813000100000000000000000035: 14198.651668541330465168"}
+{"level":"info","message":"BAL in pool 0xdde47a9ff76a3bbbe6772892233a4626f85b23c9000100000000000000000231: 0.000000000000001651"}
+{"level":"info","message":"BAL in pool 0xe4010ef5e37dc23154680f23c4a0d48bfca9168700010000000000000000023f: 0.000000000003165489"}
+{"level":"info","message":"BAL in pool 0xe99481dc77691d8e2456e5f3f61c1810adfc1503000200000000000000000062: 0.406343171975312325"}
+{"level":"info","message":"BAL in pool 0xeb58be542e77195355d90100beb07105b9bd295e00010000000000000000001b: 13.545500509284339777"}
+{"level":"info","message":"BAL in pool 0xed5d8fa2f341b1f6f264db560d9b8215e8beffaa000100000000000000000079: 74.220458352991878883"}
+{"level":"info","message":"BAL in pool 0xed6aa9284ee64cdae4cce8b2be87775be8adeee70002000000000000000001ef: 0.003616054933135223"}
+{"level":"info","message":"BAL in pool 0xf461f2240b66d55dcf9059e26c022160c06863bf000100000000000000000006: 913.020005583088814926"}
+{"level":"info","message":"BAL in pool 0xf8c4cd95c7496cb7c8d97202cf7e5b8da2204c2b0001000000000000000001ca: 0.118751863988790124"}
+{"level":"info","message":"BAL in pool 0xfa1575c57d887e93f37a3c267a548ede008458b3000100000000000000000045: 0.405895727880452254"}
+{"level":"info","message":"BAL in pool 0x1d8eed436235a06bb4e59f52bd803cf16ba49f4000020000000000000000008d: 0.128997449656563177"}
+{"level":"info","message":"BAL in pool 0x3323e5c789f377713af70e87972c246cef1f59d2000200000000000000000075: 14.271125150562225077"}
+{"level":"info","message":"BAL in pool 0x72e7cb9c57e8bd87bda0d7982d662a4cd1ac202700020000000000000000008f: 0.000000000005423032"}
+{"level":"info","message":"BAL in pool 0x75160945604aa3b256428d64ae0f6554f8d75e76000200000000000000000058: 0.000000000000163973"}
+{"level":"info","message":"BAL in pool 0xb286b923a4ed32ef1eae425e2b2753f07a517708000200000000000000000000: 62.323419707021387167"}
+{"level":"info","message":"BAL in pool 0xc7b2f32e33a4af92bdfb7023bdd0fbc89f1af9a900020000000000000000002b: 3.658215234931653651"}
+{"level":"info","message":"BAL in pool 0xcc65a812ce382ab909a11e434dbf75b34f1cc59d000200000000000000000001: 326287.843227820488906593"}
+{"level":"info","message":"Excluding 0x242d7cd78cce454946f35f0a263b54fbe228852c: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xe7a76d8513e55578c80e4b26fc61ee7d4906d4cd: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xcaab2680d81df6b3e2ece585bb45cee97bf30cd7: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xd09ca75315e70bd3988a47958a0c6c5b30b830e1: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Total BAL in pools (graph): 10218894.70261329"}
+{"level":"info","message":"Excluding 0x4281e53938c3b1c1d3e8afd21c02ce8512cdbc93: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xaa857ddce7b5b9cb17296c790cb40e8c11a3d4f0: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0x242d7cd78cce454946f35f0a263b54fbe228852c: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xe7a76d8513e55578c80e4b26fc61ee7d4906d4cd: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Excluding 0xdf290293c4a4d6ebe38fd7085d7721041f927e0a: Balancer DAO (Balancer Vested Shareholders)"}
+{"level":"info","message":"Total locked BAL (graph): 7077661.771584085"}
+{"level":"info","message":"Account exclusions (i.e. not EOA/Safe/etc) 575 (38372 remaining)"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer All accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;124m0.98\u001b[39m"}
+{"level":"info","message":"Applying redirections for BAL"}
+{"level":"info","message":"0x272f97b7a56a387ae942350bbc7df5700f8a4576 => 1072 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000279729876 to 0x71506af8e1bc762b4a7745665595ca07548a944d"}
+{"level":"info","message":"Applying redirections for BAL"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer Redirected accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;124m0.98\u001b[39m"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer Rescaled (before culling shrimp)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;124m0.98\u001b[39m"}
+{"level":"info","message":"allocation.balancer: \u001b[38;5;124m0.92\u001b[39m"}
+{"level":"info","message":"Total BAL: 13964486.37"}
+{"level":"info","message":"Balancer Yes-voters: 257"}
+{"level":"info","message":"Users getting Yes-vote bonuses: 257"}
+{"level":"info","message":"Holders with balancer claims: 25410"}
+{"level":"info","message":"Culling shrimp..."}
+{"level":"info","message":"Filtered out 31700 accounts under threshold: reallocating 156830.219528358068910733 AURA"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer Rescaled (final)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;130m0.89\u001b[39m"}
+{"level":"info","message":"allocation.balancer: \u001b[38;5;130m0.76\u001b[39m"}
+{"level":"info","message":"Total BAL: 13632754.71"}
+{"level":"info","message":"Balancer Yes-voters: 117"}
+{"level":"info","message":"Users getting Yes-vote bonuses: 117"}
+{"level":"info","message":"Holders with balancer claims: 1869"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex All accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;124m0.92\u001b[39m"}
+{"level":"info","message":"Applying redirections for vlCVX"}
+{"level":"info","message":"0x898111d1f4eb55025d0036568212425ee2274082 => 682 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000004013478404 to 0x48d93dabf29aa5d86424a90ee60f419f1837649f"}
+{"level":"info","message":"0x26f6f27fdbc3b9cde4b1943b1c07606caf2c4c6c => 15 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000000453021 to 0x465b357bbac5f6f3bc78669db6980f9eaa21d0c2"}
+{"level":"info","message":"0x660802fc641b154aba66a62137e71f331b6d787a => 1551 accounts"}
+{"level":"info","message":"Adding remainder of 7.416410752382369402 to 0x58f5f0684c381fcfc203d77b2bba468ebb29b098"}
+{"level":"info","message":"Applying redirections for vlCVX"}
+{"level":"info","message":"0x04c90c198b2eff55716079bc06d7ccc4aa4d7512 => 0x937b8e917d0f36edebba8e459c5fb16f3b315551"}
+{"level":"info","message":"0x26f6f27fdbc3b9cde4b1943b1c07606caf2c4c6c => 15 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000000002966 to 0x465b357bbac5f6f3bc78669db6980f9eaa21d0c2"}
+{"level":"info","message":"0x937b8e917d0f36edebba8e459c5fb16f3b315551 => 59 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000002937858 to 0xa9ed98b5fb8428d68664f3c5027c62a10d45826b"}
+{"level":"info","message":"0x660802fc641b154aba66a62137e71f331b6d787a => 1551 accounts"}
+{"level":"info","message":"Adding remainder of 0.049417562597853503 to 0x58f5f0684c381fcfc203d77b2bba468ebb29b098"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex Redirected accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;124m0.93\u001b[39m"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex Rescaled (before culling shrimp)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;124m0.93\u001b[39m"}
+{"level":"info","message":"allocation.convex: \u001b[38;5;130m0.82\u001b[39m"}
+{"level":"info","message":"Total vlCVX: 45757975.83"}
+{"level":"info","message":"Holders with convex claims: 7024"}
+{"level":"info","message":"Culling shrimp..."}
+{"level":"info","message":"Filtered out 31002 accounts under threshold: reallocating 65469.83052115021162683 AURA"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex Rescaled (final)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;130m0.85\u001b[39m"}
+{"level":"info","message":"allocation.convex: \u001b[38;5;136m0.67\u001b[39m"}
+{"level":"info","message":"Total vlCVX: 45024638.11"}
+{"level":"info","message":"Holders with convex claims: 2567"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts All accounts"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts Redirected accounts"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts Rescaled (before culling shrimp)"}
+{"level":"info","message":"Total nfts: 0.00"}
+{"level":"info","message":"Holders with nfts claims: 1642"}
+{"level":"info","message":"Culling shrimp..."}
+{"level":"info","message":"Filtered out 0 accounts under threshold: reallocating 0.0 AURA"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts Rescaled (final)"}
+{"level":"info","message":"Total nfts: 0.00"}
+{"level":"info","message":"Holders with nfts claims: 1642"}

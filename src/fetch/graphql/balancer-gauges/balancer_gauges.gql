@@ -1,0 +1,15 @@
+query VotingEscrows($blockNumber: Int!, $locksSkip: Int!, $locksLimit: Int!) {
+  votingEscrows(block: { number: $blockNumber }) {
+    id
+    stakedSupply
+    locks(
+      first: $locksLimit
+      skip: $locksSkip
+      orderBy: lockedBalance
+      orderDirection: desc
+    ) {
+      id
+      lockedBalance
+    }
+  }
+}

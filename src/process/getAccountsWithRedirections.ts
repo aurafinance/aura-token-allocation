@@ -55,12 +55,10 @@ export const getAccountsWithRedirections = async (
 
         mutable.set(
           account,
-          mutable.get(
-            account,
-            Account({ address: account })
-              .set('vote', vote)
-              .set('votingPower', votingPower),
-          ),
+          mutable
+            .get(account, Account({ address: account }))
+            .set('vote', vote)
+            .set('votingPower', votingPower),
         )
       })
 

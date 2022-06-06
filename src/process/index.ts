@@ -47,12 +47,14 @@ export const createMerkleDrops = async (data: Data, config: Config) => {
   const nftMerkleDrop = await createMerkleDrop({
     id: MerkleDropId.nfts,
     totalAllocation: parseUnits('200000'),
-    accounts: accounts.filter((account) => account.get('lobsterDao', 0) > 0),
+    accounts,
     allocationKey: 'nfts',
     redirections,
+    filterAccounts: (accounts: Accounts) =>
+      accounts.filter((account) => account.get('lobsterDao', 0) > 0),
     getBalances: (accounts: Accounts) =>
       // One lobster will suffice
-      accounts.map(() => 1),
+      accounts.map((account) => Math.min(1, account.get('lobsterDao', 0))),
   })
 
   // Merge all of these drops (sums the allocations)

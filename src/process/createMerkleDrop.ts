@@ -16,6 +16,7 @@ export const createMerkleDrop = async ({
   scaleExponent,
   minAuraReward,
   getBalances,
+  filterAccounts,
   redirections,
 }: {
   id: MerkleDropId
@@ -25,6 +26,7 @@ export const createMerkleDrop = async ({
   scaleExponent?: number
   minAuraReward?: number
   getBalances(accounts: Accounts): Map<string, number>
+  filterAccounts?(accounts: Accounts): Accounts
   redirections: Redirection[]
 }): Promise<MerkleDrop> => {
   const { allocations, accounts } = await getAllocations({
@@ -36,6 +38,7 @@ export const createMerkleDrop = async ({
     minAuraReward,
     getBalances,
     redirections,
+    filterAccounts,
   })
 
   const merkleTree = createMerkleTree(allocations)

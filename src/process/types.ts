@@ -15,5 +15,6 @@ export interface PipelineArgs {
   accounts: Accounts
   minAuraReward?: number
   getBalances(accounts: Accounts): Map<string, number>
+  filterAccounts?(accounts: Accounts): Accounts
   redirections: Redirection[]
 }

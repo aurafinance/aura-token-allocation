@@ -4,19 +4,34 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils'
 import { SCALE, ZERO } from '../constants'
 import { mulTruncate } from '../utils'
 import { PipelineArgs } from './types'
-import { Account } from '../Account'
+import {
+  Account,
+  AccountProps,
+  AllocationProps,
+  SnapshotVote,
+} from '../Account'
 import { logger } from '../logger'
+
+const allocationKeyRemapping: Record<
+  keyof AllocationProps,
+  {
+    balances: (keyof AccountProps)[]
+    vote?: boolean
+    lobsterDao?: boolean
+  }
+> = {
+  balancer: { balances: ['BAL', 'votingPower'], vote: true },
+  convex: { balances: ['vlCVX'] },
+  nfts: { balances: [], lobsterDao: true },
+  merged: { balances: [] },
+}
 
 export const applyRedirections = (input: PipelineArgs): PipelineArgs => {
   const { accounts, allocationKey, redirections } = input
 
-  if (!['balancer', 'convex'].includes(allocationKey)) {
-    return input
-  }
+  logger.info(`Applying redirections for ${allocationKey}`)
 
-  const balanceKey = input.allocationKey === 'balancer' ? 'BAL' : 'vlCVX'
-
-  logger.info(`Applying redirections for ${balanceKey}`)
+  const remapping = allocationKeyRemapping[allocationKey]
 
   // Iterate over redirections
   // Update allocations for source/dest
@@ -24,36 +39,111 @@ export const applyRedirections = (input: PipelineArgs): PipelineArgs => {
   return {
     ...input,
     accounts: accounts.withMutations((mutable) => {
-      redirections
-        .flatMap((redirection) => Object.entries(redirection))
-        .forEach(([source, dest]) => {
+      for (const [source, dest] of redirections.flatMap((redirection) =>
+        Object.entries(redirection),
+      )) {
+        if (remapping.vote) {
+          // Can't remap a vote to shares
+          if (typeof dest !== 'string') {
+            continue
+          }
+
+          const sourceVote = mutable
+            .get(source, Account({ address: source }))
+            .get('vote')
+
+          const destVote = mutable
+            .get(dest, Account({ address: dest }))
+            .get('vote')
+
+          if (destVote === SnapshotVote.Yes) {
+            // Don't overwrite a yes vote
+            continue
+          }
+
+          // Unset source vote
+          mutable.set(
+            source,
+            mutable
+              .get(source, Account({ address: source }))
+              .set('vote', SnapshotVote.DidNotVote),
+          )
+
+          // Set dest vote
+          logger.info(`Redirect vote: ${source} => ${dest}, ${sourceVote}`)
+          mutable.set(
+            dest,
+            mutable
+              .get(dest, Account({ address: dest }))
+              .set('vote', sourceVote),
+          )
+        }
+
+        if (remapping.lobsterDao) {
+          const sourceLobsterDao = mutable
+            .get(source, Account({ address: source }))
+            .get('lobsterDao')
+
+          // Can't remap a lobster to shares
+          if (typeof dest !== 'string' || sourceLobsterDao === 0) {
+            continue
+          }
+
+          mutable.set(
+            source,
+            mutable
+              .get(source, Account({ address: source }))
+              .set('lobsterDao', 0),
+          )
+
+          logger.info(
+            `Redirect lobsterDao: ${source} => ${dest}, ${sourceLobsterDao}`,
+          )
+          mutable.set(
+            dest,
+            mutable
+              .get(dest, Account({ address: dest }))
+              .update(
+                'lobsterDao',
+                (amount = 0) => (amount as number) + sourceLobsterDao,
+              ),
+          )
+        }
+
+        for (const balanceKey of remapping.balances) {
           const sourceAmount = mutable.getIn([source, balanceKey]) as
             | BigNumber
             | undefined
 
           if (!sourceAmount || sourceAmount.eq(0)) {
-            return
+            continue
           }
-
-          // XXX: Only map/set work in withMutations; otherwise we would updateIn
 
           // Remove the amount from source
           mutable.set(source, mutable.get(source).set(balanceKey, ZERO))
 
           if (typeof dest === 'string') {
-            logger.info(`${source} => ${dest}`)
+            logger.info(
+              `Redirect ${balanceKey}: ${source} => ${dest}, ${formatUnits(
+                sourceAmount,
+              )}`,
+            )
             // Add the full amount to dest
             mutable.set(
               dest,
               mutable
                 .get(dest, Account({ address: dest }))
                 .update(balanceKey, (amount = ZERO) =>
-                  amount.add(sourceAmount),
+                  (amount as BigNumber).add(sourceAmount),
                 ),
             )
           } else {
             // Iterate through shares and add the calculated amount to final destinations
-            logger.info(`${source} => ${Object.keys(dest).length} accounts`)
+            logger.info(
+              `Redirect ${balanceKey}: ${source} => ${
+                Object.keys(dest).length
+              } accounts`,
+            )
 
             const entries: [string, BigNumber][] = Object.entries(dest).map(
               ([finalDest, share]) => [
@@ -69,7 +159,7 @@ export const applyRedirections = (input: PipelineArgs): PipelineArgs => {
                   .get(finalDest, Account({ address: finalDest }))
                   .update(balanceKey, (amount = ZERO) => {
                     const addition = mulTruncate(sourceAmount, share)
-                    return amount.add(addition)
+                    return (amount as BigNumber).add(addition)
                   }),
               )
             })
@@ -88,11 +178,12 @@ export const applyRedirections = (input: PipelineArgs): PipelineArgs => {
                 logger.info(
                   `Adding remainder of ${formatUnits(addition)} to ${first}`,
                 )
-                return amount.add(addition)
+                return (amount as BigNumber).add(addition)
               }),
             )
           }
-        })
+        }
+      }
     }),
   }
 }

@@ -18,6 +18,7 @@ export const getAllocations = async ({
   minAuraReward,
   scaleExponent,
   getBalances,
+  filterAccounts,
   redirections,
 }: Omit<PipelineArgs, 'accounts'> & {
   allAccounts: Accounts
@@ -34,6 +35,7 @@ export const getAllocations = async ({
     getBalances,
     minAuraReward,
     redirections,
+    filterAccounts,
   }
 
   const accounts = pipeline(
@@ -42,6 +44,7 @@ export const getAllocations = async ({
     applyRedirections,
     applyRedirections,
     explain('Redirected accounts'),
+    maybeFilterAccounts,
     rescale,
     explain('Rescaled (before culling shrimp)'),
     cullShrimp,
@@ -62,3 +65,12 @@ export const getAllocations = async ({
 
   return { allocations, accounts }
 }
+
+// Filter accounts if the drop specifies it (e.g. for non-lobster holders in the lobster drop)
+const maybeFilterAccounts = (pipelineArgs) =>
+  pipelineArgs.filterAccounts
+    ? {
+        ...pipelineArgs,
+        accounts: pipelineArgs.filterAccounts(pipelineArgs.accounts),
+      }
+    : pipelineArgs

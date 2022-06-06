@@ -235,3 +235,102 @@
 {"level":"info","message":"Excluding 0xe7a76d8513e55578c80e4b26fc61ee7d4906d4cd: Balancer DAO (Balancer Vested Shareholders)"}
 {"level":"info","message":"Excluding 0xdf290293c4a4d6ebe38fd7085d7721041f927e0a: Balancer DAO (Balancer Vested Shareholders)"}
 {"level":"info","message":"Total locked BAL (graph): 7077661.771584085"}
+{"level":"info","message":"Account exclusions (i.e. not EOA/Safe/etc) 574 (38375 remaining)"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer All accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;124m0.98\u001b[39m"}
+{"level":"info","message":"Applying redirections for balancer"}
+{"level":"info","message":"Redirect vote: 0x04c90c198b2eff55716079bc06d7ccc4aa4d7512 => 0x937b8e917d0f36edebba8e459c5fb16f3b315551, 0"}
+{"level":"info","message":"Redirect vote: 0x41671ba1abcba387b9b2b752c205e22e916be6e3 => 0xa9ed98b5fb8428d68664f3c5027c62a10d45826b, 0"}
+{"level":"info","message":"Redirect vote: 0x0c5fbea19877a43ea900c981cb012c28ed739b1d => 0x89d97a4bf140439a16fdc35c33c02de4f3c19e61, 0"}
+{"level":"info","message":"Redirect vote: 0x6ef71ca9cd708883e129559f5edbfb9d9d5c6148 => 0xc44902c03093d52213d20e5b06a0bda4d9ce6524, 1"}
+{"level":"info","message":"Redirect votingPower: 0x6ef71ca9cd708883e129559f5edbfb9d9d5c6148 => 0xc44902c03093d52213d20e5b06a0bda4d9ce6524, 107223.005014910915633664"}
+{"level":"info","message":"Redirect vote: 0xd6075df525d564cf0f92560bcdf1d1208ed6473b => 0x3a7249b510add84a2196fb0fad9d8b745d807286, 0"}
+{"level":"info","message":"Applying redirections for balancer"}
+{"level":"info","message":"Redirect vote: 0x04c90c198b2eff55716079bc06d7ccc4aa4d7512 => 0x937b8e917d0f36edebba8e459c5fb16f3b315551, 0"}
+{"level":"info","message":"Redirect vote: 0x41671ba1abcba387b9b2b752c205e22e916be6e3 => 0xa9ed98b5fb8428d68664f3c5027c62a10d45826b, 0"}
+{"level":"info","message":"Redirect vote: 0x0c5fbea19877a43ea900c981cb012c28ed739b1d => 0x89d97a4bf140439a16fdc35c33c02de4f3c19e61, 0"}
+{"level":"info","message":"Redirect vote: 0xd6075df525d564cf0f92560bcdf1d1208ed6473b => 0x3a7249b510add84a2196fb0fad9d8b745d807286, 0"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer Redirected accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;124m0.98\u001b[39m"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer Rescaled (before culling shrimp)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;124m0.98\u001b[39m"}
+{"level":"info","message":"allocation.balancer: \u001b[38;5;124m0.92\u001b[39m"}
+{"level":"info","message":"Total BAL: 13964486.37"}
+{"level":"info","message":"Balancer Yes-voters: 268"}
+{"level":"info","message":"Users getting Yes-vote bonuses: 268"}
+{"level":"info","message":"Holders with balancer claims: 24420"}
+{"level":"info","message":"Culling shrimp..."}
+{"level":"info","message":"Filtered out 31746 accounts under threshold: reallocating 151225.576860018241945707 AURA"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"balancer Rescaled (final)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"BAL: \u001b[38;5;130m0.89\u001b[39m"}
+{"level":"info","message":"allocation.balancer: \u001b[38;5;130m0.76\u001b[39m"}
+{"level":"info","message":"Total BAL: 13644684.31"}
+{"level":"info","message":"Balancer Yes-voters: 127"}
+{"level":"info","message":"Users getting Yes-vote bonuses: 127"}
+{"level":"info","message":"Holders with balancer claims: 1827"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex All accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;124m0.92\u001b[39m"}
+{"level":"info","message":"Applying redirections for convex"}
+{"level":"info","message":"Redirect vlCVX: 0x898111d1f4eb55025d0036568212425ee2274082 => 682 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000004013478404 to 0x48d93dabf29aa5d86424a90ee60f419f1837649f"}
+{"level":"info","message":"Redirect vlCVX: 0x26f6f27fdbc3b9cde4b1943b1c07606caf2c4c6c => 15 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000000453021 to 0x465b357bbac5f6f3bc78669db6980f9eaa21d0c2"}
+{"level":"info","message":"Redirect vlCVX: 0x660802fc641b154aba66a62137e71f331b6d787a => 1551 accounts"}
+{"level":"info","message":"Adding remainder of 7.416410752382369402 to 0x58f5f0684c381fcfc203d77b2bba468ebb29b098"}
+{"level":"info","message":"Redirect vlCVX: 0x0c5fbea19877a43ea900c981cb012c28ed739b1d => 0x89d97a4bf140439a16fdc35c33c02de4f3c19e61, 185.88562775543243788"}
+{"level":"info","message":"Applying redirections for convex"}
+{"level":"info","message":"Redirect vlCVX: 0x04c90c198b2eff55716079bc06d7ccc4aa4d7512 => 0x937b8e917d0f36edebba8e459c5fb16f3b315551, 101305.452845895397344323"}
+{"level":"info","message":"Redirect vlCVX: 0x41671ba1abcba387b9b2b752c205e22e916be6e3 => 0xa9ed98b5fb8428d68664f3c5027c62a10d45826b, 20752.852701529614739371"}
+{"level":"info","message":"Redirect vlCVX: 0x26f6f27fdbc3b9cde4b1943b1c07606caf2c4c6c => 15 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000000002966 to 0x465b357bbac5f6f3bc78669db6980f9eaa21d0c2"}
+{"level":"info","message":"Redirect vlCVX: 0x937b8e917d0f36edebba8e459c5fb16f3b315551 => 59 accounts"}
+{"level":"info","message":"Adding remainder of 0.000000000002937858 to 0xa9ed98b5fb8428d68664f3c5027c62a10d45826b"}
+{"level":"info","message":"Redirect vlCVX: 0x660802fc641b154aba66a62137e71f331b6d787a => 1551 accounts"}
+{"level":"info","message":"Adding remainder of 0.049417562597853503 to 0x58f5f0684c381fcfc203d77b2bba468ebb29b098"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex Redirected accounts"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;124m0.93\u001b[39m"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex Rescaled (before culling shrimp)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;124m0.93\u001b[39m"}
+{"level":"info","message":"allocation.convex: \u001b[38;5;130m0.82\u001b[39m"}
+{"level":"info","message":"Total vlCVX: 45757975.83"}
+{"level":"info","message":"Holders with convex claims: 7024"}
+{"level":"info","message":"Culling shrimp..."}
+{"level":"info","message":"Filtered out 31007 accounts under threshold: reallocating 65493.610804205443449256 AURA"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"convex Rescaled (final)"}
+{"level":"info","message":"Gini coefficients (weighted)"}
+{"level":"info","message":"vlCVX: \u001b[38;5;130m0.85\u001b[39m"}
+{"level":"info","message":"allocation.convex: \u001b[38;5;136m0.67\u001b[39m"}
+{"level":"info","message":"Total vlCVX: 45024628.00"}
+{"level":"info","message":"Holders with convex claims: 2566"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts All accounts"}
+{"level":"info","message":"Applying redirections for nfts"}
+{"level":"info","message":"Redirect lobsterDao: 0xd6075df525d564cf0f92560bcdf1d1208ed6473b => 0x3a7249b510add84a2196fb0fad9d8b745d807286, 1"}
+{"level":"info","message":"Applying redirections for nfts"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts Redirected accounts"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts Rescaled (before culling shrimp)"}
+{"level":"info","message":"Total nfts: 0.00"}
+{"level":"info","message":"Holders with nfts claims: 1643"}
+{"level":"info","message":"Culling shrimp..."}
+{"level":"info","message":"Filtered out 0 accounts under threshold: reallocating 0.0 AURA"}
+{"level":"info","message":"--------------------------------------------------------------------------------"}
+{"level":"info","message":"nfts Rescaled (final)"}
+{"level":"info","message":"Total nfts: 0.00"}
+{"level":"info","message":"Holders with nfts claims: 1643"}

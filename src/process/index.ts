@@ -18,7 +18,7 @@ export const createMerkleDrops = async (data: Data, config: Config) => {
     redirections,
     allocationKey: 'balancer',
     scaleExponent: config.scaleExponentBal,
-    minAuraReward: config.minAuraRewardBalancer,
+    minAuraReward: parseFloat(config.minAuraRewardBalancer),
     getBalances: (accounts: Accounts) =>
       accounts.map((account) => {
         const balance = exactToSimple(account.get('BAL', ZERO))
@@ -39,7 +39,7 @@ export const createMerkleDrops = async (data: Data, config: Config) => {
     redirections,
     allocationKey: 'convex',
     scaleExponent: config.scaleExponentVlcvx,
-    minAuraReward: config.minAuraRewardConvex,
+    minAuraReward: parseFloat(config.minAuraRewardConvex),
     getBalances: (accounts: Accounts) =>
       accounts.map((account) => exactToSimple(account.get('vlCVX', ZERO))),
   })

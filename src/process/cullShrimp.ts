@@ -1,4 +1,4 @@
-import { formatUnits } from 'ethers/lib/utils'
+import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
 import { getFieldTotal } from '../utils'
 import { SCALE } from '../constants'
@@ -17,7 +17,7 @@ export const cullShrimp = (input: PipelineArgs): PipelineArgs => {
   let accounts = input.accounts
 
   if (input.minAuraReward) {
-    const minAuraRewardExact = SCALE.mul(input.minAuraReward)
+    const minAuraRewardExact = parseUnits(input.minAuraReward.toString())
     accounts = input.accounts.filter((account: AccountRecord) =>
       account
         .get('allocation')

@@ -42,13 +42,13 @@ const main = async () => {
       describe: 'Snapshot cutoff block for Arbitrum',
     },
     minAuraRewardBalancer: {
-      default: 50,
-      type: 'number',
+      default: '41.5',
+      type: 'string',
       describe: 'Minimum reward size in AURA for the Balancer Merkle drop',
     },
     minAuraRewardConvex: {
-      default: 50,
-      type: 'number',
+      default: '50',
+      type: 'string',
       describe: 'Minimum reward size in AURA for the Convex Merkle drop',
     },
     balancerVoteProposalId: {

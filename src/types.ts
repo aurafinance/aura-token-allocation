@@ -63,8 +63,8 @@ export interface Config {
   cutoffMainnet: number
   cutoffPolygon: number
   cutoffArbitrum: number
-  minAuraRewardBalancer: number
-  minAuraRewardConvex: number
+  minAuraRewardBalancer: string
+  minAuraRewardConvex: string
   balancerVoteProposalId: string
   balancerVoteMultiplier: number
 }

@@ -224,7 +224,7 @@ export const createDropArtifacts = async (merkleDrop: MerkleDrop) => {
     [
       createAccountsArtifacts,
       createAllocationsArtifacts,
-      // createMerkleProofArtifacts,
+      createMerkleProofArtifacts,
       createReportArtifact,
     ].map((fn) => fn(dirPath, merkleDrop)),
   )
